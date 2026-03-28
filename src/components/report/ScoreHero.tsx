@@ -11,11 +11,15 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
   const roastLine = getRoastLine(scoreResult);
 
   return (
-    <section className="flex flex-col items-center gap-4 py-12 px-4 text-center">
-      {/* Score number */}
-      <div className="relative">
+    <section className="relative flex flex-col items-center gap-6 py-16 px-4 text-center sm:py-20">
+      {/* Score number with glow */}
+      <div className="animate-score-reveal relative">
+        <div
+          className="absolute inset-0 blur-3xl opacity-20 rounded-full scale-150"
+          style={{ backgroundColor: scoreResult.labelColor }}
+        />
         <span
-          className="text-8xl font-black tabular-nums tracking-tight sm:text-9xl"
+          className="relative font-mono text-[120px] font-bold tabular-nums tracking-tighter leading-none sm:text-[160px]"
           style={{ color: scoreResult.labelColor }}
         >
           {scoreResult.rawScore}
@@ -23,35 +27,32 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
       </div>
 
       {/* Label */}
-      <h1
-        className="text-2xl font-bold tracking-tight sm:text-3xl"
-        style={{ color: scoreResult.labelColor }}
-      >
-        {clean ? getCleanBadge(scoreResult) : scoreResult.label}
-      </h1>
+      <div className="animate-score-reveal" style={{ animationDelay: '0.1s' }}>
+        <h1 className="font-display text-3xl italic tracking-tight sm:text-4xl text-zinc-100">
+          {clean ? getCleanBadge(scoreResult) : scoreResult.label}
+        </h1>
+      </div>
 
-      {/* Subtitle for clean scores */}
+      {/* Clean score subtitle */}
       {clean && (
-        <p className="max-w-md text-sm text-zinc-400">
+        <p className="animate-score-reveal max-w-sm text-sm text-zinc-500 leading-relaxed" style={{ animationDelay: '0.15s' }}>
           {getCleanSubtitle(scoreResult)}
         </p>
       )}
 
       {/* Roast line */}
-      <p className="max-w-lg text-base leading-relaxed text-zinc-300">
+      <p className="animate-score-reveal max-w-md text-base leading-relaxed text-zinc-400" style={{ animationDelay: '0.2s' }}>
         {roastLine}
       </p>
 
-      {/* Stats bar */}
-      <div className="mt-2 flex items-center gap-6 text-xs text-zinc-500">
+      {/* Stats */}
+      <div className="animate-score-reveal flex items-center gap-4 font-mono text-[11px] tracking-wide text-zinc-600" style={{ animationDelay: '0.3s' }}>
         <span>
-          {scoreResult.totalTropesDetected} trope
-          {scoreResult.totalTropesDetected !== 1 ? 's' : ''} detected
+          {scoreResult.totalTropesDetected} trope{scoreResult.totalTropesDetected !== 1 ? 's' : ''}
         </span>
-        <span className="h-3 w-px bg-zinc-700" />
+        <span className="h-2.5 w-px bg-zinc-800" />
         <span>
-          {scoreResult.totalInstancesDetected} total instance
-          {scoreResult.totalInstancesDetected !== 1 ? 's' : ''}
+          {scoreResult.totalInstancesDetected} instance{scoreResult.totalInstancesDetected !== 1 ? 's' : ''}
         </span>
       </div>
     </section>

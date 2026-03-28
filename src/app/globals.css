@@ -1,1 +1,75 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Geist:wght@400;500;600;700&display=swap');
+
+@theme {
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-sans: 'Geist', system-ui, sans-serif;
+
+  --color-surface-0: #09090b;
+  --color-surface-1: #0f0f12;
+  --color-surface-2: #18181b;
+  --color-surface-3: #27272a;
+
+  --color-glow-indigo: rgba(99, 102, 241, 0.15);
+  --color-glow-score: rgba(255, 255, 255, 0.04);
+}
+
+/* Score reveal animation */
+@keyframes score-reveal {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(8px);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* Stagger cascade for cards */
+@keyframes card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Pulse glow on textarea focus */
+@keyframes focus-glow {
+  0% { box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4), 0 0 20px rgba(99, 102, 241, 0.15); }
+  50% { box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.6), 0 0 40px rgba(99, 102, 241, 0.25); }
+  100% { box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4), 0 0 20px rgba(99, 102, 241, 0.15); }
+}
+
+/* DNA strip shimmer */
+@keyframes dna-shimmer {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-score-reveal {
+  animation: score-reveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-card-enter {
+  opacity: 0;
+  animation: card-enter 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-dna-shimmer {
+  animation: dna-shimmer 0.8s ease-out forwards;
+}
+
+.focus-glow:focus {
+  animation: focus-glow 1.5s ease-in-out 1;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4), 0 0 20px rgba(99, 102, 241, 0.15);
+  outline: none;
+  border-color: transparent;
+}

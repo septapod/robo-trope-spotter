@@ -15,42 +15,30 @@ export function UrlInput({ value, onChange, disabled, collapsed }: UrlInputProps
   const isOpen = !collapsed && expanded;
 
   return (
-    <div className="space-y-2">
+    <div className="flex-1">
       <button
         type="button"
         onClick={() => !collapsed && setExpanded(!expanded)}
         disabled={collapsed}
-        className="flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-300 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+        className="flex items-center gap-1.5 text-xs text-zinc-600 hover:text-zinc-400 transition-colors disabled:opacity-20 disabled:cursor-not-allowed font-mono"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
+          viewBox="0 0 16 16"
           fill="currentColor"
-          className={`w-4 h-4 transition-transform ${isOpen ? "rotate-90" : ""}`}
+          className="w-3.5 h-3.5"
         >
-          <path
-            fillRule="evenodd"
-            d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
-            clipRule="evenodd"
-          />
+          <path d="M8.914 6.025a.75.75 0 0 1 1.06 0 3.5 3.5 0 0 1 0 4.95l-2 2a3.5 3.5 0 0 1-5.396-4.402.75.75 0 0 1 1.251.827 2 2 0 0 0 3.085 2.514l2-2a2 2 0 0 0 0-2.828.75.75 0 0 1 0-1.06Z" />
+          <path d="M7.086 9.975a.75.75 0 0 1-1.06 0 3.5 3.5 0 0 1 0-4.95l2-2a3.5 3.5 0 0 1 5.396 4.402.75.75 0 0 1-1.251-.827 2 2 0 0 0-3.085-2.514l-2 2a2 2 0 0 0 0 2.828.75.75 0 0 1 0 1.06Z" />
         </svg>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className="w-4 h-4"
-        >
-          <path d="M12.232 4.232a2.5 2.5 0 013.536 3.536l-1.225 1.224a.75.75 0 001.061 1.06l1.224-1.224a4 4 0 00-5.656-5.656l-3 3a4 4 0 00.225 5.865.75.75 0 00.977-1.138 2.5 2.5 0 01-.142-3.667l3-3z" />
-          <path d="M11.603 7.963a.75.75 0 00-.977 1.138 2.5 2.5 0 01.142 3.667l-3 3a2.5 2.5 0 01-3.536-3.536l1.225-1.224a.75.75 0 00-1.061-1.06l-1.224 1.224a4 4 0 005.656 5.656l3-3a4 4 0 00-.225-5.865z" />
-        </svg>
-        or paste a URL
+        {isOpen ? "close" : "paste URL"}
       </button>
 
       {isOpen && (
         <input
           type="url"
-          className="w-full rounded-xl bg-zinc-900 border border-zinc-800 px-4 py-3 text-zinc-100 placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all disabled:opacity-40 disabled:cursor-not-allowed"
-          placeholder="https://example.com/article"
+          className="focus-glow mt-2 w-full rounded-xl bg-surface-1 border border-zinc-800/80 px-4 py-3 text-sm text-zinc-100 placeholder-zinc-600 transition-all disabled:opacity-30 disabled:cursor-not-allowed font-mono"
+          placeholder="https://..."
           value={value}
           onChange={(e) => onChange(e.target.value)}
           disabled={disabled}

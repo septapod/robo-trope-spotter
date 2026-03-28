@@ -21,7 +21,6 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Determine which mode is active based on what has content
   const activeMode: ActiveMode = (() => {
     if (text.trim().length > 0) return "text";
     if (url.trim().length > 0) return "url";
@@ -31,7 +30,6 @@ export default function Home() {
 
   const handleTextChange = useCallback((value: string) => {
     setText(value);
-    // Clear other inputs when text is entered
     if (value.trim().length > 0) {
       setUrl("");
       setScreenshotFile(null);
@@ -86,11 +84,9 @@ export default function Home() {
           break;
         case "screenshot": {
           type = "screenshot";
-          // screenshotPreview is a data URL like "data:image/png;base64,iVBOR..."
-          // The API expects "mediaType;base64data" (e.g., "image/png;iVBOR...")
           const dataUrl = screenshotPreview!;
           const commaIndex = dataUrl.indexOf(",");
-          const meta = dataUrl.slice(5, commaIndex); // "image/png;base64"
+          const meta = dataUrl.slice(5, commaIndex);
           const mediaType = meta.replace(";base64", "");
           const base64Data = dataUrl.slice(commaIndex + 1);
           content = `${mediaType};${base64Data}`;
@@ -122,61 +118,67 @@ export default function Home() {
   }, [activeMode, text, url, screenshotPreview, canAnalyze, router]);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center px-4 py-12">
-      <div className="w-full max-w-2xl space-y-8">
+    <main className="flex min-h-screen flex-col items-center justify-center px-4 py-16">
+      {/* Subtle radial glow behind the input area */}
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <div className="absolute left-1/2 top-1/3 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-500/[0.03] blur-3xl" />
+      </div>
+
+      <div className="relative z-10 w-full max-w-xl space-y-10">
         {/* Header */}
-        <div className="text-center space-y-3">
-          <h1 className="text-4xl font-bold tracking-tight">
+        <header className="text-center space-y-4">
+          <p className="font-mono text-xs tracking-widest uppercase text-indigo-400/80">
+            AI Writing Trope Detector
+          </p>
+          <h1 className="font-display text-5xl tracking-tight sm:text-6xl text-zinc-50">
             Robo Trope Spotter
           </h1>
-          <p className="text-zinc-400 text-lg">
+          <p className="text-zinc-500 text-base max-w-sm mx-auto leading-relaxed">
             Paste text. See the tropes. Get the report card.
+            Send it to someone who needs it.
           </p>
-        </div>
+        </header>
 
         {/* Input area */}
-        <div className="space-y-4">
-          {/* Primary: Text area */}
+        <div className="space-y-3">
           <TextInput
             value={text}
             onChange={handleTextChange}
             disabled={
               loading ||
-              (activeMode !== "none" &&
-                activeMode !== "text")
+              (activeMode !== "none" && activeMode !== "text")
             }
           />
 
-          {/* Secondary: URL input */}
-          <UrlInput
-            value={url}
-            onChange={handleUrlChange}
-            disabled={loading}
-            collapsed={activeMode === "text" || activeMode === "screenshot"}
-          />
-
-          {/* Tertiary: Screenshot drop zone */}
-          <ScreenshotInput
-            file={screenshotFile}
-            preview={screenshotPreview}
-            onFile={handleScreenshotChange}
-            disabled={loading}
-            collapsed={activeMode === "text" || activeMode === "url"}
-          />
+          <div className="flex items-center gap-4">
+            <UrlInput
+              value={url}
+              onChange={handleUrlChange}
+              disabled={loading}
+              collapsed={activeMode === "text" || activeMode === "screenshot"}
+            />
+            <ScreenshotInput
+              file={screenshotFile}
+              preview={screenshotPreview}
+              onFile={handleScreenshotChange}
+              disabled={loading}
+              collapsed={activeMode === "text" || activeMode === "url"}
+            />
+          </div>
         </div>
 
         {/* Analyze button */}
         <button
           onClick={handleAnalyze}
           disabled={!canAnalyze}
-          className={`w-full rounded-xl font-semibold py-3.5 px-6 transition-all text-white ${
+          className={`group w-full rounded-2xl font-semibold py-4 px-6 text-base transition-all duration-200 text-white ${
             canAnalyze
-              ? "bg-indigo-600 hover:bg-indigo-500 active:scale-[0.99]"
-              : "bg-indigo-600/50 cursor-not-allowed"
+              ? "bg-indigo-600 hover:bg-indigo-500 hover:shadow-lg hover:shadow-indigo-500/20 active:scale-[0.98]"
+              : "bg-zinc-800 text-zinc-500 cursor-not-allowed"
           }`}
         >
           {loading ? (
-            <span className="flex items-center justify-center gap-2 opacity-80">
+            <span className="flex items-center justify-center gap-3">
               <svg
                 className="animate-spin h-5 w-5"
                 xmlns="http://www.w3.org/2000/svg"
@@ -197,23 +199,41 @@ export default function Home() {
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 />
               </svg>
-              Analyzing...
+              <span className="font-mono text-sm tracking-wide">Scanning for tropes...</span>
             </span>
           ) : (
-            "Analyze"
+            <span className="flex items-center justify-center gap-2">
+              Analyze
+              <svg
+                className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2.5}
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                />
+              </svg>
+            </span>
           )}
         </button>
 
         {/* Error message */}
         {error && (
-          <p className="text-red-400 text-sm text-center -mt-4">{error}</p>
+          <div className="rounded-xl border border-red-500/20 bg-red-500/5 px-4 py-3">
+            <p className="text-red-400 text-sm text-center">{error}</p>
+          </div>
         )}
 
         {/* Footer */}
-        <p className="text-zinc-600 text-xs text-center pt-4">
-          This tool grades writing patterns, not people. Built for laughs and
-          learning.
-        </p>
+        <footer className="text-center pt-8">
+          <p className="text-zinc-700 text-xs font-mono">
+            Grades writing patterns, not people.
+          </p>
+        </footer>
       </div>
     </main>
   );
