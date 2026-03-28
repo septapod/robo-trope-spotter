@@ -4,7 +4,7 @@ import { JSDOM } from 'jsdom';
 const FETCH_TIMEOUT_MS = 10_000;
 
 const USER_AGENT =
-  'Mozilla/5.0 (compatible; RoboTropeSpotter/1.0; +https://github.com/robo-trope-spotter)';
+  'Mozilla/5.0 (compatible; RoboTropeSpotter/1.0; +https://robotropes.dxn.is)';
 
 /**
  * Fetches a URL and extracts article text using Mozilla Readability.
