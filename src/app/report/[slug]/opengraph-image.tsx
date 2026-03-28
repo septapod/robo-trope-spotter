@@ -87,7 +87,7 @@ export default async function OgImage({
               marginTop: 32,
             }}
           >
-            robotropespotter.com
+            robotropes.dxn.is
           </div>
         </div>
       ),
@@ -260,7 +260,7 @@ export default async function OgImage({
               color: '#52525b',
             }}
           >
-            robotropespotter.com
+            robotropes.dxn.is
           </div>
           <div
             style={{
