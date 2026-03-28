@@ -1,6 +1,6 @@
 # Robo Trope Spotter
 
-**Status:** Unit 9 (landing page polish) complete, all three input modes working
+**Status:** MVP code complete, all 9 units built, needs Neon DB + Vercel deploy
 
 ## What It Is
 A social diagnostic tool that identifies AI writing tropes in pasted text and produces a shareable, playful report card. Think personality quiz meets gentle roast. Not an AI detector, not a writing assistant.
