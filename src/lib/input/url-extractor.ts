@@ -15,11 +15,35 @@ const USER_AGENT =
 export async function extractFromUrl(
   url: string
 ): Promise<{ text: string; title: string; siteName: string | null }> {
-  // Block LinkedIn URLs upfront
   const parsed = new URL(url);
+
+  // Block non-HTTP schemes (file://, ftp://, etc.)
+  if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+    throw new Error('Only HTTP and HTTPS URLs are supported.');
+  }
+
+  // Block private/internal network addresses (SSRF protection)
+  const hostname = parsed.hostname.toLowerCase();
+  const privatePatterns = [
+    /^localhost$/,
+    /^127\./,
+    /^10\./,
+    /^172\.(1[6-9]|2\d|3[01])\./,
+    /^192\.168\./,
+    /^169\.254\./,
+    /^0\./,
+    /^\[::1\]$/,
+    /^\[fd/,
+    /^\[fe80:/,
+  ];
+  if (privatePatterns.some((p) => p.test(hostname))) {
+    throw new Error('URLs targeting private or internal networks are not allowed.');
+  }
+
+  // Block LinkedIn URLs (they block automated reading)
   if (
-    parsed.hostname === 'linkedin.com' ||
-    parsed.hostname.endsWith('.linkedin.com')
+    hostname === 'linkedin.com' ||
+    hostname.endsWith('.linkedin.com')
   ) {
     throw new Error(
       'LinkedIn blocks automated reading. Please paste the text directly.'

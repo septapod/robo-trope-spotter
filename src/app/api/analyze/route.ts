@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { after } from 'next/server';
 import { nanoid } from 'nanoid';
 import { normalizeInput } from '@/lib/input/normalize';
 import { analyzeHeuristic } from '@/lib/analysis/heuristic-engine';
@@ -37,6 +38,15 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       return NextResponse.json(
         { error: 'Content is required and must be a non-empty string.' },
         { status: 400 }
+      );
+    }
+
+    // Size limits: 50KB for text/URL, 10MB for screenshots (base64)
+    const maxSize = type === 'screenshot' ? 10_000_000 : 50_000;
+    if (content.length > maxSize) {
+      return NextResponse.json(
+        { error: `Content too large. Maximum ${type === 'screenshot' ? '10MB' : '50,000 characters'}.` },
+        { status: 413 }
       );
     }
 
@@ -83,12 +93,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       results: initialResults,
     });
 
-    // 9. Return immediate response with heuristic-only results
-    const response = NextResponse.json({ slug, score: scoreResult });
+    // 9. Register background LLM work with after() so the serverless
+    // runtime keeps the function alive until completion.
+    after(async () => {
+      try {
+        const llmResult = await llmPromise;
 
-    // 10. In the background, wait for LLM results and update the report
-    llmPromise
-      .then(async (llmResult) => {
         const updatedScore = computeScore(
           heuristicResult.matches,
           llmResult.detections,
@@ -108,15 +118,16 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
           .update(reports)
           .set({ results: updatedResults })
           .where(eq(reports.slug, slug));
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error(
           '[analyze] Background LLM update failed:',
           error instanceof Error ? error.message : error
         );
-      });
+      }
+    });
 
-    return response;
+    // 10. Return immediate response with heuristic-only results
+    return NextResponse.json({ slug, score: scoreResult });
   } catch (error) {
     console.error(
       '[analyze] Unexpected error:',
