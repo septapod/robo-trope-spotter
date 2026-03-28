@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const scoreResult = report.results as ScoreResult;
   const title = `Score: ${scoreResult.rawScore} (${scoreResult.label})`;
-  const description = `${scoreResult.totalTropesDetected} AI writing tropes detected, ${scoreResult.totalInstancesDetected} total instances. Analyzed by Robo Trope Spotter.`;
+  const description = `${scoreResult.totalTropesDetected} AI writing tropes detected, ${scoreResult.totalInstancesDetected} total instances.`;
 
   return {
     title: `${title} | Robo Trope Spotter`,
@@ -65,31 +65,45 @@ export default async function ReportPage({ params }: PageProps) {
   const remaining = scoreResult.tropeResults.slice(5);
 
   return (
-    <main className="min-h-screen bg-zinc-950 pb-24">
-      {/* Header */}
-      <header className="flex items-center justify-center border-b border-zinc-900 px-4 py-4">
-        <a href="/" className="text-sm font-bold tracking-tight text-zinc-400 transition-colors hover:text-zinc-200">
+    <main className="min-h-screen bg-surface-0">
+      {/* Gradient backdrop behind score */}
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <div
+          className="absolute left-1/2 top-0 h-[500px] w-[800px] -translate-x-1/2 rounded-full blur-[120px] opacity-[0.07]"
+          style={{ backgroundColor: scoreResult.labelColor }}
+        />
+      </div>
+
+      {/* Nav */}
+      <nav className="relative z-10 flex items-center justify-between border-b border-zinc-800/50 px-6 py-4">
+        <a href="/" className="font-mono text-xs tracking-widest uppercase text-zinc-600 transition-colors hover:text-zinc-400">
           Robo Trope Spotter
         </a>
-      </header>
+        <ShareBar title={scoreResult.label} score={scoreResult.rawScore} />
+      </nav>
 
-      <ScoreHero scoreResult={scoreResult} />
-      <DnaStrip bands={scoreResult.dnaStrip} />
+      <div className="relative z-10">
+        <ScoreHero scoreResult={scoreResult} />
 
-      <div className="mt-4">
+        <div className="mx-auto max-w-2xl px-4">
+          <DnaStrip bands={scoreResult.dnaStrip} />
+        </div>
+
         <TopOffenders tropes={scoreResult.topOffenders} />
         <AllDetections remaining={remaining} />
       </div>
 
-      <ShareBar title={scoreResult.label} score={scoreResult.rawScore} />
-
       {/* Footer */}
-      <footer className="mt-8 border-t border-zinc-900 px-4 py-6 text-center text-xs text-zinc-600">
-        <p>
-          This tool grades writing patterns, not people. A high score means the
-          text contains common AI writing tropes. It does not mean the text is
-          bad, or that the author is lazy.
+      <footer className="relative z-10 border-t border-zinc-800/30 px-4 py-8 text-center">
+        <p className="font-mono text-[10px] tracking-wider text-zinc-700 uppercase">
+          Grades writing patterns, not people
         </p>
+        <a
+          href="/"
+          className="mt-3 inline-block font-mono text-xs text-indigo-500/60 hover:text-indigo-400 transition-colors"
+        >
+          Analyze another text
+        </a>
       </footer>
     </main>
   );

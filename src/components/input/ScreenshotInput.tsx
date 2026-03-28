@@ -60,61 +60,49 @@ export function ScreenshotInput({
   }, [onFile]);
 
   return (
-    <div className="space-y-2">
+    <div className="flex-1">
       <button
         type="button"
         onClick={() => !collapsed && setExpanded(!expanded)}
         disabled={collapsed}
-        className="flex items-center gap-2 text-sm text-zinc-500 hover:text-zinc-300 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+        className="flex items-center gap-1.5 text-xs text-zinc-600 hover:text-zinc-400 transition-colors disabled:opacity-20 disabled:cursor-not-allowed font-mono"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
+          viewBox="0 0 16 16"
           fill="currentColor"
-          className={`w-4 h-4 transition-transform ${isOpen ? "rotate-90" : ""}`}
+          className="w-3.5 h-3.5"
         >
-          <path
-            fillRule="evenodd"
-            d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
-            clipRule="evenodd"
-          />
+          <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v7A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5v-7A1.5 1.5 0 0 0 13.5 3h-11Zm3.21 7.907a.75.75 0 0 1-1.06.02L2.4 8.742a.75.75 0 0 1 0-1.083l2.25-2.134a.75.75 0 0 1 1.042 1.082L4.327 7.88l1.383 1.31Z" />
+          <path d="M10.29 10.907a.75.75 0 0 0 1.06.02l2.25-2.185a.75.75 0 0 0 0-1.083l-2.25-2.134a.75.75 0 0 0-1.042 1.082L11.673 7.88l-1.383 1.31a.75.75 0 0 0 .02 1.06Z" />
         </svg>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className="w-4 h-4"
-        >
-          <path d="M9.25 13.25a.75.75 0 001.5 0V4.636l2.955 3.129a.75.75 0 001.09-1.03l-4.25-4.5a.75.75 0 00-1.09 0l-4.25 4.5a.75.75 0 101.09 1.03L9.25 4.636v8.614z" />
-          <path d="M3.5 12.75a.75.75 0 00-1.5 0v2.5A2.75 2.75 0 004.75 18h10.5A2.75 2.75 0 0018 15.25v-2.5a.75.75 0 00-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5z" />
-        </svg>
-        or drop a screenshot
+        {isOpen ? "close" : "screenshot"}
       </button>
 
       {isOpen && (
-        <div>
+        <div className="mt-2">
           {preview ? (
-            <div className="relative rounded-xl border border-zinc-800 overflow-hidden bg-zinc-900">
+            <div className="relative rounded-xl border border-zinc-800/80 overflow-hidden bg-surface-1">
               <img
                 src={preview}
                 alt="Screenshot preview"
-                className="max-h-48 w-full object-contain"
+                className="max-h-40 w-full object-contain"
               />
               <button
                 type="button"
                 onClick={clearFile}
-                className="absolute top-2 right-2 rounded-full bg-zinc-800/80 hover:bg-zinc-700 p-1.5 text-zinc-400 hover:text-zinc-200 transition-colors"
+                className="absolute top-2 right-2 rounded-full bg-zinc-900/90 hover:bg-zinc-800 p-1.5 text-zinc-500 hover:text-zinc-300 transition-colors"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
+                  viewBox="0 0 16 16"
                   fill="currentColor"
-                  className="w-4 h-4"
+                  className="w-3 h-3"
                 >
-                  <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+                  <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
                 </svg>
               </button>
-              <div className="px-3 py-2 text-xs text-zinc-500 border-t border-zinc-800">
+              <div className="px-3 py-1.5 text-[10px] text-zinc-600 border-t border-zinc-800/60 font-mono">
                 {file?.name}
               </div>
             </div>
@@ -124,28 +112,15 @@ export function ScreenshotInput({
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
               onClick={() => fileInputRef.current?.click()}
-              className={`rounded-xl border-2 border-dashed p-8 text-center cursor-pointer transition-colors ${
+              className={`rounded-xl border-2 border-dashed p-6 text-center cursor-pointer transition-all duration-200 ${
                 dragOver
-                  ? "border-indigo-500 bg-indigo-500/10"
-                  : "border-zinc-800 hover:border-zinc-700 bg-zinc-900/50"
-              } ${disabled ? "opacity-40 cursor-not-allowed" : ""}`}
+                  ? "border-indigo-500/60 bg-indigo-500/5"
+                  : "border-zinc-800/60 hover:border-zinc-700 bg-surface-1/50"
+              } ${disabled ? "opacity-30 cursor-not-allowed" : ""}`}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-8 h-8 mx-auto mb-2 text-zinc-600"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <p className="text-sm text-zinc-500">
-                Drop an image here or click to browse
+              <p className="text-xs text-zinc-600 font-mono">
+                drop image or click
               </p>
-              <p className="text-xs text-zinc-600 mt-1">PNG, JPG, WebP</p>
               <input
                 ref={fileInputRef}
                 type="file"
