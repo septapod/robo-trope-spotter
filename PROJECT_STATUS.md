@@ -1,6 +1,6 @@
 # Robo Trope Spotter
 
-**Status:** Implementation plan complete, ready to build
+**Status:** Unit 9 (landing page polish) complete, all three input modes working
 
 ## What It Is
 A social diagnostic tool that identifies AI writing tropes in pasted text and produces a shareable, playful report card. Think personality quiz meets gentle roast. Not an AI detector, not a writing assistant.
@@ -15,7 +15,18 @@ A social diagnostic tool that identifies AI writing tropes in pasted text and pr
 - [x] Implementation plan: docs/plans/2026-03-28-001-feat-mvp-report-card-plan.md
 
 ## What's Next
-- [ ] Build v1 (9 implementation units)
+- [ ] End-to-end test with DATABASE_URL set
+- [ ] Deploy to Vercel
+
+## Recently Completed
+- [x] Unit 9: Landing page polish (three input modes, loading states, error handling, screenshot drag/drop with preview, auto-collapse logic, client-side POST to /api/analyze with redirect)
+- [x] Unit 7: Report card page (ScoreHero, DnaStrip, TropeCard, TopOffenders, AllDetections, ShareBar, roast lines, clean-score copy)
+- [x] Unit 8: OG image generation (1200x630 PNG via next/og, score + label + DNA strip, Inter font, fallback for missing reports)
+- [x] Unit 6: API route + input handlers (URL extractor, screenshot OCR, normalize, POST /api/analyze with background LLM update)
+- [x] Unit 5: Scoring engine (composite scores, tier-based color coding, 6 named labels, DNA strip bands)
+- [x] Unit 3: Heuristic detection engine (regex + wordList matching, cloned regexes, character offsets, timing)
+- [x] Unit 2: Trope taxonomy data model (42 tropes across 5 tiers, typed definitions, registry with lookup functions)
+- [x] Unit 4: LLM semantic analysis engine (Claude API integration for Tier 4-5 trope detection)
 
 ## Key Decisions
 - Social diagnostic, not writing tool (no Grammarly territory)
