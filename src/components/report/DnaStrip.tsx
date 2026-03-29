@@ -13,8 +13,8 @@ export function DnaStrip({ bands }: DnaStripProps) {
 
   if (bands.length === 0) {
     return (
-      <div className="flex h-3 items-center justify-center rounded-full border border-zinc-200 bg-white">
-        <span className="text-sm text-zinc-400 font-mono">clean</span>
+      <div className="flex h-6 items-center justify-center rounded-full border-2 border-candy-green/30 bg-candy-green/5">
+        <span className="text-sm text-candy-green font-display font-bold tracking-wide">all clear</span>
       </div>
     );
   }
@@ -22,11 +22,11 @@ export function DnaStrip({ bands }: DnaStripProps) {
   const totalCount = bands.reduce((sum, b) => sum + b.count, 0);
 
   return (
-    <div className="animate-dna-shimmer space-y-2">
-      <div className="relative overflow-hidden rounded-full h-3 shadow-sm">
-        <div className="flex h-full">
-          {bands.map((band, i) => {
-            const widthPercent = Math.max((band.count / totalCount) * 100, 3);
+    <div className="animate-dna-shimmer space-y-3">
+      <div className="relative overflow-hidden rounded-full h-6 shadow-inner bg-zinc-100">
+        <div className="flex h-full gap-1 p-0.5">
+          {bands.map((band) => {
+            const widthPercent = Math.max((band.count / totalCount) * 100, 4);
             const def = tropeById(band.tropeId);
             const name = def?.name ?? band.tropeId;
             const isHovered = hoveredBand === band.tropeId;
@@ -34,21 +34,21 @@ export function DnaStrip({ bands }: DnaStripProps) {
             return (
               <div
                 key={band.tropeId}
-                className="relative transition-all duration-200 cursor-pointer"
+                className="relative rounded-full transition-all duration-300 cursor-pointer hover:brightness-110"
                 style={{
                   width: `${widthPercent}%`,
                   backgroundColor: band.color,
-                  opacity: hoveredBand && !isHovered ? 0.25 : 1,
-                  marginLeft: i > 0 ? '1px' : 0,
+                  opacity: hoveredBand && !isHovered ? 0.3 : 1,
+                  transform: isHovered ? 'scaleY(1.15)' : 'scaleY(1)',
                 }}
                 onMouseEnter={() => setHoveredBand(band.tropeId)}
                 onMouseLeave={() => setHoveredBand(null)}
               >
                 {isHovered && (
-                  <div className="absolute bottom-full left-1/2 z-20 mb-3 -translate-x-1/2 whitespace-nowrap rounded-xl bg-zinc-900 px-3 py-2 text-sm text-white shadow-lg font-mono">
-                    <span className="font-semibold">{name}</span>
+                  <div className="absolute bottom-full left-1/2 z-20 mb-3 -translate-x-1/2 whitespace-nowrap rounded-2xl bg-zinc-900 px-4 py-2.5 text-sm text-white shadow-xl font-mono">
+                    <span className="font-bold">{name}</span>
                     <span className="text-zinc-400 ml-2">{band.count}x</span>
-                    <div className="absolute left-1/2 top-full -translate-x-1/2 border-[5px] border-transparent border-t-zinc-900" />
+                    <div className="absolute left-1/2 top-full -translate-x-1/2 border-[6px] border-transparent border-t-zinc-900" />
                   </div>
                 )}
               </div>
@@ -56,7 +56,7 @@ export function DnaStrip({ bands }: DnaStripProps) {
           })}
         </div>
       </div>
-      <div className="flex justify-between font-mono text-sm tracking-wider text-zinc-400 uppercase">
+      <div className="flex justify-between font-mono text-xs tracking-widest text-zinc-400 uppercase px-1">
         <span>start</span>
         <span>end</span>
       </div>

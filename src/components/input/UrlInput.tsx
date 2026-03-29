@@ -20,13 +20,19 @@ export function UrlInput({ value, onChange, disabled, collapsed }: UrlInputProps
         type="button"
         onClick={() => !collapsed && setExpanded(!expanded)}
         disabled={collapsed}
-        className="flex items-center gap-1.5 text-sm text-zinc-500 hover:text-candy-pink transition-colors disabled:opacity-20 disabled:cursor-not-allowed font-mono"
+        className={`pill-toggle flex items-center gap-2 rounded-2xl border-2 px-4 py-2.5 text-sm font-display font-bold transition-all duration-200 ${
+          isOpen
+            ? "active border-candy-pink bg-candy-pink/10 text-candy-pink"
+            : collapsed
+              ? "border-zinc-200 bg-zinc-100 text-zinc-300 cursor-not-allowed opacity-40"
+              : "border-zinc-200 bg-white text-zinc-500 hover:border-candy-pink/40 hover:text-candy-pink hover:bg-candy-pink/5"
+        }`}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 16 16"
           fill="currentColor"
-          className="w-3.5 h-3.5"
+          className="w-4 h-4"
         >
           <path d="M8.914 6.025a.75.75 0 0 1 1.06 0 3.5 3.5 0 0 1 0 4.95l-2 2a3.5 3.5 0 0 1-5.396-4.402.75.75 0 0 1 1.251.827 2 2 0 0 0 3.085 2.514l2-2a2 2 0 0 0 0-2.828.75.75 0 0 1 0-1.06Z" />
           <path d="M7.086 9.975a.75.75 0 0 1-1.06 0 3.5 3.5 0 0 1 0-4.95l2-2a3.5 3.5 0 0 1 5.396 4.402.75.75 0 0 1-1.251-.827 2 2 0 0 0-3.085-2.514l-2 2a2 2 0 0 0 0 2.828.75.75 0 0 1 0 1.06Z" />
@@ -37,7 +43,8 @@ export function UrlInput({ value, onChange, disabled, collapsed }: UrlInputProps
       {isOpen && (
         <input
           type="url"
-          className="focus-glow mt-2 w-full rounded-xl bg-white border-2 border-zinc-200 px-4 py-3 text-sm text-zinc-900 placeholder-zinc-400 transition-all disabled:opacity-30 disabled:cursor-not-allowed font-mono shadow-sm"
+          className="focus-glow mt-3 w-full rounded-2xl bg-white border-3 border-zinc-200 px-5 py-3.5 text-sm text-zinc-900 placeholder-zinc-400 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed font-mono shadow-sm"
+          style={{ borderWidth: '3px' }}
           placeholder="https://..."
           value={value}
           onChange={(e) => onChange(e.target.value)}

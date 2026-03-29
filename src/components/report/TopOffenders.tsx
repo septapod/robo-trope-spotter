@@ -9,14 +9,16 @@ export function TopOffenders({ tropes }: TopOffendersProps) {
   if (tropes.length === 0) return null;
 
   return (
-    <section className="mx-auto max-w-2xl px-4 py-10">
-      <div className="mb-6 flex items-baseline gap-3">
-        <h2 className="font-sans text-2xl font-black text-zinc-900">Top Offenders</h2>
-        <span className="font-mono text-sm tracking-wider text-zinc-400 uppercase">
+    <section className="mx-auto max-w-2xl px-4 py-12">
+      <div className="mb-8 flex items-baseline gap-4">
+        <h2 className="font-display text-3xl font-bold text-zinc-900 sm:text-4xl">
+          Top Offenders
+        </h2>
+        <span className="font-mono text-sm tracking-wider text-candy-pink uppercase font-medium">
           worst first
         </span>
       </div>
-      <div className="space-y-3">
+      <div className="space-y-4">
         {tropes.map((trope, i) => (
           <TropeCard key={trope.tropeId} trope={trope} index={i} />
         ))}
