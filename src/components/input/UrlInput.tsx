@@ -20,7 +20,7 @@ export function UrlInput({ value, onChange, disabled, collapsed }: UrlInputProps
         type="button"
         onClick={() => !collapsed && setExpanded(!expanded)}
         disabled={collapsed}
-        className={`pill-toggle flex items-center gap-2 rounded-2xl border-2 px-4 py-2.5 text-sm font-display font-bold transition-all duration-200 ${
+        className={`pill-toggle flex items-center gap-2 rounded-2xl border-2 py-3 px-5 text-sm font-display font-bold transition-all duration-200 ${
           isOpen
             ? "active border-candy-pink bg-candy-pink/10 text-candy-pink"
             : collapsed

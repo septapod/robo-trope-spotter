@@ -52,8 +52,8 @@ export default async function OgImage({
             justifyContent: 'center',
             width: '100%',
             height: '100%',
-            backgroundColor: '#09090b',
-            color: '#a1a1aa',
+            backgroundColor: '#FAF9F6',
+            color: '#71717a',
             fontFamily: 'Inter',
           }}
         >
@@ -74,7 +74,7 @@ export default async function OgImage({
               display: 'flex',
               fontSize: 48,
               fontWeight: 700,
-              color: '#e4e4e7',
+              color: '#18181b',
             }}
           >
             Report not found
@@ -83,7 +83,7 @@ export default async function OgImage({
             style={{
               display: 'flex',
               fontSize: 20,
-              color: '#52525b',
+              color: '#a1a1aa',
               marginTop: 32,
             }}
           >
@@ -118,7 +118,7 @@ export default async function OgImage({
           flexDirection: 'column',
           width: '100%',
           height: '100%',
-          backgroundColor: '#09090b',
+          backgroundColor: '#FAF9F6',
           fontFamily: 'Inter',
           padding: '48px 56px',
         }}
@@ -130,7 +130,7 @@ export default async function OgImage({
             fontSize: 18,
             letterSpacing: '0.16em',
             textTransform: 'uppercase' as const,
-            color: '#71717a',
+            color: '#a1a1aa',
             marginBottom: 8,
           }}
         >
@@ -164,7 +164,7 @@ export default async function OgImage({
               style={{
                 display: 'flex',
                 fontSize: 18,
-                color: '#a1a1aa',
+                color: '#71717a',
                 letterSpacing: '0.05em',
                 textTransform: 'uppercase' as const,
               }}
@@ -179,7 +179,7 @@ export default async function OgImage({
               display: 'flex',
               fontSize: 40,
               fontWeight: 700,
-              color: '#e4e4e7',
+              color: '#18181b',
               marginBottom: 12,
             }}
           >
@@ -191,7 +191,7 @@ export default async function OgImage({
             style={{
               display: 'flex',
               fontSize: 22,
-              color: '#a1a1aa',
+              color: '#71717a',
               lineHeight: 1.4,
               maxWidth: 800,
             }}
@@ -257,7 +257,7 @@ export default async function OgImage({
             style={{
               display: 'flex',
               fontSize: 18,
-              color: '#52525b',
+              color: '#a1a1aa',
             }}
           >
             robotropes.dxn.is
@@ -266,7 +266,7 @@ export default async function OgImage({
             style={{
               display: 'flex',
               fontSize: 16,
-              color: '#3f3f46',
+              color: '#a1a1aa',
             }}
           >
             {resultsData.score.totalTropesDetected} tropes found, {resultsData.score.totalInstancesDetected} instances

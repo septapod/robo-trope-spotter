@@ -13,7 +13,7 @@ export function DnaStrip({ bands }: DnaStripProps) {
 
   if (bands.length === 0) {
     return (
-      <div className="flex h-6 items-center justify-center rounded-full border-2 border-candy-green/30 bg-candy-green/5">
+      <div className="flex h-10 items-center justify-center rounded-full border-2 border-candy-green/30 bg-candy-green/5">
         <span className="text-sm text-candy-green font-display font-bold tracking-wide">all clear</span>
       </div>
     );
@@ -23,7 +23,7 @@ export function DnaStrip({ bands }: DnaStripProps) {
 
   return (
     <div className="animate-dna-shimmer space-y-3">
-      <div className="relative overflow-hidden rounded-full h-6 shadow-inner bg-zinc-100">
+      <div className="relative overflow-hidden rounded-full h-10 shadow-inner bg-zinc-100">
         <div className="flex h-full gap-1 p-0.5">
           {bands.map((band) => {
             const widthPercent = Math.max((band.count / totalCount) * 100, 4);
@@ -60,6 +60,23 @@ export function DnaStrip({ bands }: DnaStripProps) {
         <span>start</span>
         <span>end</span>
       </div>
+      {(() => {
+        const sorted = [...bands].sort((a, b) => b.count - a.count);
+        const top3 = sorted.slice(0, 3);
+        return (
+          <div className="flex items-center gap-3 px-1">
+            {top3.map((band) => {
+              const def = tropeById(band.tropeId);
+              const name = def?.name ?? band.tropeId;
+              return (
+                <span key={band.tropeId} className="font-mono text-xs text-zinc-400">
+                  {name}
+                </span>
+              );
+            })}
+          </div>
+        );
+      })()}
     </div>
   );
 }

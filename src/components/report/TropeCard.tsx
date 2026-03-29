@@ -70,7 +70,7 @@ export function TropeCard({ trope, index }: TropeCardProps) {
             {trope.examples.map((example, i) => (
               <div
                 key={i}
-                className="rounded-xl px-4 py-3 text-sm leading-relaxed font-mono border"
+                className="rounded-xl px-4 py-3 text-sm leading-relaxed border"
                 style={{
                   backgroundColor: trope.color + '08',
                   borderColor: trope.color + '20',
