@@ -28,7 +28,7 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
 
       {/* Label */}
       <div className="animate-score-reveal" style={{ animationDelay: '0.1s' }}>
-        <h1 className="font-display text-3xl italic tracking-tight sm:text-4xl text-zinc-900">
+        <h1 className="font-sans text-3xl font-black tracking-tight sm:text-4xl text-zinc-900">
           {clean ? getCleanBadge(scoreResult) : scoreResult.label}
         </h1>
       </div>
@@ -46,7 +46,7 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
       </p>
 
       {/* Stats */}
-      <div className="animate-score-reveal flex items-center gap-4 font-mono text-xs tracking-wide text-zinc-400" style={{ animationDelay: '0.3s' }}>
+      <div className="animate-score-reveal flex items-center gap-4 font-mono text-sm tracking-wide text-zinc-400" style={{ animationDelay: '0.3s' }}>
         <span>
           {scoreResult.totalTropesDetected} trope{scoreResult.totalTropesDetected !== 1 ? 's' : ''}
         </span>

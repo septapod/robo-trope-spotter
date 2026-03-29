@@ -76,7 +76,7 @@ export default async function ReportPage({ params }: PageProps) {
 
       {/* Nav */}
       <nav className="relative z-10 flex items-center justify-between border-b border-zinc-200 px-6 py-4">
-        <a href="/" className="font-mono text-xs tracking-widest uppercase text-zinc-400 transition-colors hover:text-candy-pink">
+        <a href="/" className="font-mono text-sm tracking-widest uppercase text-zinc-400 transition-colors hover:text-candy-pink">
           Robo Trope Spotter
         </a>
         <ShareBar title={scoreResult.label} score={scoreResult.rawScore} />
@@ -95,12 +95,12 @@ export default async function ReportPage({ params }: PageProps) {
 
       {/* Footer */}
       <footer className="relative z-10 border-t border-zinc-200 px-4 py-8 text-center">
-        <p className="font-mono text-xs tracking-wider text-zinc-400 uppercase">
+        <p className="font-mono text-sm tracking-wider text-zinc-400 uppercase">
           Grades writing patterns, not people
         </p>
         <a
           href="/"
-          className="mt-3 inline-block font-mono text-xs text-candy-pink/70 hover:text-candy-pink transition-colors"
+          className="mt-3 inline-block font-mono text-sm text-candy-pink/70 hover:text-candy-pink transition-colors"
         >
           Analyze another text
         </a>

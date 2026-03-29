@@ -18,7 +18,7 @@ export function AllDetections({ remaining }: AllDetectionsProps) {
       {!expanded ? (
         <button
           onClick={() => setExpanded(true)}
-          className="group flex w-full items-center justify-center gap-2 rounded-2xl border border-zinc-200 bg-white px-4 py-4 font-mono text-xs tracking-wide text-zinc-500 transition-all hover:border-candy-pink/40 hover:text-candy-pink shadow-sm"
+          className="group flex w-full items-center justify-center gap-2 rounded-2xl border border-zinc-200 bg-white px-4 py-4 font-mono text-sm tracking-wide text-zinc-500 transition-all hover:border-candy-pink/40 hover:text-candy-pink shadow-sm"
         >
           <svg
             className="h-3.5 w-3.5 transition-transform group-hover:translate-y-0.5"
@@ -44,7 +44,7 @@ export function AllDetections({ remaining }: AllDetectionsProps) {
           </div>
           <button
             onClick={() => setExpanded(false)}
-            className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl border border-zinc-200 bg-white px-4 py-3 font-mono text-xs tracking-wide text-zinc-400 transition-all hover:border-candy-pink/40 hover:text-candy-pink shadow-sm"
+            className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl border border-zinc-200 bg-white px-4 py-3 font-mono text-sm tracking-wide text-zinc-400 transition-all hover:border-candy-pink/40 hover:text-candy-pink shadow-sm"
           >
             <svg
               className="h-3.5 w-3.5 rotate-180"
