@@ -113,7 +113,7 @@ export default async function ReportPage({ params }: PageProps) {
       {/* Footer */}
       <footer className="relative z-10 border-t border-zinc-200/60 px-4 py-10 text-center">
         <p className="font-mono text-sm tracking-wider text-zinc-400 uppercase">
-          Grades writing patterns, not people
+          We grade the writing. The writer is none of our business.
         </p>
         <a
           href="/"

@@ -253,7 +253,7 @@ export default function Home() {
         {/* Footer */}
         <footer className="text-center pt-6">
           <p className="text-zinc-400 text-sm font-mono">
-            Grades writing patterns, not people.
+            We grade the writing. The writer is none of our business.
           </p>
         </footer>
       </div>
