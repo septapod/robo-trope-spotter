@@ -6,12 +6,12 @@ interface TropeCardProps {
   index: number;
 }
 
-const tierNames: Record<number, string> = {
-  1: 'Credibility Killer',
-  2: 'Trust Destroyer',
-  3: 'Accumulation Hazard',
-  4: 'Gatekeeper Signal',
-  5: 'Forensic Tell',
+const severityLabels: Record<number, string> = {
+  1: 'Dead Giveaway',
+  2: 'Red Flag',
+  3: 'Worth Noting',
+  4: 'Subtle Tell',
+  5: 'Deep Cut',
 };
 
 export function TropeCard({ trope, index }: TropeCardProps) {
@@ -43,7 +43,7 @@ export function TropeCard({ trope, index }: TropeCardProps) {
                 color: trope.color,
               }}
             >
-              Tier {trope.tier} &middot; {tierNames[trope.tier]}
+              {severityLabels[trope.tier]}
             </span>
           </div>
           <span

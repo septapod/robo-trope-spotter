@@ -98,7 +98,7 @@ export function computeScoreFromLlm(
   }));
 
   return {
-    rawScore: Math.round(rawScore * 100) / 100,
+    rawScore: Math.round(rawScore),
     label,
     labelColor,
     tropeResults,

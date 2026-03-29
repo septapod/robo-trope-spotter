@@ -10,61 +10,18 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
   const clean = isCleanScore(scoreResult);
   const roastLine = getRoastLine(scoreResult);
 
-  // Calculate ring offset based on score (0-100)
-  // Full circle = 440 (circumference), score of 100 = full ring
-  const ringOffset = 440 - (scoreResult.rawScore / 100) * 440;
-
   return (
     <section className="relative flex flex-col items-center gap-8 py-20 px-4 text-center sm:py-24">
-      {/* Decorative blobs behind score */}
+      {/* Decorative blob behind score */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div
           className="animate-blob-pulse blob-shape absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 blur-3xl opacity-15"
           style={{ backgroundColor: scoreResult.labelColor }}
         />
-        <div
-          className="animate-blob blob-shape-alt absolute left-1/3 top-1/3 h-[150px] w-[150px] blur-2xl opacity-10"
-          style={{ backgroundColor: scoreResult.labelColor, animationDelay: '-5s' }}
-        />
       </div>
 
-      {/* Score with ring */}
-      <div className="animate-score-reveal relative flex items-center justify-center">
-        {/* SVG ring behind the number */}
-        <svg
-          className="absolute"
-          width="220"
-          height="220"
-          viewBox="0 0 160 160"
-        >
-          {/* Background ring */}
-          <circle
-            cx="80"
-            cy="80"
-            r="70"
-            fill="none"
-            stroke="currentColor"
-            className="text-zinc-200"
-            strokeWidth="6"
-          />
-          {/* Colored score ring */}
-          <circle
-            cx="80"
-            cy="80"
-            r="70"
-            fill="none"
-            stroke={scoreResult.labelColor}
-            strokeWidth="8"
-            strokeLinecap="round"
-            className="score-ring"
-            style={{
-              '--ring-offset': `${ringOffset}`,
-              transform: 'rotate(-90deg)',
-              transformOrigin: '50% 50%',
-            } as React.CSSProperties}
-          />
-        </svg>
-
+      {/* Score number */}
+      <div className="animate-score-reveal relative">
         <span
           className="relative font-display text-[140px] font-bold tabular-nums tracking-tighter leading-none sm:text-[180px]"
           style={{ color: scoreResult.labelColor }}
@@ -89,7 +46,7 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
 
       {/* Roast line */}
       <div
-        className="animate-score-reveal max-w-md rounded-2xl px-6 py-4"
+        className="animate-score-reveal max-w-lg rounded-2xl px-6 py-4"
         style={{
           animationDelay: '0.2s',
           backgroundColor: scoreResult.labelColor + '12',
