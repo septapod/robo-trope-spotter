@@ -65,7 +65,7 @@ export function ScreenshotInput({
         type="button"
         onClick={() => !collapsed && setExpanded(!expanded)}
         disabled={collapsed}
-        className="flex items-center gap-1.5 text-xs text-zinc-500 hover:text-candy-pink transition-colors disabled:opacity-20 disabled:cursor-not-allowed font-mono"
+        className="flex items-center gap-1.5 text-sm text-zinc-500 hover:text-candy-pink transition-colors disabled:opacity-20 disabled:cursor-not-allowed font-mono"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -102,7 +102,7 @@ export function ScreenshotInput({
                   <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
                 </svg>
               </button>
-              <div className="px-3 py-1.5 text-xs text-zinc-500 border-t border-zinc-100 font-mono">
+              <div className="px-3 py-1.5 text-sm text-zinc-500 border-t border-zinc-100 font-mono">
                 {file?.name}
               </div>
             </div>
@@ -118,7 +118,7 @@ export function ScreenshotInput({
                   : "border-zinc-300 hover:border-candy-pink/40 bg-white"
               } ${disabled ? "opacity-30 cursor-not-allowed" : ""}`}
             >
-              <p className="text-xs text-zinc-500 font-mono">
+              <p className="text-sm text-zinc-500 font-mono">
                 drop image or click
               </p>
               <input
