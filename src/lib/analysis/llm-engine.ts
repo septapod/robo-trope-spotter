@@ -9,7 +9,7 @@ const VALID_TROPE_IDS = new Set(allTropes.map(t => t.id));
 const TROPE_TIER_MAP = new Map(allTropes.map(t => [t.id, t.tier]));
 
 const TIMEOUT_MS = 30_000; // 30s for full analysis
-const MODEL = 'claude-sonnet-4-5-20250514';
+const MODEL = 'claude-sonnet-4-6-20250514';
 
 function createClient(): Anthropic {
   return new Anthropic();
