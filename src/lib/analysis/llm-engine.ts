@@ -9,7 +9,7 @@ const VALID_TROPE_IDS = new Set(allTropes.map(t => t.id));
 const TROPE_TIER_MAP = new Map(allTropes.map(t => [t.id, t.tier]));
 
 const TIMEOUT_MS = 30_000; // 30s for full analysis
-const MODEL = 'claude-sonnet-4-6-20250514';
+const MODEL = 'claude-sonnet-4-5-20250514';
 
 function createClient(): Anthropic {
   return new Anthropic();
@@ -132,8 +132,10 @@ export async function analyzeWithLlm(text: string): Promise<LlmResult> {
     };
   } catch (error) {
     const elapsed = Math.round(performance.now() - start);
-    console.error('[llm-engine] Analysis failed:', error instanceof Error ? error.message : error);
-    return { detections: [], processingTimeMs: elapsed };
+    const msg = error instanceof Error ? error.message : String(error);
+    console.error('[llm-engine] Analysis failed:', msg);
+    // Re-throw so the API route can surface the error to the user
+    throw new Error(`LLM analysis failed: ${msg}`);
   }
 }
 
