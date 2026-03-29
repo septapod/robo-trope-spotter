@@ -31,7 +31,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: 'Report Not Found' };
   }
 
-  const scoreResult = report.results as ScoreResult;
+  const resultsData = report.results as { score: ScoreResult };
+  const scoreResult = resultsData.score;
   const title = `Score: ${scoreResult.rawScore} (${scoreResult.label})`;
   const description = `${scoreResult.totalTropesDetected} AI writing tropes detected, ${scoreResult.totalInstancesDetected} total instances.`;
 
@@ -61,7 +62,8 @@ export default async function ReportPage({ params }: PageProps) {
     notFound();
   }
 
-  const scoreResult = report.results as ScoreResult;
+  const resultsData = report.results as { score: ScoreResult };
+  const scoreResult = resultsData.score;
   const remaining = scoreResult.tropeResults.slice(5);
 
   return (
