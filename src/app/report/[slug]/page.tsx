@@ -69,25 +69,12 @@ export default async function ReportPage({ params }: PageProps) {
 
   return (
     <main className="min-h-screen bg-surface-0 gradient-mesh">
-      {/* Decorative blobs */}
+      {/* Decorative blob */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
         <div
           className="animate-blob blob-shape absolute left-1/4 top-0 h-[500px] w-[500px] blur-[100px] opacity-[0.1]"
           style={{ backgroundColor: scoreResult.labelColor }}
         />
-        <div
-          className="animate-blob-alt blob-shape-alt absolute right-1/4 top-1/3 h-[400px] w-[400px] blur-[80px] opacity-[0.08]"
-          style={{ backgroundColor: scoreResult.labelColor, animationDelay: '-4s' }}
-        />
-        <div className="animate-blob blob-shape-round absolute -bottom-20 left-1/3 h-[350px] w-[350px] bg-candy-yellow/[0.06] blur-[100px]" style={{ animationDelay: '-7s' }} />
-        <div className="animate-blob-alt blob-shape absolute top-1/2 right-0 h-[250px] w-[250px] bg-candy-purple/[0.06] blur-[80px]" style={{ animationDelay: '-2s' }} />
-      </div>
-
-      {/* Small visible decorative blobs */}
-      <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="animate-blob blob-shape absolute top-20 right-8 h-16 w-16 bg-candy-yellow/15 sm:h-20 sm:w-20" style={{ animationDelay: '-3s' }} />
-        <div className="animate-blob-alt blob-shape-alt absolute bottom-32 left-6 h-12 w-12 bg-candy-teal/12 sm:h-16 sm:w-16" style={{ animationDelay: '-8s' }} />
-        <div className="animate-blob blob-shape-round absolute top-1/2 right-4 h-10 w-10 bg-candy-pink/12 sm:h-14 sm:w-14" style={{ animationDelay: '-5s' }} />
       </div>
 
       {/* Nav */}
@@ -99,19 +86,28 @@ export default async function ReportPage({ params }: PageProps) {
       </nav>
 
       <div className="relative z-10">
-        <ScoreHero scoreResult={scoreResult} />
+        <div className="py-16">
+          <ScoreHero scoreResult={scoreResult} />
+        </div>
 
-        <div className="mx-auto max-w-2xl px-4">
+        <div className="mx-auto max-w-2xl px-4 py-16">
           <DnaStrip bands={scoreResult.dnaStrip} />
         </div>
 
-        <HighlightedText
-          sourceText={report.sourceText}
-          tropeResults={scoreResult.tropeResults}
-        />
+        <div className="py-16">
+          <HighlightedText
+            sourceText={report.sourceText}
+            tropeResults={scoreResult.tropeResults}
+          />
+        </div>
 
-        <TopOffenders tropes={scoreResult.topOffenders} />
-        <AllDetections remaining={remaining} />
+        <div className="py-16">
+          <TopOffenders tropes={scoreResult.topOffenders} />
+        </div>
+
+        <div className="py-16">
+          <AllDetections remaining={remaining} />
+        </div>
       </div>
 
       {/* Footer */}

@@ -112,7 +112,6 @@ export function HighlightedText({ sourceText, tropeResults }: HighlightedTextPro
     // No highlights found (excerpts didn't match source text)
     return (
       <section className="mx-auto max-w-2xl px-4 py-8">
-        <h2 className="font-display text-2xl font-bold text-zinc-900 mb-4">Original Text</h2>
         <div className="rounded-2xl bg-white border border-zinc-200 p-6 shadow-sm">
           <p className="text-[15px] leading-relaxed text-zinc-700 whitespace-pre-wrap">
             {sourceText}
@@ -124,12 +123,6 @@ export function HighlightedText({ sourceText, tropeResults }: HighlightedTextPro
 
   return (
     <section className="mx-auto max-w-2xl px-4 py-8">
-      <div className="mb-4 flex items-baseline gap-3">
-        <h2 className="font-display text-2xl font-bold text-zinc-900">Original Text</h2>
-        <span className="font-mono text-sm tracking-wider text-zinc-400 uppercase">
-          {highlights.length} highlight{highlights.length !== 1 ? 's' : ''}
-        </span>
-      </div>
       <div className="rounded-2xl bg-white border border-zinc-200 p-6 shadow-sm">
         <p className="text-[15px] leading-[1.8] text-zinc-700 whitespace-pre-wrap">
           {segments.map((seg, i) => {
