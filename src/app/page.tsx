@@ -141,10 +141,10 @@ export default function Home() {
       <div className="relative z-10 w-full max-w-xl space-y-8">
         {/* Header */}
         <header className="text-center space-y-4">
-          <p className="font-mono text-xs tracking-widest uppercase text-candy-pink font-medium">
+          <p className="font-mono text-sm tracking-widest uppercase text-candy-pink font-medium">
             AI Writing Trope Detector
           </p>
-          <h1 className="font-display text-5xl tracking-tight sm:text-6xl text-zinc-900">
+          <h1 className="font-sans text-5xl font-black tracking-tight sm:text-6xl text-zinc-900">
             Robo Trope Spotter
           </h1>
           <p className="text-zinc-500 text-base max-w-sm mx-auto leading-relaxed">
@@ -244,7 +244,7 @@ export default function Home() {
 
         {/* Footer */}
         <footer className="text-center pt-8">
-          <p className="text-zinc-400 text-xs font-mono">
+          <p className="text-zinc-400 text-sm font-mono">
             Grades writing patterns, not people.
           </p>
         </footer>

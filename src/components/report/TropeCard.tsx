@@ -31,15 +31,15 @@ export function TropeCard({ trope, index }: TropeCardProps) {
         {/* Header row */}
         <div className="flex items-start justify-between gap-3">
           <div className="space-y-1">
-            <h3 className="font-display text-lg text-zinc-900 italic">
+            <h3 className="font-sans text-lg font-bold text-zinc-900">
               {trope.tropeName}
             </h3>
-            <p className="font-mono text-xs tracking-wider uppercase" style={{ color: trope.color }}>
+            <p className="font-mono text-sm tracking-wider uppercase" style={{ color: trope.color }}>
               Tier {trope.tier} · {tierNames[trope.tier]}
             </p>
           </div>
           <span
-            className="shrink-0 rounded-xl px-2.5 py-1 font-mono text-xs font-bold tabular-nums"
+            className="shrink-0 rounded-xl px-2.5 py-1 font-mono text-sm font-bold tabular-nums"
             style={{
               backgroundColor: trope.color + '18',
               color: trope.color,
