@@ -1,15 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { after } from 'next/server';
 import { nanoid } from 'nanoid';
 import { normalizeInput } from '@/lib/input/normalize';
 import { analyzeHeuristic } from '@/lib/analysis/heuristic-engine';
-import { analyzeSemantic } from '@/lib/analysis/llm-engine';
 import { computeScore } from '@/lib/analysis/scoring';
 import { db } from '@/db';
 import { reports } from '@/db/schema';
 import { eq } from 'drizzle-orm';
-
-export const maxDuration = 60;
 
 const VALID_TYPES = new Set(['text', 'url', 'screenshot']);
 
@@ -68,7 +64,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     // 4. Run heuristic analysis (synchronous, fast)
     const heuristicResult = analyzeHeuristic(text);
 
-    // 5. Start LLM analysis in the background (don't block the response)
+    // 5. Dynamically import LLM engine to avoid loading @anthropic-ai/sdk at module init
+    const { analyzeSemantic } = await import('@/lib/analysis/llm-engine');
     const llmPromise = analyzeSemantic(text);
 
     // 6. Compute initial score from heuristic results only
@@ -97,36 +94,43 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     // 9. Register background LLM work with after() so the serverless
     // runtime keeps the function alive until completion.
-    after(async () => {
-      try {
-        const llmResult = await llmPromise;
+    try {
+      const { after } = await import('next/server');
+      if (typeof after === 'function') {
+        after(async () => {
+          try {
+            const llmResult = await llmPromise;
 
-        const updatedScore = computeScore(
-          heuristicResult.matches,
-          llmResult.detections,
-          text.length
-        );
+            const updatedScore = computeScore(
+              heuristicResult.matches,
+              llmResult.detections,
+              text.length
+            );
 
-        const updatedResults = {
-          score: updatedScore,
-          heuristicMatches: heuristicResult.matches,
-          llmDetections: llmResult.detections,
-          heuristicProcessingTimeMs: heuristicResult.processingTimeMs,
-          llmProcessingTimeMs: llmResult.processingTimeMs,
-          llmComplete: true,
-        };
+            const updatedResults = {
+              score: updatedScore,
+              heuristicMatches: heuristicResult.matches,
+              llmDetections: llmResult.detections,
+              heuristicProcessingTimeMs: heuristicResult.processingTimeMs,
+              llmProcessingTimeMs: llmResult.processingTimeMs,
+              llmComplete: true,
+            };
 
-        await db()
-          .update(reports)
-          .set({ results: updatedResults })
-          .where(eq(reports.slug, slug));
-      } catch (error) {
-        console.error(
-          '[analyze] Background LLM update failed:',
-          error instanceof Error ? error.message : error
-        );
+            await db()
+              .update(reports)
+              .set({ results: updatedResults })
+              .where(eq(reports.slug, slug));
+          } catch (error) {
+            console.error(
+              '[analyze] Background LLM update failed:',
+              error instanceof Error ? error.message : error
+            );
+          }
+        });
       }
-    });
+    } catch {
+      // after() not available in this runtime — LLM results won't be persisted
+    }
 
     // 10. Return immediate response with heuristic-only results
     return NextResponse.json({ slug, score: scoreResult });
@@ -135,8 +139,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       '[analyze] Unexpected error:',
       error instanceof Error ? error.message : error
     );
+    const rawMsg = error instanceof Error ? error.message : 'Unknown error';
+    const msg = rawMsg.length > 120 ? rawMsg.slice(0, 120) + '…' : rawMsg;
     return NextResponse.json(
-      { error: 'Internal server error.' },
+      { error: `Analysis failed: ${msg}` },
       { status: 500 }
     );
   }
