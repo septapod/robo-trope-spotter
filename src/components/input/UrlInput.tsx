@@ -20,7 +20,7 @@ export function UrlInput({ value, onChange, disabled, collapsed }: UrlInputProps
         type="button"
         onClick={() => !collapsed && setExpanded(!expanded)}
         disabled={collapsed}
-        className="flex items-center gap-1.5 text-xs text-zinc-500 hover:text-candy-pink transition-colors disabled:opacity-20 disabled:cursor-not-allowed font-mono"
+        className="flex items-center gap-1.5 text-sm text-zinc-500 hover:text-candy-pink transition-colors disabled:opacity-20 disabled:cursor-not-allowed font-mono"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
