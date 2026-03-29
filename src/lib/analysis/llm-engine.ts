@@ -1,42 +1,14 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { LlmDetection, LlmResult } from './types';
-import { SEMANTIC_ANALYSIS_SYSTEM_PROMPT, buildUserPrompt } from './prompts';
+import { ANALYSIS_SYSTEM_PROMPT, buildUserPrompt } from './prompts';
+import { allTropes } from '@/lib/tropes/registry';
+import type { Tier } from '@/lib/tropes/types';
 
-const VALID_TROPE_IDS = new Set([
-  // Tier 4
-  'consensus-middle',
-  'uniform-length',
-  'missing-specifics',
-  'treadmill-effect',
-  'third-person-detachment',
-  'serves-as-dodge',
-  'importance-adverbs',
-  'uniform-tone',
-  // Tier 5
-  'low-perplexity',
-  'low-burstiness',
-  'perfect-grammar',
-  'style-consistency',
-  'hollow-sensory',
-]);
+// Build the set of valid trope IDs from the registry
+const VALID_TROPE_IDS = new Set(allTropes.map(t => t.id));
+const TROPE_TIER_MAP = new Map(allTropes.map(t => [t.id, t.tier]));
 
-const TROPE_TIER: Record<string, 4 | 5> = {
-  'consensus-middle': 4,
-  'uniform-length': 4,
-  'missing-specifics': 4,
-  'treadmill-effect': 4,
-  'third-person-detachment': 4,
-  'serves-as-dodge': 4,
-  'importance-adverbs': 4,
-  'uniform-tone': 4,
-  'low-perplexity': 5,
-  'low-burstiness': 5,
-  'perfect-grammar': 5,
-  'style-consistency': 5,
-  'hollow-sensory': 5,
-};
-
-const TIMEOUT_MS = 15_000;
+const TIMEOUT_MS = 30_000; // 30s for full analysis
 const MODEL = 'claude-sonnet-4-5-20250514';
 
 function createClient(): Anthropic {
@@ -44,8 +16,7 @@ function createClient(): Anthropic {
 }
 
 /**
- * Validates and sanitizes a single detection from the LLM response.
- * Returns null if the detection is invalid.
+ * Validates a single detection from the LLM response.
  */
 function validateDetection(raw: unknown): LlmDetection | null {
   if (typeof raw !== 'object' || raw === null) return null;
@@ -56,7 +27,11 @@ function validateDetection(raw: unknown): LlmDetection | null {
   if (!tropeId || !VALID_TROPE_IDS.has(tropeId)) return null;
 
   const confidence = typeof obj.confidence === 'number' ? obj.confidence : NaN;
-  if (isNaN(confidence) || confidence < 0.6 || confidence > 1) return null;
+  if (isNaN(confidence) || confidence < 0.5 || confidence > 1) return null;
+
+  const count = typeof obj.count === 'number' && obj.count >= 1
+    ? Math.round(obj.count)
+    : 1;
 
   const matchedExcerpts = Array.isArray(obj.matchedExcerpts)
     ? obj.matchedExcerpts.filter((e): e is string => typeof e === 'string').slice(0, 3)
@@ -66,12 +41,15 @@ function validateDetection(raw: unknown): LlmDetection | null {
   const explanation = typeof obj.explanation === 'string' ? obj.explanation : '';
   if (!explanation) return null;
 
+  const tier = TROPE_TIER_MAP.get(tropeId) ?? (typeof obj.tier === 'number' ? obj.tier as Tier : 3);
+
   return {
     tropeId,
-    tier: TROPE_TIER[tropeId],
+    tier,
     confidence: Math.round(confidence * 100) / 100,
     matchedExcerpts,
     explanation,
+    count,
   };
 }
 
@@ -79,14 +57,21 @@ function validateDetection(raw: unknown): LlmDetection | null {
  * Parses the LLM text response into validated detections.
  */
 function parseResponse(text: string): LlmDetection[] {
-  // Strip markdown fences if the model wraps them anyway.
-  const cleaned = text.replace(/^```(?:json)?\s*/m, '').replace(/\s*```\s*$/m, '').trim();
+  // Strip markdown fences if present
+  let cleaned = text.trim();
+
+  // Find the JSON array in the response
+  const firstBracket = cleaned.indexOf('[');
+  const lastBracket = cleaned.lastIndexOf(']');
+  if (firstBracket !== -1 && lastBracket > firstBracket) {
+    cleaned = cleaned.slice(firstBracket, lastBracket + 1);
+  }
 
   let parsed: unknown;
   try {
     parsed = JSON.parse(cleaned);
   } catch {
-    console.error('[llm-engine] Failed to parse LLM response as JSON:', cleaned.slice(0, 200));
+    console.error('[llm-engine] Failed to parse LLM response as JSON:', cleaned.slice(0, 300));
     return [];
   }
 
@@ -105,16 +90,16 @@ function parseResponse(text: string): LlmDetection[] {
 }
 
 /**
- * Runs semantic analysis on the provided text using Claude.
- * Returns detected Tier 4-5 tropes with confidence scores and evidence.
+ * Runs full trope analysis on the provided text using Claude.
+ * This is the PRIMARY analysis engine. It covers all 5 tiers.
  *
- * Designed to fail gracefully: API errors, timeouts, and malformed responses
- * all result in an empty detections array rather than thrown exceptions.
+ * Falls back gracefully: API errors, timeouts, and malformed responses
+ * all result in an empty detections array.
  */
-export async function analyzeSemantic(text: string): Promise<LlmResult> {
+export async function analyzeWithLlm(text: string): Promise<LlmResult> {
   const start = performance.now();
 
-  if (!text || text.trim().length < 50) {
+  if (!text || text.trim().length < 30) {
     return { detections: [], processingTimeMs: 0 };
   }
 
@@ -124,12 +109,12 @@ export async function analyzeSemantic(text: string): Promise<LlmResult> {
     const response = await Promise.race([
       client.messages.create({
         model: MODEL,
-        max_tokens: 2048,
-        system: SEMANTIC_ANALYSIS_SYSTEM_PROMPT,
+        max_tokens: 4096,
+        system: ANALYSIS_SYSTEM_PROMPT,
         messages: [{ role: 'user', content: buildUserPrompt(text) }],
       }),
       new Promise<never>((_, reject) =>
-        setTimeout(() => reject(new Error('LLM request timed out')), TIMEOUT_MS)
+        setTimeout(() => reject(new Error('Analysis timed out')), TIMEOUT_MS)
       ),
     ]);
 
@@ -147,7 +132,10 @@ export async function analyzeSemantic(text: string): Promise<LlmResult> {
     };
   } catch (error) {
     const elapsed = Math.round(performance.now() - start);
-    console.error('[llm-engine] Semantic analysis failed:', error instanceof Error ? error.message : error);
+    console.error('[llm-engine] Analysis failed:', error instanceof Error ? error.message : error);
     return { detections: [], processingTimeMs: elapsed };
   }
 }
+
+// Keep backward-compatible export name
+export const analyzeSemantic = analyzeWithLlm;
