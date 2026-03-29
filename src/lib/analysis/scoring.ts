@@ -42,9 +42,14 @@ const TIER_WEIGHTS: Record<Tier, number> = {
   5: 1,
 };
 
+// Em dashes are a density signal, not a per-instance credibility killer.
+// Cap their contribution so they never dominate the report.
+const EM_DASH_SCORE_CAP = 4;
+
 /**
  * Computes the score from LLM detections (the primary analysis path).
- * Each detection contributes: tier_weight * count * confidence.
+ * Each detection contributes: tier_weight * count * confidence,
+ * with special capping for em dashes.
  */
 export function computeScoreFromLlm(
   detections: LlmDetection[]
@@ -54,7 +59,13 @@ export function computeScoreFromLlm(
   for (const detection of detections) {
     const weight = TIER_WEIGHTS[detection.tier] ?? 2;
     const count = detection.count ?? 1;
-    const weightedScore = weight * count * detection.confidence;
+    let weightedScore = weight * count * detection.confidence;
+
+    // Em dashes are a punctuation habit, not a credibility killer.
+    // Cap their score so they contribute but never top the list.
+    if (detection.tropeId === 'em-dash-addiction') {
+      weightedScore = Math.min(weightedScore, EM_DASH_SCORE_CAP);
+    }
 
     const def = tropeById(detection.tropeId);
 
