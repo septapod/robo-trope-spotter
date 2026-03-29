@@ -13,8 +13,8 @@ export function DnaStrip({ bands }: DnaStripProps) {
 
   if (bands.length === 0) {
     return (
-      <div className="flex h-3 items-center justify-center rounded-full border border-zinc-800/50 bg-surface-1">
-        <span className="text-[9px] text-zinc-700 font-mono">clean</span>
+      <div className="flex h-3 items-center justify-center rounded-full border border-zinc-200 bg-white">
+        <span className="text-[9px] text-zinc-400 font-mono">clean</span>
       </div>
     );
   }
@@ -23,7 +23,7 @@ export function DnaStrip({ bands }: DnaStripProps) {
 
   return (
     <div className="animate-dna-shimmer space-y-2">
-      <div className="relative overflow-hidden rounded-full h-3">
+      <div className="relative overflow-hidden rounded-full h-3 shadow-sm">
         <div className="flex h-full">
           {bands.map((band, i) => {
             const widthPercent = Math.max((band.count / totalCount) * 100, 3);
@@ -45,9 +45,9 @@ export function DnaStrip({ bands }: DnaStripProps) {
                 onMouseLeave={() => setHoveredBand(null)}
               >
                 {isHovered && (
-                  <div className="absolute bottom-full left-1/2 z-20 mb-3 -translate-x-1/2 whitespace-nowrap rounded-lg bg-zinc-900 px-3 py-2 text-xs text-zinc-200 shadow-xl ring-1 ring-zinc-700/50 font-mono">
+                  <div className="absolute bottom-full left-1/2 z-20 mb-3 -translate-x-1/2 whitespace-nowrap rounded-xl bg-zinc-900 px-3 py-2 text-xs text-white shadow-lg font-mono">
                     <span className="font-semibold">{name}</span>
-                    <span className="text-zinc-500 ml-2">{band.count}x</span>
+                    <span className="text-zinc-400 ml-2">{band.count}x</span>
                     <div className="absolute left-1/2 top-full -translate-x-1/2 border-[5px] border-transparent border-t-zinc-900" />
                   </div>
                 )}
@@ -56,7 +56,7 @@ export function DnaStrip({ bands }: DnaStripProps) {
           })}
         </div>
       </div>
-      <div className="flex justify-between font-mono text-[9px] tracking-wider text-zinc-700 uppercase">
+      <div className="flex justify-between font-mono text-[9px] tracking-wider text-zinc-400 uppercase">
         <span>start</span>
         <span>end</span>
       </div>
