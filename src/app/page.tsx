@@ -166,7 +166,7 @@ export default function Home() {
           <p className="font-mono text-sm tracking-widest uppercase text-candy-pink font-medium">
             AI Writing Trope Detector
           </p>
-          <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl text-zinc-900 leading-[0.95]">
+          <h1 className="font-display italic text-4xl font-bold tracking-tight sm:text-5xl text-zinc-900 leading-[0.95]">
             Robo Trope Spotter
           </h1>
           <p className="text-zinc-500 text-lg max-w-sm mx-auto leading-relaxed font-sans">
@@ -208,9 +208,9 @@ export default function Home() {
         <button
           onClick={handleAnalyze}
           disabled={!canAnalyze}
-          className={`group w-full rounded-3xl font-display font-bold py-5 px-8 text-lg transition-all duration-300 ${
+          className={`group w-full rounded-2xl font-display font-bold py-5 px-8 text-lg transition-all duration-300 ${
             canAnalyze
-              ? "bg-candy-pink text-white hover:brightness-110 shadow-lg shadow-candy-pink/20 hover:shadow-xl hover:shadow-candy-pink/30 hover:scale-[1.02] active:scale-[0.98]"
+              ? "bg-candy-pink text-white hover:bg-pink-600 shadow-lg shadow-candy-pink/20 hover:shadow-xl hover:shadow-candy-pink/30 hover:scale-[1.02] active:scale-[0.98]"
               : "bg-zinc-200 text-zinc-400 cursor-not-allowed"
           }`}
         >

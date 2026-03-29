@@ -1,6 +1,6 @@
 # Robo Trope Spotter
 
-**Status:** MVP code complete, all 9 units built, needs Neon DB + Vercel deploy to robotropes.dxn.is
+**Status:** Design upgrade complete (Fraunces/Outfit fonts, saturated palette, DnaStrip removed), needs deploy
 
 ## What It Is
 A social diagnostic tool that identifies AI writing tropes in pasted text and produces a shareable, playful report card. Think personality quiz meets gentle roast. Not an AI detector, not a writing assistant.
@@ -19,6 +19,9 @@ A social diagnostic tool that identifies AI writing tropes in pasted text and pr
 - [ ] Deploy to Vercel
 
 ## Recently Completed
+- [x] Typography and palette upgrade: Fraunces (display, wonky serif italic), Outfit (body), JetBrains Mono (data). Saturated candy colors (hotter pink, deeper teal, vivid purple, electric blue). Removed DnaStrip component. Cleaned unused CSS (gradient-text, dna-shimmer, score-ring). Analyze button solid pink with tighter corners.
+- [x] Design audit: 15 visual/UX fixes (smaller title, reduced blobs, removed heading from highlighted text, generous section spacing, cycling loading text, amber error states, Geist-only fonts, taller DNA strip with labels, body font for examples, solid pink button, prominent share bar, favicon, light OG image, 404 page, larger touch targets)
+- [x] Visual redesign: bold candy-color maximalist theme with Geist display font, animated blobs, gradient mesh backgrounds, cycling focus glow, colorful pill toggles, score ring gauge, taller DNA strip, colored trope cards
 - [x] Unit 9: Landing page polish (three input modes, loading states, error handling, screenshot drag/drop with preview, auto-collapse logic, client-side POST to /api/analyze with redirect)
 - [x] Unit 7: Report card page (ScoreHero, DnaStrip, TropeCard, TopOffenders, AllDetections, ShareBar, roast lines, clean-score copy)
 - [x] Unit 8: OG image generation (1200x630 PNG via next/og, score + label + DNA strip, Inter font, fallback for missing reports)
