@@ -10,16 +10,63 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
   const clean = isCleanScore(scoreResult);
   const roastLine = getRoastLine(scoreResult);
 
+  // Calculate ring offset based on score (0-100)
+  // Full circle = 440 (circumference), score of 100 = full ring
+  const ringOffset = 440 - (scoreResult.rawScore / 100) * 440;
+
   return (
-    <section className="relative flex flex-col items-center gap-6 py-16 px-4 text-center sm:py-20">
-      {/* Score number with glow */}
-      <div className="animate-score-reveal relative">
+    <section className="relative flex flex-col items-center gap-8 py-20 px-4 text-center sm:py-24">
+      {/* Decorative blobs behind score */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div
-          className="absolute inset-0 blur-3xl opacity-15 rounded-full scale-150"
+          className="animate-blob-pulse blob-shape absolute left-1/2 top-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 blur-3xl opacity-15"
           style={{ backgroundColor: scoreResult.labelColor }}
         />
+        <div
+          className="animate-blob blob-shape-alt absolute left-1/3 top-1/3 h-[150px] w-[150px] blur-2xl opacity-10"
+          style={{ backgroundColor: scoreResult.labelColor, animationDelay: '-5s' }}
+        />
+      </div>
+
+      {/* Score with ring */}
+      <div className="animate-score-reveal relative flex items-center justify-center">
+        {/* SVG ring behind the number */}
+        <svg
+          className="absolute"
+          width="220"
+          height="220"
+          viewBox="0 0 160 160"
+        >
+          {/* Background ring */}
+          <circle
+            cx="80"
+            cy="80"
+            r="70"
+            fill="none"
+            stroke="currentColor"
+            className="text-zinc-200"
+            strokeWidth="6"
+          />
+          {/* Colored score ring */}
+          <circle
+            cx="80"
+            cy="80"
+            r="70"
+            fill="none"
+            stroke={scoreResult.labelColor}
+            strokeWidth="8"
+            strokeLinecap="round"
+            className="score-ring"
+            style={{
+              '--ring-offset': `${ringOffset}`,
+              transform: 'rotate(-90deg)',
+              transformOrigin: '50% 50%',
+            } as React.CSSProperties}
+          />
+        </svg>
+
         <span
-          className="relative font-mono text-[120px] font-bold tabular-nums tracking-tighter leading-none sm:text-[160px]"
+          className="relative font-display text-[140px] font-bold tabular-nums tracking-tighter leading-none sm:text-[180px]"
           style={{ color: scoreResult.labelColor }}
         >
           {scoreResult.rawScore}
@@ -28,30 +75,43 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
 
       {/* Label */}
       <div className="animate-score-reveal" style={{ animationDelay: '0.1s' }}>
-        <h1 className="font-sans text-3xl font-black tracking-tight sm:text-4xl text-zinc-900">
+        <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl text-zinc-900">
           {clean ? getCleanBadge(scoreResult) : scoreResult.label}
         </h1>
       </div>
 
       {/* Clean score subtitle */}
       {clean && (
-        <p className="animate-score-reveal max-w-sm text-sm text-zinc-500 leading-relaxed" style={{ animationDelay: '0.15s' }}>
+        <p className="animate-score-reveal max-w-sm text-base text-zinc-500 leading-relaxed" style={{ animationDelay: '0.15s' }}>
           {getCleanSubtitle(scoreResult)}
         </p>
       )}
 
       {/* Roast line */}
-      <p className="animate-score-reveal max-w-md text-base leading-relaxed text-zinc-600" style={{ animationDelay: '0.2s' }}>
-        {roastLine}
-      </p>
+      <div
+        className="animate-score-reveal max-w-md rounded-2xl px-6 py-4"
+        style={{
+          animationDelay: '0.2s',
+          backgroundColor: scoreResult.labelColor + '12',
+        }}
+      >
+        <p
+          className="text-lg leading-relaxed font-medium"
+          style={{ color: scoreResult.labelColor }}
+        >
+          {roastLine}
+        </p>
+      </div>
 
       {/* Stats */}
-      <div className="animate-score-reveal flex items-center gap-4 font-mono text-sm tracking-wide text-zinc-400" style={{ animationDelay: '0.3s' }}>
-        <span>
+      <div className="animate-score-reveal flex items-center gap-5 font-mono text-sm tracking-wide text-zinc-400" style={{ animationDelay: '0.3s' }}>
+        <span className="flex items-center gap-2">
+          <span className="inline-block h-2 w-2 rounded-full bg-candy-pink" />
           {scoreResult.totalTropesDetected} trope{scoreResult.totalTropesDetected !== 1 ? 's' : ''}
         </span>
-        <span className="h-2.5 w-px bg-zinc-300" />
-        <span>
+        <span className="h-3 w-px bg-zinc-300" />
+        <span className="flex items-center gap-2">
+          <span className="inline-block h-2 w-2 rounded-full bg-candy-orange" />
           {scoreResult.totalInstancesDetected} instance{scoreResult.totalInstancesDetected !== 1 ? 's' : ''}
         </span>
       </div>
