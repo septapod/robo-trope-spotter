@@ -101,8 +101,8 @@ export default async function OgImage({
     );
   }
 
-  const results = report.results as ScoreResult;
-  const { rawScore, label, labelColor, dnaStrip } = results;
+  const resultsData = report.results as { score: ScoreResult };
+  const { rawScore, label, labelColor, dnaStrip } = resultsData.score;
 
   const roastLine = ROAST_LINES[label] ?? 'Something went wrong scoring this text.';
 
@@ -269,7 +269,7 @@ export default async function OgImage({
               color: '#3f3f46',
             }}
           >
-            {results.totalTropesDetected} tropes found, {results.totalInstancesDetected} instances
+            {resultsData.score.totalTropesDetected} tropes found, {resultsData.score.totalInstancesDetected} instances
           </div>
         </div>
       </div>
