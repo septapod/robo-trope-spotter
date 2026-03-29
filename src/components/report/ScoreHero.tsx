@@ -46,7 +46,7 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
       </p>
 
       {/* Stats */}
-      <div className="animate-score-reveal flex items-center gap-4 font-mono text-[11px] tracking-wide text-zinc-600" style={{ animationDelay: '0.3s' }}>
+      <div className="animate-score-reveal flex items-center gap-4 font-mono text-xs tracking-wide text-zinc-600" style={{ animationDelay: '0.3s' }}>
         <span>
           {scoreResult.totalTropesDetected} trope{scoreResult.totalTropesDetected !== 1 ? 's' : ''}
         </span>

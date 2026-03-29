@@ -9,7 +9,7 @@ import { db } from '@/db';
 import { reports } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 
-export const maxDuration = 60;
+export const maxDuration = 30;
 
 const VALID_TYPES = new Set(['text', 'url', 'screenshot']);
 
@@ -135,8 +135,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       '[analyze] Unexpected error:',
       error instanceof Error ? error.message : error
     );
+    const rawMsg = error instanceof Error ? error.message : 'Unknown error';
+    // Truncate to avoid leaking full query/user text in the response.
+    const msg = rawMsg.length > 120 ? rawMsg.slice(0, 120) + '…' : rawMsg;
     return NextResponse.json(
-      { error: 'Internal server error.' },
+      { error: `Analysis failed: ${msg}` },
       { status: 500 }
     );
   }

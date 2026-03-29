@@ -1,6 +1,3 @@
-import { extractFromUrl } from './url-extractor';
-import { extractFromScreenshot } from './screenshot-ocr';
-
 const MIN_TEXT_LENGTH = 50;
 
 interface NormalizeInput {
@@ -33,6 +30,7 @@ export async function normalizeInput(input: NormalizeInput): Promise<NormalizeRe
     }
 
     case 'url': {
+      const { extractFromUrl } = await import('./url-extractor');
       const extracted = await extractFromUrl(input.content.trim());
       text = extracted.text;
       sourceUrl = input.content.trim();
@@ -49,6 +47,7 @@ export async function normalizeInput(input: NormalizeInput): Promise<NormalizeRe
       }
       const mediaType = input.content.slice(0, separatorIndex);
       const base64Data = input.content.slice(separatorIndex + 1);
+      const { extractFromScreenshot } = await import('./screenshot-ocr');
       text = await extractFromScreenshot(base64Data, mediaType);
       break;
     }

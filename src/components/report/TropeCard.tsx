@@ -34,7 +34,7 @@ export function TropeCard({ trope, index }: TropeCardProps) {
             <h3 className="font-display text-lg text-zinc-100 italic">
               {trope.tropeName}
             </h3>
-            <p className="font-mono text-[10px] tracking-wider uppercase" style={{ color: trope.color }}>
+            <p className="font-mono text-xs tracking-wider uppercase" style={{ color: trope.color }}>
               Tier {trope.tier} · {tierNames[trope.tier]}
             </p>
           </div>

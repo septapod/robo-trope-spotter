@@ -95,7 +95,7 @@ export default async function ReportPage({ params }: PageProps) {
 
       {/* Footer */}
       <footer className="relative z-10 border-t border-zinc-800/30 px-4 py-8 text-center">
-        <p className="font-mono text-[10px] tracking-wider text-zinc-700 uppercase">
+        <p className="font-mono text-xs tracking-wider text-zinc-700 uppercase">
           Grades writing patterns, not people
         </p>
         <a

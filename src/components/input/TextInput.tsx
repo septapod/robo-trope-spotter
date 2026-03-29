@@ -17,7 +17,7 @@ export function TextInput({ value, onChange, disabled }: TextInputProps) {
         disabled={disabled}
       />
       {value.length > 0 && (
-        <span className="absolute bottom-3 right-4 font-mono text-[10px] text-zinc-600 tabular-nums">
+        <span className="absolute bottom-3 right-4 font-mono text-xs text-zinc-600 tabular-nums">
           {value.length.toLocaleString()} chars
         </span>
       )}
