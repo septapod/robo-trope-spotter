@@ -1,11 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { nanoid } from 'nanoid';
 import { normalizeInput } from '@/lib/input/normalize';
-import { analyzeHeuristic } from '@/lib/analysis/heuristic-engine';
-import { computeScore } from '@/lib/analysis/scoring';
 import { db } from '@/db';
 import { reports } from '@/db/schema';
-import { eq } from 'drizzle-orm';
 
 const VALID_TYPES = new Set(['text', 'url', 'screenshot']);
 
@@ -61,27 +58,20 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     const { text, sourceUrl } = normalized;
 
-    // 4. Run heuristic analysis (synchronous, fast)
-    const heuristicResult = analyzeHeuristic(text);
+    // 4. Run LLM analysis (the primary and only analysis engine)
+    const { analyzeWithLlm } = await import('@/lib/analysis/llm-engine');
+    const { computeScoreFromLlm } = await import('@/lib/analysis/scoring');
 
-    // 5. Dynamically import LLM engine to avoid loading @anthropic-ai/sdk at module init
-    const { analyzeSemantic } = await import('@/lib/analysis/llm-engine');
-    const llmPromise = analyzeSemantic(text);
+    const llmResult = await analyzeWithLlm(text);
+    const scoreResult = computeScoreFromLlm(llmResult.detections);
 
-    // 6. Compute initial score from heuristic results only
-    const scoreResult = computeScore(heuristicResult.matches, [], text.length);
-
-    // 7. Generate a slug
+    // 5. Generate a slug and persist
     const slug = nanoid(10);
 
-    // 8. Persist to database
-    const initialResults = {
+    const results = {
       score: scoreResult,
-      heuristicMatches: heuristicResult.matches,
-      llmDetections: [],
-      heuristicProcessingTimeMs: heuristicResult.processingTimeMs,
-      llmProcessingTimeMs: null as number | null,
-      llmComplete: false,
+      llmDetections: llmResult.detections,
+      processingTimeMs: llmResult.processingTimeMs,
     };
 
     await db().insert(reports).values({
@@ -89,50 +79,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       sourceText: text,
       sourceUrl: sourceUrl ?? null,
       inputType,
-      results: initialResults,
+      results,
     });
 
-    // 9. Register background LLM work with after() so the serverless
-    // runtime keeps the function alive until completion.
-    try {
-      const { after } = await import('next/server');
-      if (typeof after === 'function') {
-        after(async () => {
-          try {
-            const llmResult = await llmPromise;
-
-            const updatedScore = computeScore(
-              heuristicResult.matches,
-              llmResult.detections,
-              text.length
-            );
-
-            const updatedResults = {
-              score: updatedScore,
-              heuristicMatches: heuristicResult.matches,
-              llmDetections: llmResult.detections,
-              heuristicProcessingTimeMs: heuristicResult.processingTimeMs,
-              llmProcessingTimeMs: llmResult.processingTimeMs,
-              llmComplete: true,
-            };
-
-            await db()
-              .update(reports)
-              .set({ results: updatedResults })
-              .where(eq(reports.slug, slug));
-          } catch (error) {
-            console.error(
-              '[analyze] Background LLM update failed:',
-              error instanceof Error ? error.message : error
-            );
-          }
-        });
-      }
-    } catch {
-      // after() not available in this runtime — LLM results won't be persisted
-    }
-
-    // 10. Return immediate response with heuristic-only results
+    // 6. Return the results
     return NextResponse.json({ slug, score: scoreResult });
   } catch (error) {
     console.error(
@@ -140,7 +90,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       error instanceof Error ? error.message : error
     );
     const rawMsg = error instanceof Error ? error.message : 'Unknown error';
-    const msg = rawMsg.length > 120 ? rawMsg.slice(0, 120) + '…' : rawMsg;
+    const msg = rawMsg.length > 120 ? rawMsg.slice(0, 120) + '...' : rawMsg;
     return NextResponse.json(
       { error: `Analysis failed: ${msg}` },
       { status: 500 }

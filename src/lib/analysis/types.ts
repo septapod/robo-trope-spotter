@@ -11,6 +11,7 @@ export interface LlmDetection {
   tropeId: string;
   tier: Tier;
   confidence: number; // 0-1
+  count: number; // how many times the pattern appears
   matchedExcerpts: string[];
   explanation: string;
 }

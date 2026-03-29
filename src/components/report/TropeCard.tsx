@@ -15,8 +15,9 @@ const tierNames: Record<number, string> = {
 };
 
 export function TropeCard({ trope, index }: TropeCardProps) {
+  // Prefer the LLM's contextual explanation over the static description
   const def = tropeById(trope.tropeId);
-  const description = def?.description ?? '';
+  const description = trope.explanation || def?.description || '';
 
   return (
     <article
