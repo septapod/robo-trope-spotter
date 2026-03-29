@@ -9,6 +9,7 @@ import { DnaStrip } from '@/components/report/DnaStrip';
 import { TopOffenders } from '@/components/report/TopOffenders';
 import { AllDetections } from '@/components/report/AllDetections';
 import { ShareBar } from '@/components/report/ShareBar';
+import { HighlightedText } from '@/components/report/HighlightedText';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -103,6 +104,11 @@ export default async function ReportPage({ params }: PageProps) {
         <div className="mx-auto max-w-2xl px-4">
           <DnaStrip bands={scoreResult.dnaStrip} />
         </div>
+
+        <HighlightedText
+          sourceText={report.sourceText}
+          tropeResults={scoreResult.tropeResults}
+        />
 
         <TopOffenders tropes={scoreResult.topOffenders} />
         <AllDetections remaining={remaining} />
