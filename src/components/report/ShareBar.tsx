@@ -49,7 +49,7 @@ export function ShareBar({ title, score }: ShareBarProps) {
     <div className="flex items-center gap-2">
       <button
         onClick={handleCopy}
-        className="flex items-center gap-1.5 rounded-lg border border-zinc-800/60 bg-surface-1/80 px-3 py-1.5 font-mono text-[11px] text-zinc-400 transition-all hover:border-zinc-700 hover:text-zinc-300"
+        className="flex items-center gap-1.5 rounded-lg border border-zinc-800/60 bg-surface-1/80 px-3 py-1.5 font-mono text-xs text-zinc-400 transition-all hover:border-zinc-700 hover:text-zinc-300"
       >
         {copied ? (
           <>
@@ -71,7 +71,7 @@ export function ShareBar({ title, score }: ShareBarProps) {
       {canShare && (
         <button
           onClick={handleShare}
-          className="flex items-center gap-1.5 rounded-lg bg-indigo-600 px-3 py-1.5 font-mono text-[11px] text-white transition-all hover:bg-indigo-500"
+          className="flex items-center gap-1.5 rounded-lg bg-indigo-600 px-3 py-1.5 font-mono text-xs text-white transition-all hover:bg-indigo-500"
         >
           <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
