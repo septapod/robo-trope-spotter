@@ -1,49 +1,23 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Geist:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 @theme {
-  --font-display: 'Geist', system-ui, sans-serif;
+  --font-display: 'Fraunces', Georgia, serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
-  --font-sans: 'Geist', system-ui, sans-serif;
+  --font-sans: 'Outfit', system-ui, sans-serif;
 
   --color-surface-0: #FAF9F6;
   --color-surface-1: #FFFFFF;
   --color-surface-2: #F3F2EF;
   --color-surface-3: #E8E6E1;
 
-  --color-candy-pink: #F43F5E;
-  --color-candy-yellow: #FACC15;
-  --color-candy-orange: #FB923C;
-  --color-candy-teal: #2DD4BF;
-  --color-candy-green: #84CC16;
-  --color-candy-purple: #A78BFA;
-  --color-candy-blue: #60A5FA;
-}
-
-/* ============================================
-   GRADIENT TEXT EFFECTS
-   ============================================ */
-
-.gradient-text {
-  background: linear-gradient(
-    135deg,
-    var(--color-candy-pink) 0%,
-    var(--color-candy-orange) 20%,
-    var(--color-candy-yellow) 40%,
-    var(--color-candy-green) 60%,
-    var(--color-candy-teal) 80%,
-    var(--color-candy-purple) 100%
-  );
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradient-shift 6s ease-in-out infinite;
-}
-
-@keyframes gradient-shift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  --color-candy-pink: #EC4899;
+  --color-candy-yellow: #EAB308;
+  --color-candy-orange: #F97316;
+  --color-candy-teal: #14B8A6;
+  --color-candy-green: #22C55E;
+  --color-candy-purple: #8B5CF6;
+  --color-candy-blue: #3B82F6;
 }
 
 /* ============================================
@@ -180,20 +154,6 @@
 }
 
 /* ============================================
-   DNA STRIP SHIMMER
-   ============================================ */
-
-@keyframes dna-shimmer {
-  from { opacity: 0; transform: scaleX(0.8); }
-  to { opacity: 1; transform: scaleX(1); }
-}
-
-.animate-dna-shimmer {
-  animation: dna-shimmer 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  transform-origin: left center;
-}
-
-/* ============================================
    FOCUS GLOW (cycling candy colors)
    ============================================ */
 
@@ -255,21 +215,6 @@
 .loading-dots span:nth-child(3) {
   background-color: var(--color-candy-teal);
   animation-delay: 0s;
-}
-
-/* ============================================
-   SCORE RING
-   ============================================ */
-
-@keyframes ring-draw {
-  from { stroke-dashoffset: 440; }
-  to { stroke-dashoffset: var(--ring-offset, 110); }
-}
-
-.score-ring {
-  animation: ring-draw 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
-  stroke-dasharray: 440;
-  stroke-dashoffset: 440;
 }
 
 /* ============================================

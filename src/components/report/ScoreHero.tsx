@@ -32,7 +32,7 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
 
       {/* Label */}
       <div className="animate-score-reveal" style={{ animationDelay: '0.1s' }}>
-        <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl text-zinc-900">
+        <h1 className="font-display italic text-4xl font-bold tracking-tight sm:text-5xl text-zinc-900">
           {clean ? getCleanBadge(scoreResult) : scoreResult.label}
         </h1>
       </div>

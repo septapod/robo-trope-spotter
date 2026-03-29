@@ -5,7 +5,6 @@ import { reports } from '@/db/schema';
 import type { ScoreResult } from '@/lib/analysis/scoring';
 import type { Metadata } from 'next';
 import { ScoreHero } from '@/components/report/ScoreHero';
-import { DnaStrip } from '@/components/report/DnaStrip';
 import { TopOffenders } from '@/components/report/TopOffenders';
 import { AllDetections } from '@/components/report/AllDetections';
 import { ShareBar } from '@/components/report/ShareBar';
@@ -88,10 +87,6 @@ export default async function ReportPage({ params }: PageProps) {
       <div className="relative z-10">
         <div className="py-16">
           <ScoreHero scoreResult={scoreResult} />
-        </div>
-
-        <div className="mx-auto max-w-2xl px-4 py-16">
-          <DnaStrip bands={scoreResult.dnaStrip} />
         </div>
 
         <div className="py-16">
