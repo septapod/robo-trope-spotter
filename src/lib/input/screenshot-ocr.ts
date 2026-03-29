@@ -18,10 +18,9 @@ export async function extractFromScreenshot(
   imageBase64: string,
   mediaType: string
 ): Promise<string> {
-  const client = new Anthropic();
-
   let response: Anthropic.Message;
   try {
+    const client = new Anthropic();
     response = await client.messages.create({
       model: MODEL,
       max_tokens: 4096,

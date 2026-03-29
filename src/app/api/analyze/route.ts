@@ -9,6 +9,8 @@ import { db } from '@/db';
 import { reports } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 
+export const maxDuration = 60;
+
 const VALID_TYPES = new Set(['text', 'url', 'screenshot']);
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
@@ -85,7 +87,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       llmComplete: false,
     };
 
-    await db.insert(reports).values({
+    await db().insert(reports).values({
       slug,
       sourceText: text,
       sourceUrl: sourceUrl ?? null,
@@ -114,7 +116,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
           llmComplete: true,
         };
 
-        await db
+        await db()
           .update(reports)
           .set({ results: updatedResults })
           .where(eq(reports.slug, slug));
