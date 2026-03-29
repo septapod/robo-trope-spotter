@@ -102,13 +102,25 @@ export default function Home() {
         body: JSON.stringify({ type, content }),
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
-        setError(data.error || "Something went wrong. Try again.");
+        let errorMessage = "Something went wrong. Try again.";
+        try {
+          const data = await response.json();
+          errorMessage = data.error || errorMessage;
+        } catch {
+          if (response.status === 413) {
+            errorMessage = "Image is too large. Try a smaller screenshot or paste the text directly.";
+          } else if (response.status === 504) {
+            errorMessage = "Request timed out. Try again or paste the text directly.";
+          } else {
+            errorMessage = `Server error (${response.status}). Try again.`;
+          }
+        }
+        setError(errorMessage);
         return;
       }
 
+      const data = await response.json();
       router.push(`/report/${data.slug}`);
     } catch {
       setError("Failed to connect. Check your connection and try again.");

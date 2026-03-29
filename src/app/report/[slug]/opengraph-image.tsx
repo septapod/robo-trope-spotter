@@ -35,7 +35,7 @@ export default async function OgImage({
   ]);
 
   // Look up the report
-  const [report] = await db
+  const [report] = await db()
     .select()
     .from(reports)
     .where(eq(reports.slug, slug))

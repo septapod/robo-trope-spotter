@@ -15,7 +15,7 @@ interface PageProps {
 }
 
 async function getReport(slug: string) {
-  const result = await db
+  const result = await db()
     .select()
     .from(reports)
     .where(eq(reports.slug, slug))
