@@ -6,13 +6,18 @@
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
   --font-sans: 'Geist', system-ui, sans-serif;
 
-  --color-surface-0: #09090b;
-  --color-surface-1: #0f0f12;
-  --color-surface-2: #18181b;
-  --color-surface-3: #27272a;
+  --color-surface-0: #FAF9F6;
+  --color-surface-1: #FFFFFF;
+  --color-surface-2: #F3F2EF;
+  --color-surface-3: #E8E6E1;
 
-  --color-glow-indigo: rgba(99, 102, 241, 0.15);
-  --color-glow-score: rgba(255, 255, 255, 0.04);
+  --color-candy-pink: #F43F5E;
+  --color-candy-yellow: #FACC15;
+  --color-candy-orange: #FB923C;
+  --color-candy-teal: #2DD4BF;
+  --color-candy-green: #4ADE80;
+  --color-candy-purple: #A78BFA;
+  --color-candy-blue: #60A5FA;
 }
 
 /* Score reveal animation */
@@ -43,15 +48,23 @@
 
 /* Pulse glow on textarea focus */
 @keyframes focus-glow {
-  0% { box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4), 0 0 20px rgba(99, 102, 241, 0.15); }
-  50% { box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.6), 0 0 40px rgba(99, 102, 241, 0.25); }
-  100% { box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4), 0 0 20px rgba(99, 102, 241, 0.15); }
+  0% { box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.2), 0 0 20px rgba(244, 63, 94, 0.08); }
+  50% { box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.35), 0 0 40px rgba(244, 63, 94, 0.12); }
+  100% { box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.2), 0 0 20px rgba(244, 63, 94, 0.08); }
 }
 
 /* DNA strip shimmer */
 @keyframes dna-shimmer {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+/* Playful blob float */
+@keyframes blob-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(30px, -20px) scale(1.05); }
+  50% { transform: translate(-20px, 15px) scale(0.95); }
+  75% { transform: translate(15px, 25px) scale(1.02); }
 }
 
 .animate-score-reveal {
@@ -67,9 +80,13 @@
   animation: dna-shimmer 0.8s ease-out forwards;
 }
 
+.animate-blob {
+  animation: blob-float 12s ease-in-out infinite;
+}
+
 .focus-glow:focus {
   animation: focus-glow 1.5s ease-in-out 1;
-  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4), 0 0 20px rgba(99, 102, 241, 0.15);
+  box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.2), 0 0 20px rgba(244, 63, 94, 0.08);
   outline: none;
-  border-color: transparent;
+  border-color: rgba(244, 63, 94, 0.4);
 }

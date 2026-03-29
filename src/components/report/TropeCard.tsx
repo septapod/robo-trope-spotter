@@ -20,10 +20,10 @@ export function TropeCard({ trope, index }: TropeCardProps) {
 
   return (
     <article
-      className="animate-card-enter group relative overflow-hidden rounded-2xl bg-surface-1 border border-zinc-800/40 transition-colors hover:border-zinc-700/60"
+      className="animate-card-enter group relative overflow-hidden rounded-2xl bg-white border border-zinc-200 shadow-sm transition-shadow hover:shadow-md"
       style={{
         animationDelay: `${index * 80}ms`,
-        borderLeftWidth: '3px',
+        borderLeftWidth: '4px',
         borderLeftColor: trope.color,
       }}
     >
@@ -31,17 +31,17 @@ export function TropeCard({ trope, index }: TropeCardProps) {
         {/* Header row */}
         <div className="flex items-start justify-between gap-3">
           <div className="space-y-1">
-            <h3 className="font-display text-lg text-zinc-100 italic">
+            <h3 className="font-display text-lg text-zinc-900 italic">
               {trope.tropeName}
             </h3>
-            <p className="font-mono text-[10px] tracking-wider uppercase" style={{ color: trope.color }}>
+            <p className="font-mono text-xs tracking-wider uppercase" style={{ color: trope.color }}>
               Tier {trope.tier} · {tierNames[trope.tier]}
             </p>
           </div>
           <span
-            className="shrink-0 rounded-lg px-2.5 py-1 font-mono text-xs font-bold tabular-nums"
+            className="shrink-0 rounded-xl px-2.5 py-1 font-mono text-xs font-bold tabular-nums"
             style={{
-              backgroundColor: trope.color + '15',
+              backgroundColor: trope.color + '18',
               color: trope.color,
             }}
           >
@@ -62,7 +62,7 @@ export function TropeCard({ trope, index }: TropeCardProps) {
             {trope.examples.map((example, i) => (
               <div
                 key={i}
-                className="rounded-lg bg-surface-0/80 px-4 py-2.5 text-sm leading-relaxed font-mono"
+                className="rounded-xl bg-surface-2 px-4 py-2.5 text-sm leading-relaxed font-mono"
               >
                 <span style={{ color: trope.color }}>
                   &ldquo;{example}&rdquo;
