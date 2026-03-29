@@ -20,7 +20,7 @@ export function UrlInput({ value, onChange, disabled, collapsed }: UrlInputProps
         type="button"
         onClick={() => !collapsed && setExpanded(!expanded)}
         disabled={collapsed}
-        className="flex items-center gap-1.5 text-xs text-zinc-600 hover:text-zinc-400 transition-colors disabled:opacity-20 disabled:cursor-not-allowed font-mono"
+        className="flex items-center gap-1.5 text-xs text-zinc-500 hover:text-candy-pink transition-colors disabled:opacity-20 disabled:cursor-not-allowed font-mono"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -37,7 +37,7 @@ export function UrlInput({ value, onChange, disabled, collapsed }: UrlInputProps
       {isOpen && (
         <input
           type="url"
-          className="focus-glow mt-2 w-full rounded-xl bg-surface-1 border border-zinc-800/80 px-4 py-3 text-sm text-zinc-100 placeholder-zinc-600 transition-all disabled:opacity-30 disabled:cursor-not-allowed font-mono"
+          className="focus-glow mt-2 w-full rounded-xl bg-white border-2 border-zinc-200 px-4 py-3 text-sm text-zinc-900 placeholder-zinc-400 transition-all disabled:opacity-30 disabled:cursor-not-allowed font-mono shadow-sm"
           placeholder="https://..."
           value={value}
           onChange={(e) => onChange(e.target.value)}

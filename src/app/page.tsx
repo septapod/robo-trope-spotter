@@ -130,19 +130,21 @@ export default function Home() {
   }, [activeMode, text, url, screenshotPreview, canAnalyze, router]);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center px-4 py-16">
-      {/* Subtle radial glow behind the input area */}
+    <main className="relative flex min-h-screen flex-col items-center justify-center px-4 py-16 overflow-hidden">
+      {/* Playful background blobs */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute left-1/2 top-1/3 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-500/[0.03] blur-3xl" />
+        <div className="animate-blob absolute -top-32 -left-32 h-[500px] w-[500px] rounded-full bg-candy-pink/[0.08] blur-3xl" />
+        <div className="animate-blob absolute -bottom-40 -right-40 h-[600px] w-[600px] rounded-full bg-candy-yellow/[0.12] blur-3xl" style={{ animationDelay: '-4s' }} />
+        <div className="animate-blob absolute top-1/2 left-1/2 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-candy-teal/[0.06] blur-3xl" style={{ animationDelay: '-8s' }} />
       </div>
 
-      <div className="relative z-10 w-full max-w-xl space-y-10">
+      <div className="relative z-10 w-full max-w-xl space-y-8">
         {/* Header */}
         <header className="text-center space-y-4">
-          <p className="font-mono text-xs tracking-widest uppercase text-indigo-400/80">
+          <p className="font-mono text-xs tracking-widest uppercase text-candy-pink font-medium">
             AI Writing Trope Detector
           </p>
-          <h1 className="font-display text-5xl tracking-tight sm:text-6xl text-zinc-50">
+          <h1 className="font-display text-5xl tracking-tight sm:text-6xl text-zinc-900">
             Robo Trope Spotter
           </h1>
           <p className="text-zinc-500 text-base max-w-sm mx-auto leading-relaxed">
@@ -183,10 +185,10 @@ export default function Home() {
         <button
           onClick={handleAnalyze}
           disabled={!canAnalyze}
-          className={`group w-full rounded-2xl font-semibold py-4 px-6 text-base transition-all duration-200 text-white ${
+          className={`group w-full rounded-2xl font-semibold py-4 px-6 text-base transition-all duration-200 ${
             canAnalyze
-              ? "bg-indigo-600 hover:bg-indigo-500 hover:shadow-lg hover:shadow-indigo-500/20 active:scale-[0.98]"
-              : "bg-zinc-800 text-zinc-500 cursor-not-allowed"
+              ? "bg-candy-pink text-white hover:brightness-110 hover:shadow-lg hover:shadow-candy-pink/25 active:scale-[0.98]"
+              : "bg-zinc-200 text-zinc-400 cursor-not-allowed"
           }`}
         >
           {loading ? (
@@ -235,14 +237,14 @@ export default function Home() {
 
         {/* Error message */}
         {error && (
-          <div className="rounded-xl border border-red-500/20 bg-red-500/5 px-4 py-3">
-            <p className="text-red-400 text-sm text-center">{error}</p>
+          <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3">
+            <p className="text-red-600 text-sm text-center">{error}</p>
           </div>
         )}
 
         {/* Footer */}
         <footer className="text-center pt-8">
-          <p className="text-zinc-700 text-xs font-mono">
+          <p className="text-zinc-400 text-xs font-mono">
             Grades writing patterns, not people.
           </p>
         </footer>
