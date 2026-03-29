@@ -9,7 +9,7 @@ const VALID_TROPE_IDS = new Set(allTropes.map(t => t.id));
 const TROPE_TIER_MAP = new Map(allTropes.map(t => [t.id, t.tier]));
 
 const TIMEOUT_MS = 30_000; // 30s for full analysis
-const MODEL = 'claude-sonnet-4-5-20250514';
+const MODEL = 'claude-sonnet-4-6-20250514';
 
 function createClient(): Anthropic {
   return new Anthropic();
@@ -27,7 +27,7 @@ function validateDetection(raw: unknown): LlmDetection | null {
   if (!tropeId || !VALID_TROPE_IDS.has(tropeId)) return null;
 
   const confidence = typeof obj.confidence === 'number' ? obj.confidence : NaN;
-  if (isNaN(confidence) || confidence < 0.5 || confidence > 1) return null;
+  if (isNaN(confidence) || confidence < 0.2 || confidence > 1) return null;
 
   const count = typeof obj.count === 'number' && obj.count >= 1
     ? Math.round(obj.count)
