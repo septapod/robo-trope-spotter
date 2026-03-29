@@ -65,6 +65,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const llmResult = await analyzeWithLlm(text);
     const scoreResult = computeScoreFromLlm(llmResult.detections);
 
+    // Debug: log what the LLM returned
+    console.log('[analyze] LLM detections count:', llmResult.detections.length, 'processing:', llmResult.processingTimeMs, 'ms');
+
     // 5. Generate a slug and persist
     const slug = nanoid(10);
 
