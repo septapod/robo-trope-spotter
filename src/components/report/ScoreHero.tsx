@@ -28,12 +28,8 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
         >
           {scoreResult.rawScore}
         </span>
-        <p className="font-mono text-sm tracking-widest uppercase text-zinc-400 mt-2 group relative cursor-help">
+        <p className="font-mono text-sm tracking-widest uppercase text-zinc-400 mt-2">
           trope score
-          <span className="invisible group-hover:visible absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 rounded-xl bg-zinc-900 px-4 py-3 text-xs text-zinc-300 text-left normal-case tracking-normal shadow-xl z-20">
-            Weighted by severity: major patterns count more than minor ones. Normalized to {scoreResult.wordCount} words, so density matters.
-            <span className="absolute left-1/2 top-full -translate-x-1/2 border-[5px] border-transparent border-t-zinc-900" />
-          </span>
         </p>
         {/* Visual scale bar */}
         <div className="mt-6 w-72 sm:w-80">
@@ -87,16 +83,26 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
       </div>
 
       {/* Stats */}
-      <div className="animate-score-reveal flex items-center gap-5 font-mono text-sm tracking-wide text-zinc-400" style={{ animationDelay: '0.3s' }}>
-        <span className="flex items-center gap-2">
-          <span className="inline-block h-2 w-2 rounded-full bg-candy-pink" />
-          {scoreResult.totalTropesDetected} trope{scoreResult.totalTropesDetected !== 1 ? 's' : ''}
-        </span>
-        <span className="h-3 w-px bg-zinc-300" />
-        <span className="flex items-center gap-2">
-          <span className="inline-block h-2 w-2 rounded-full bg-candy-orange" />
-          {scoreResult.totalInstancesDetected} instance{scoreResult.totalInstancesDetected !== 1 ? 's' : ''}
-        </span>
+      <div className="animate-score-reveal flex flex-col items-center gap-3" style={{ animationDelay: '0.3s' }}>
+        <div className="flex items-center gap-5 font-mono text-sm tracking-wide text-zinc-400">
+          <span className="flex items-center gap-2">
+            <span className="inline-block h-2 w-2 rounded-full bg-candy-pink" />
+            {scoreResult.totalTropesDetected} trope{scoreResult.totalTropesDetected !== 1 ? 's' : ''}
+          </span>
+          <span className="h-3 w-px bg-zinc-300" />
+          <span className="flex items-center gap-2">
+            <span className="inline-block h-2 w-2 rounded-full bg-candy-orange" />
+            {scoreResult.totalInstancesDetected} instance{scoreResult.totalInstancesDetected !== 1 ? 's' : ''}
+          </span>
+          <span className="h-3 w-px bg-zinc-300" />
+          <span className="flex items-center gap-2">
+            <span className="inline-block h-2 w-2 rounded-full bg-candy-teal" />
+            {scoreResult.wordCount} words
+          </span>
+        </div>
+        <p className="text-xs text-zinc-400">
+          Score reflects concentration: fewer words with more tropes scores higher.
+        </p>
       </div>
     </section>
   );
