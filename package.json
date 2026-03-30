@@ -21,7 +21,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "drizzle-orm": "^0.45.2",
-    "jsdom": "^29.0.1",
+    "linkedom": "^0.18.12",
     "nanoid": "^5.1.7",
     "next": "^16.2.1",
     "postcss": "^8.5.8",
@@ -31,7 +31,6 @@
     "typescript": "^6.0.2"
   },
   "devDependencies": {
-    "@types/jsdom": "^28.0.1",
     "drizzle-kit": "^0.31.10",
     "eslint": "^9.39.4",
     "eslint-config-next": "^16.2.1"
