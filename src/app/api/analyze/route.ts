@@ -63,7 +63,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const { computeScoreFromLlm } = await import('@/lib/analysis/scoring');
 
     const llmResult = await analyzeWithLlm(text);
-    const scoreResult = computeScoreFromLlm(llmResult.detections);
+    const wordCount = text.split(/\s+/).filter(Boolean).length;
+    const scoreResult = computeScoreFromLlm(llmResult.detections, wordCount);
 
     // Debug: log what the LLM returned
     console.log('[analyze] LLM detections count:', llmResult.detections.length, 'processing:', llmResult.processingTimeMs, 'ms');
