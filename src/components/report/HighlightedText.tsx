@@ -68,6 +68,41 @@ function buildHighlights(
     }
   }
 
+  // Supplemental pass: for certain tropes, find ALL instances in the
+  // source text that the LLM's excerpts might have missed.
+  const supplementalPatterns: Record<string, RegExp> = {
+    'em-dash-addiction': /\u2014/g,
+  };
+
+  for (const trope of tropeResults) {
+    const pattern = supplementalPatterns[trope.tropeId];
+    if (!pattern) continue;
+
+    const regex = new RegExp(pattern.source, pattern.flags);
+    let match: RegExpExecArray | null;
+    while ((match = regex.exec(sourceText)) !== null) {
+      // Expand to include surrounding sentence context (up to 40 chars each side)
+      const contextStart = Math.max(0, sourceText.lastIndexOf(' ', Math.max(0, match.index - 30)));
+      const contextEnd = Math.min(sourceText.length, sourceText.indexOf(' ', match.index + match[0].length + 30));
+      const start = contextStart === 0 ? 0 : contextStart + 1;
+      const end = contextEnd === -1 ? sourceText.length : contextEnd;
+
+      // Only add if this region isn't already covered by an existing highlight
+      const alreadyCovered = raw.some(h =>
+        h.tropeId === trope.tropeId && h.start <= match!.index && h.end >= match!.index + match![0].length
+      );
+      if (!alreadyCovered) {
+        raw.push({
+          start,
+          end,
+          tropeId: trope.tropeId,
+          tropeName: trope.tropeName,
+          color: trope.color,
+        });
+      }
+    }
+  }
+
   // Sort by start position
   raw.sort((a, b) => a.start - b.start);
 
