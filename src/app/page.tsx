@@ -144,7 +144,10 @@ export default function Home() {
       }
 
       const data = await response.json();
-      router.push(`/report/${data.slug}`);
+      const params = new URLSearchParams();
+      if (data.warning) params.set('notice', data.warning);
+      const qs = params.toString();
+      router.push(`/report/${data.slug}${qs ? `?${qs}` : ''}`);
     } catch {
       setError("Failed to connect. Check your connection and try again.");
     } finally {
@@ -213,8 +216,8 @@ export default function Home() {
           disabled={!canAnalyze}
           className={`group w-full rounded-2xl font-display font-extrabold py-5 px-8 text-xl tracking-tight transition-all duration-300 ${
             canAnalyze
-              ? "bg-pop-pink text-white hover:bg-pink-600 shadow-lg shadow-pop-pink/25 hover:shadow-xl hover:shadow-pop-pink/35 hover:scale-[1.02] active:scale-[0.98]"
-              : "bg-zinc-200 text-zinc-400 cursor-not-allowed"
+              ? "bg-pop-pink text-white hover:bg-pink-600 shadow-lg shadow-pop-pink/25 hover:shadow-xl hover:shadow-pop-pink/35 hover:scale-[1.02] active:scale-[0.98] focus:outline-2 focus:outline-pop-pink focus:outline-offset-2"
+              : "bg-zinc-200 text-zinc-500 cursor-not-allowed"
           }`}
         >
           {loading ? (
@@ -224,7 +227,7 @@ export default function Home() {
                 <span />
                 <span />
               </span>
-              <span className="font-display text-base font-bold tracking-wide text-white">{loadingMessages[loadingMsgIndex]}</span>
+              <span className="font-display text-base font-bold tracking-wide text-white" aria-live="polite">{loadingMessages[loadingMsgIndex]}</span>
             </span>
           ) : (
             <span className="flex items-center justify-center gap-3">
@@ -256,7 +259,7 @@ export default function Home() {
         {/* Footer */}
         <footer className="pt-4">
           <div className="editorial-rule w-10 mb-4" />
-          <p className="text-zinc-400 text-base font-accent italic">
+          <p className="text-zinc-500 text-base font-accent italic">
             Because someone should tell them.
           </p>
         </footer>

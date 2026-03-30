@@ -22,10 +22,10 @@ export function UrlInput({ value, onChange, disabled, collapsed }: UrlInputProps
         disabled={collapsed}
         className={`pill-toggle flex items-center gap-2 rounded-2xl border-2 py-3 px-5 text-sm font-display font-bold transition-all duration-200 ${
           isOpen
-            ? "active border-candy-pink bg-candy-pink/10 text-candy-pink"
+            ? "active border-pop-pink bg-pop-pink/10 text-pop-pink"
             : collapsed
               ? "border-zinc-200 bg-zinc-100 text-zinc-300 cursor-not-allowed opacity-40"
-              : "border-zinc-200 bg-white text-zinc-500 hover:border-candy-pink/40 hover:text-candy-pink hover:bg-candy-pink/5"
+              : "border-zinc-200 bg-white text-zinc-500 hover:border-pop-pink/40 hover:text-pop-pink hover:bg-pop-pink/5"
         }`}
       >
         <svg
@@ -41,16 +41,20 @@ export function UrlInput({ value, onChange, disabled, collapsed }: UrlInputProps
       </button>
 
       {isOpen && (
-        <input
-          type="url"
-          className="focus-glow mt-3 w-full rounded-2xl bg-white border-3 border-zinc-200 px-5 py-3.5 text-sm text-zinc-900 placeholder-zinc-400 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed font-mono shadow-sm"
-          style={{ borderWidth: '3px' }}
-          placeholder="https://..."
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          disabled={disabled}
-          autoFocus
-        />
+        <>
+          <label htmlFor="url-input" className="sr-only">URL to analyze</label>
+          <input
+            id="url-input"
+            type="url"
+            className="focus-glow mt-3 w-full rounded-2xl bg-white border-3 border-zinc-200 px-5 py-3.5 text-base text-zinc-900 placeholder-zinc-500 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed font-mono shadow-sm"
+            style={{ borderWidth: '3px' }}
+            placeholder="https://..."
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            disabled={disabled}
+            autoFocus
+          />
+        </>
       )}
     </div>
   );

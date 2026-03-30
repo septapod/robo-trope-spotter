@@ -62,8 +62,9 @@ export default async function ReportPage({ params }: PageProps) {
     notFound();
   }
 
-  const resultsData = report.results as { score: ScoreResult };
+  const resultsData = report.results as { score: ScoreResult; llmTimedOut?: boolean };
   const scoreResult = resultsData.score;
+  const llmTimedOut = resultsData.llmTimedOut ?? false;
   const remaining = scoreResult.tropeResults.slice(5);
 
   return (
@@ -90,6 +91,17 @@ export default async function ReportPage({ params }: PageProps) {
         </a>
         <ShareBar title={scoreResult.label} score={scoreResult.rawScore} />
       </nav>
+
+      {/* LLM timeout notice */}
+      {llmTimedOut && (
+        <div className="relative z-10 mx-auto max-w-2xl px-4 pt-6">
+          <div className="rounded-2xl border-2 border-amber-300 bg-amber-50 px-5 py-4">
+            <p className="text-amber-800 text-base text-center font-semibold">
+              Analysis timed out — results may be incomplete. Try again for a fuller report.
+            </p>
+          </div>
+        </div>
+      )}
 
       <div className="relative z-10">
         <ScoreHero scoreResult={scoreResult} />

@@ -28,7 +28,7 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
         >
           {scoreResult.rawScore}
         </span>
-        <p className="font-mono text-sm tracking-[0.25em] uppercase text-zinc-400 mt-3">
+        <p className="font-mono text-sm tracking-[0.25em] uppercase text-zinc-500 mt-3">
           trope score
         </p>
         {/* Visual scale bar */}
@@ -42,7 +42,7 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
               style={{ left: `${Math.min(scoreResult.rawScore, 75) / 75 * 100}%` }}
             />
           </div>
-          <div className="flex justify-between mt-2 font-mono text-sm text-zinc-400">
+          <div className="flex justify-between mt-2 font-mono text-sm text-zinc-500">
             <span>Clean</span>
             <span>Mild</span>
             <span>Heavy</span>
@@ -98,7 +98,7 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
             {scoreResult.wordCount} words
           </span>
         </div>
-        <p className="text-sm text-zinc-400">
+        <p className="text-sm text-zinc-500">
           Score reflects concentration: fewer words with more tropes scores higher.
         </p>
       </div>

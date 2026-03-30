@@ -44,7 +44,7 @@ export function AllDetections({ remaining }: AllDetectionsProps) {
           </div>
           <button
             onClick={() => setExpanded(false)}
-            className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl border border-zinc-200 bg-white px-4 py-3 font-display text-base font-bold text-zinc-400 transition-all hover:border-pop-pink/40 hover:text-pop-pink shadow-sm"
+            className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl border border-zinc-200 bg-white px-4 py-3 font-display text-base font-bold text-zinc-500 transition-all hover:border-pop-pink/40 hover:text-pop-pink shadow-sm"
           >
             <svg
               className="h-4 w-4 rotate-180"

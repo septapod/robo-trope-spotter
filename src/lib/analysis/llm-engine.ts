@@ -103,20 +103,30 @@ export async function analyzeWithLlm(text: string): Promise<LlmResult> {
     return { detections: [], processingTimeMs: 0 };
   }
 
+  let timedOut = false;
+
   try {
     const client = createClient();
+    const controller = new AbortController();
+    const timer = setTimeout(() => {
+      timedOut = true;
+      controller.abort();
+    }, TIMEOUT_MS);
 
-    const response = await Promise.race([
-      client.messages.create({
-        model: MODEL,
-        max_tokens: 4096,
-        system: ANALYSIS_SYSTEM_PROMPT,
-        messages: [{ role: 'user', content: buildUserPrompt(text) }],
-      }),
-      new Promise<never>((_, reject) =>
-        setTimeout(() => reject(new Error('Analysis timed out')), TIMEOUT_MS)
-      ),
-    ]);
+    let response: Anthropic.Message;
+    try {
+      response = await client.messages.create(
+        {
+          model: MODEL,
+          max_tokens: 4096,
+          system: ANALYSIS_SYSTEM_PROMPT,
+          messages: [{ role: 'user', content: buildUserPrompt(text) }],
+        },
+        { signal: controller.signal }
+      );
+    } finally {
+      clearTimeout(timer);
+    }
 
     const content = response.content[0];
     if (content.type !== 'text') {
@@ -129,13 +139,13 @@ export async function analyzeWithLlm(text: string): Promise<LlmResult> {
     return {
       detections,
       processingTimeMs: Math.round(performance.now() - start),
+      timedOut: false,
     };
   } catch (error) {
     const elapsed = Math.round(performance.now() - start);
     const msg = error instanceof Error ? error.message : String(error);
-    console.error('[llm-engine] Analysis failed:', msg);
-    // Return empty detections instead of crashing — partial results are better than none
-    return { detections: [], processingTimeMs: elapsed };
+    console.error('[llm-engine] Analysis failed:', timedOut ? 'timeout' : msg);
+    return { detections: [], processingTimeMs: elapsed, timedOut };
   }
 }
 

@@ -19,6 +19,7 @@ export interface LlmDetection {
 export interface LlmResult {
   detections: LlmDetection[];
   processingTimeMs: number;
+  timedOut?: boolean;
 }
 
 export interface FullAnalysisResult {

@@ -66,8 +66,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const wordCount = text.split(/\s+/).filter(Boolean).length;
     const scoreResult = computeScoreFromLlm(llmResult.detections, wordCount);
 
-    // Debug: log what the LLM returned
-    console.log('[analyze] LLM detections count:', llmResult.detections.length, 'processing:', llmResult.processingTimeMs, 'ms');
+    console.log('[analyze] LLM detections:', llmResult.detections.length,
+      'time:', llmResult.processingTimeMs, 'ms',
+      'timedOut:', llmResult.timedOut ?? false);
 
     // 5. Generate a slug and persist
     const slug = nanoid(10);
@@ -76,6 +77,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       score: scoreResult,
       llmDetections: llmResult.detections,
       processingTimeMs: llmResult.processingTimeMs,
+      llmTimedOut: llmResult.timedOut ?? false,
     };
 
     await db().insert(reports).values({
@@ -86,8 +88,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       results,
     });
 
-    // 6. Return the results
-    return NextResponse.json({ slug, score: scoreResult });
+    // 6. Return the results (include warning if LLM timed out)
+    return NextResponse.json({
+      slug,
+      score: scoreResult,
+      ...(llmResult.timedOut && { warning: 'Analysis timed out. Results may be incomplete.' }),
+    });
   } catch (error) {
     console.error(
       '[analyze] Unexpected error:',

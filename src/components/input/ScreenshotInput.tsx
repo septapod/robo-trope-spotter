@@ -67,10 +67,10 @@ export function ScreenshotInput({
         disabled={collapsed}
         className={`pill-toggle flex items-center gap-2 rounded-2xl border-2 py-3 px-5 text-sm font-display font-bold transition-all duration-200 ${
           isOpen
-            ? "active border-candy-teal bg-candy-teal/10 text-candy-teal"
+            ? "active border-pop-teal bg-pop-teal/10 text-pop-teal"
             : collapsed
               ? "border-zinc-200 bg-zinc-100 text-zinc-300 cursor-not-allowed opacity-40"
-              : "border-zinc-200 bg-white text-zinc-500 hover:border-candy-teal/40 hover:text-candy-teal hover:bg-candy-teal/5"
+              : "border-zinc-200 bg-white text-zinc-500 hover:border-pop-teal/40 hover:text-pop-teal hover:bg-pop-teal/5"
         }`}
       >
         <svg
@@ -100,7 +100,7 @@ export function ScreenshotInput({
               <button
                 type="button"
                 onClick={clearFile}
-                className="absolute top-2 right-2 rounded-full bg-white/90 hover:bg-white p-2 text-zinc-400 hover:text-candy-pink transition-all duration-200 shadow-md hover:shadow-lg"
+                className="absolute top-2 right-2 rounded-full bg-white/90 hover:bg-white p-2 text-zinc-400 hover:text-pop-pink transition-all duration-200 shadow-md hover:shadow-lg"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -123,8 +123,8 @@ export function ScreenshotInput({
               onClick={() => fileInputRef.current?.click()}
               className={`rounded-2xl border-3 border-dashed p-8 text-center cursor-pointer transition-all duration-300 ${
                 dragOver
-                  ? "border-candy-teal/60 bg-candy-teal/5 scale-[1.02]"
-                  : "border-zinc-300 hover:border-candy-teal/40 hover:bg-candy-teal/5 bg-white"
+                  ? "border-pop-teal/60 bg-pop-teal/5 scale-[1.02]"
+                  : "border-zinc-300 hover:border-pop-teal/40 hover:bg-pop-teal/5 bg-white"
               } ${disabled ? "opacity-30 cursor-not-allowed" : ""}`}
               style={{ borderWidth: '3px' }}
             >
