@@ -28,18 +28,27 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
         >
           {scoreResult.rawScore}
         </span>
-        <p className="font-mono text-xs tracking-widest uppercase text-zinc-400 mt-2">
+        <p className="font-mono text-sm tracking-widest uppercase text-zinc-400 mt-2">
           trope score
         </p>
-        {/* Scale reference */}
-        <div className="mt-4 flex items-center gap-1.5 font-mono text-[10px] tracking-wide text-zinc-400">
-          <span className="text-emerald-500">0 clean</span>
-          <span className="text-zinc-300">·</span>
-          <span className="text-yellow-500">15 mild</span>
-          <span className="text-zinc-300">·</span>
-          <span className="text-orange-500">30 noticeable</span>
-          <span className="text-zinc-300">·</span>
-          <span className="text-red-500">50+ heavy</span>
+        {/* Visual scale bar */}
+        <div className="mt-6 w-72 sm:w-80">
+          <div className="relative h-3 rounded-full overflow-hidden bg-zinc-200">
+            {/* Gradient bar */}
+            <div className="absolute inset-0 rounded-full" style={{
+              background: 'linear-gradient(to right, #22c55e, #eab308, #f97316, #ef4444)',
+            }} />
+            {/* Position marker */}
+            <div
+              className="absolute top-1/2 -translate-y-1/2 h-5 w-1.5 rounded-full bg-zinc-900 shadow-md ring-2 ring-white"
+              style={{ left: `${Math.min(scoreResult.rawScore, 75) / 75 * 100}%` }}
+            />
+          </div>
+          <div className="flex justify-between mt-2 font-mono text-xs text-zinc-400">
+            <span>Clean</span>
+            <span>Mild</span>
+            <span>Heavy</span>
+          </div>
         </div>
       </div>
 
