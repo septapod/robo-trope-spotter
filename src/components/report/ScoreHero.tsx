@@ -26,8 +26,11 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
           className="relative font-display text-[140px] font-bold tabular-nums tracking-tighter leading-none sm:text-[180px]"
           style={{ color: scoreResult.labelColor }}
         >
-          {scoreResult.totalInstancesDetected}
+          {scoreResult.rawScore}
         </span>
+        <p className="font-mono text-xs tracking-widest uppercase text-zinc-400 mt-2">
+          trope score
+        </p>
       </div>
 
       {/* Label */}
