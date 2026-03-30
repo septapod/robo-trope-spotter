@@ -209,9 +209,11 @@ export default function Home() {
           onClick={handleAnalyze}
           disabled={!canAnalyze}
           className={`group w-full rounded-2xl font-display font-bold py-5 px-8 text-lg transition-all duration-300 ${
-            canAnalyze
-              ? "bg-candy-pink text-white hover:bg-pink-600 shadow-lg shadow-candy-pink/20 hover:shadow-xl hover:shadow-candy-pink/30 hover:scale-[1.02] active:scale-[0.98]"
-              : "bg-zinc-200 text-zinc-400 cursor-not-allowed"
+            loading
+              ? "bg-candy-pink/80 text-white cursor-wait"
+              : canAnalyze
+                ? "bg-candy-pink text-white hover:bg-pink-600 shadow-lg shadow-candy-pink/20 hover:shadow-xl hover:shadow-candy-pink/30 hover:scale-[1.02] active:scale-[0.98]"
+                : "bg-zinc-200 text-zinc-500 cursor-not-allowed"
           }`}
         >
           {loading ? (
