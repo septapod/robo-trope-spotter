@@ -26,7 +26,7 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
           className="relative font-display text-[140px] font-bold tabular-nums tracking-tighter leading-none sm:text-[180px]"
           style={{ color: scoreResult.labelColor }}
         >
-          {scoreResult.rawScore}
+          {scoreResult.totalInstancesDetected}
         </span>
       </div>
 
