@@ -8,7 +8,7 @@ import type { Tier } from '@/lib/tropes/types';
 const VALID_TROPE_IDS = new Set(allTropes.map(t => t.id));
 const TROPE_TIER_MAP = new Map(allTropes.map(t => [t.id, t.tier]));
 
-const TIMEOUT_MS = 30_000; // 30s for full analysis
+const TIMEOUT_MS = 8_000; // 8s — must fit within Vercel hobby 10s limit
 const MODEL = 'claude-sonnet-4-6';
 
 function createClient(): Anthropic {
@@ -134,8 +134,8 @@ export async function analyzeWithLlm(text: string): Promise<LlmResult> {
     const elapsed = Math.round(performance.now() - start);
     const msg = error instanceof Error ? error.message : String(error);
     console.error('[llm-engine] Analysis failed:', msg);
-    // Re-throw so the API route can surface the error to the user
-    throw new Error(`LLM analysis failed: ${msg}`);
+    // Return empty detections instead of crashing — partial results are better than none
+    return { detections: [], processingTimeMs: elapsed };
   }
 }
 

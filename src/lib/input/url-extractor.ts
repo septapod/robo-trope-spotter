@@ -1,7 +1,7 @@
 import { Readability, isProbablyReaderable } from '@mozilla/readability';
 import { parseHTML } from 'linkedom';
 
-const FETCH_TIMEOUT_MS = 10_000;
+const FETCH_TIMEOUT_MS = 5_000;
 
 const USER_AGENT =
   'Mozilla/5.0 (compatible; RoboTropeSpotter/1.0; +https://robotropes.dxn.is)';
@@ -71,7 +71,7 @@ export async function extractFromUrl(
     html = await response.text();
   } catch (error) {
     if (error instanceof DOMException && error.name === 'AbortError') {
-      throw new Error('URL fetch timed out after 10 seconds.');
+      throw new Error('URL fetch timed out after 5 seconds. Try pasting the text directly.');
     }
     throw error;
   } finally {
