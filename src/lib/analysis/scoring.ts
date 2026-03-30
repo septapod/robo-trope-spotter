@@ -89,8 +89,9 @@ export function computeScoreFromLlm(
   // Sort by weighted score descending
   tropeResults.sort((a, b) => b.weightedScore - a.weightedScore);
 
-  // Normalize: score per 500 words
-  const safeWordCount = Math.max(wordCount, 50); // floor at 50 words to avoid extreme inflation
+  // Normalize: score per 500 words. Floor at 300 words so short
+  // LinkedIn posts don't get wildly inflated.
+  const safeWordCount = Math.max(wordCount, 300);
   const normalizedScore = (rawWeightedTotal / safeWordCount) * NORMALIZATION_BASE;
 
   const totalInstancesDetected = tropeResults.reduce((sum, r) => sum + r.count, 0);
