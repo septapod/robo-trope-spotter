@@ -8,7 +8,7 @@ export const tier4: TropeDefinition[] = [
     detectionType: 'llm',
     scoringWeight: 1.5,
     description:
-      'Every word is the safest possible pick from the center of the vocabulary distribution. The adjectives are predictable, the verb choices generic, the personality absent. It reads like a committee wrote it, because statistically, a committee did (a committee of billions of training tokens all averaged together).',
+      'Every word is the safest possible pick from the center of the vocabulary distribution. The adjectives are predictable, the verb choices generic, and the whole thing reads like a committee wrote it, because statistically, a committee did (a committee of billions of training tokens all averaged together).',
   },
   {
     id: 'uniform-length',
@@ -17,7 +17,7 @@ export const tier4: TropeDefinition[] = [
     detectionType: 'llm',
     scoringWeight: 1.5,
     description:
-      'Human sentences range from 3 words to 40. AI sentences cluster between 15 and 25 like they\'re observing a speed limit. The variance is unnervingly low. Real writers punch short, then sprawl long, then punch again. AI just... cruises.',
+      'Human sentences range from 3 words to 40. AI sentences cluster between 15 and 25 like they\'re observing a speed limit, and the variance is unnervingly low. Real writers alternate between terse bursts and winding, clause-heavy builds. AI just cruises at one speed.',
   },
   {
     id: 'missing-specifics',
@@ -71,6 +71,6 @@ export const tier4: TropeDefinition[] = [
     detectionType: 'llm',
     scoringWeight: 1.5,
     description:
-      'Same level of politeness from first word to last. Same formality. Same emotional register. The writer never gets angry or funny or blunt. Human writing has texture because human moods have texture. AI writes like it\'s on mood stabilizers.',
+      'The politeness level stays constant from first word to last, the formality never shifts, and the emotional register holds perfectly flat. The writer never gets angry or funny. Human writing has texture because human moods have texture, and AI flattens all of it out.',
   },
 ];

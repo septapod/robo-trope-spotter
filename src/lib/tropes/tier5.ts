@@ -8,7 +8,7 @@ export const tier5: TropeDefinition[] = [
     detectionType: 'llm',
     scoringWeight: 1,
     description:
-      'Every word in this text is the statistically safest choice given the words before it. That\'s literally how language models work: pick the highest-probability next token. The result reads smoothly but predictably, like a song where you can always guess the next note. Human writing surprises. This doesn\'t.',
+      'Every word in this text is the statistically safest choice given the words before it. That\'s literally how language models work, picking the highest-probability next token. The result reads smoothly but predictably, like a song where you can always guess the next note, and it never takes the weird left turn that makes human writing feel alive.',
   },
   {
     id: 'low-burstiness',
@@ -26,7 +26,7 @@ export const tier5: TropeDefinition[] = [
     detectionType: 'llm',
     scoringWeight: 1,
     description:
-      'No typos. No fragments. No sentences starting with "And" or "But." No comma splices. No stylistic risks of any kind. This sounds like a compliment until you realize that real writers break rules on purpose, constantly. Perfect grammar in a casual blog post is like wearing a tuxedo to a barbecue.',
+      'Zero typos, zero fragments, zero sentences starting with "And" or "But," and not a single comma splice or stylistic risk anywhere. This sounds like a compliment until you realize that real writers break rules on purpose, constantly. Perfect grammar in a casual blog post is like wearing a tuxedo to a barbecue.',
   },
   {
     id: 'style-consistency',
@@ -35,7 +35,7 @@ export const tier5: TropeDefinition[] = [
     detectionType: 'llm',
     scoringWeight: 1,
     description:
-      'Same comma habits from paragraph one to paragraph fifty. Same capitalization choices. Same formatting conventions with zero drift. Humans are inconsistent creatures. We sometimes use an Oxford comma and sometimes don\'t, even in the same document. AI never wavers, and that perfection is itself the tell.',
+      'The comma habits hold steady from paragraph one to paragraph fifty, the capitalization choices never waver, and the formatting conventions show zero drift. Humans are inconsistent creatures who sometimes use an Oxford comma and sometimes don\'t, even in the same document. AI\'s unwavering perfection is itself the tell.',
   },
   {
     id: 'hollow-sensory',

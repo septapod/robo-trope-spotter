@@ -19,7 +19,7 @@ export const tier2: TropeDefinition[] = [
     detectionType: 'heuristic',
     scoringWeight: 3,
     description:
-      'AI models reach for the same decorative metaphors like a college freshman reaching for a thesaurus. "Tapestry of innovation." "Beacon of progress." "Fabric of society." These are wallpaper, worn so smooth they carry zero meaning. Real writers pick metaphors that surprise.',
+      'AI models reach for the same decorative metaphors like a college freshman reaching for a thesaurus. "Tapestry of innovation." "Beacon of progress." "Fabric of society." These are wallpaper, worn so smooth they carry zero meaning and surprise nobody.',
     wordList: [
       'tapestry of',
       'landscape of',
@@ -53,7 +53,7 @@ export const tier2: TropeDefinition[] = [
     detectionType: 'heuristic',
     scoringWeight: 3,
     description:
-      'AI adores parallel constructions. "Not only did they improve efficiency, but they also boosted morale." It sounds balanced and polished, which is exactly the problem. Real writing has rough edges. This construction sands them all off.',
+      'AI adores parallel constructions. "Not only did they improve efficiency, but they also boosted morale." The balanced, polished feel is exactly the problem, because real writing has rough edges and this construction sands them all off.',
     pattern: /\bnot only\b.{3,80}\bbut (?:also|they also|it also|we also)\b/gi,
   },
   {
@@ -74,7 +74,7 @@ export const tier2: TropeDefinition[] = [
     detectionType: 'heuristic',
     scoringWeight: 3,
     description:
-      'The "In conclusion" of it all. AI wraps up pieces like a fifth-grader ending an essay. "In summary." "Overall." "To wrap things up." Good writing doesn\'t announce that it\'s ending. It just ends.',
+      'The "In conclusion" of it all. AI wraps up pieces like a fifth-grader ending an essay. "In summary." "Overall." "To wrap things up." Good writing just stops when it\'s done, without announcing the exit.',
     pattern:
       /\b(?:in (?:conclusion|summary|closing)|to (?:summarize|sum up|wrap (?:up|things up))|(?:overall|ultimately|all in all|at the end of the day),?\s)/gi,
   },
@@ -107,7 +107,7 @@ export const tier2: TropeDefinition[] = [
     detectionType: 'heuristic',
     scoringWeight: 3,
     description:
-      'Everything is "groundbreaking" and "transformative" and "remarkable." AI writes like a press release for a product launch that will change the world (it won\'t). When everything is extraordinary, nothing is. Save the big words for things that actually earn them.',
+      'Everything is "groundbreaking" and "transformative" and "remarkable." AI writes like a press release for a product launch that will change the world (it won\'t). Constant superlatives flatten the landscape until the reader stops believing any of them.',
     wordList: [
       'groundbreaking',
       'game-changing',

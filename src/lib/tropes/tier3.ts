@@ -29,7 +29,7 @@ export const tier3: TropeDefinition[] = [
     detectionType: 'heuristic',
     scoringWeight: 2,
     description:
-      'Any one of these words is fine in isolation. Three in the same paragraph and your AI detector starts beeping. These are the words that sit at the exact center of the model\'s vocabulary distribution: safe, polished, and suspiciously frequent together.',
+      'Any one of these words is fine in isolation, but cluster a few in the same paragraph and your AI detector starts beeping. They sit at the exact center of the model\'s vocabulary distribution, safe and polished enough to appear in any context without friction.',
     wordList: [
       'nuanced',
       'multifaceted',
@@ -57,7 +57,7 @@ export const tier3: TropeDefinition[] = [
     detectionType: 'heuristic',
     scoringWeight: 2,
     description:
-      'AI turns everything into a numbered list with bold lead-ins. "1. **Improved Efficiency**: By streamlining..." It\'s readable, sure. It\'s also the formatting equivalent of a uniform. Every AI output looks the same, and this is why.',
+      'AI turns everything into a numbered list with bold lead-ins. "1. **Improved Efficiency**: By streamlining..." Readable, yes, but also the formatting equivalent of a uniform. Every AI output looks the same, and this pattern is the main reason.',
     pattern:
       /(?:^\d+\.\s+\*\*.+?\*\*[:\s]|^[-*]\s+\*\*.+?\*\*[:\s])/gm,
   },
@@ -90,7 +90,7 @@ export const tier3: TropeDefinition[] = [
     detectionType: 'heuristic',
     scoringWeight: 2,
     description:
-      'AI treats a SaaS feature update like the moon landing. "This fundamentally reshapes how we think about project management." No it doesn\'t. It added a Gantt chart. Stakes inflation makes everything sound important, which makes nothing sound important.',
+      'AI treats a SaaS feature update like the moon landing. "This fundamentally reshapes how we think about project management." No it doesn\'t. It added a Gantt chart. When every feature is a watershed moment, the reader tunes out all of them.',
     pattern:
       /\b(?:fundamentally (?:reshap|transform|chang|alter|redefin)|(?:forever|profoundly|irrevocably|fundamentally) chang(?:e|ed|ing)|redefin(?:e|ed|es|ing) (?:what it means|how we|the way)|this is (?:a |the )(?:defining|watershed|seminal|pivotal) moment)\b/gi,
   },
@@ -112,7 +112,7 @@ export const tier3: TropeDefinition[] = [
     detectionType: 'heuristic',
     scoringWeight: 2,
     description:
-      '"From beginners to experts." "Everything from design to deployment." "From ideation to execution." AI loves this construction because it implies comprehensiveness without any specifics. It\'s a range masquerading as a detail.',
+      '"From beginners to experts." "Everything from design to deployment." "From ideation to execution." AI loves this construction because it implies comprehensiveness without any specifics. The range gesture replaces actual detail every time.',
     pattern:
       /\bfrom \w[\w\s]{1,25} to \w[\w\s]{1,25}(?:,|\.|\band\b)/gi,
   },

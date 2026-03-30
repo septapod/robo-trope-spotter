@@ -8,7 +8,7 @@ export const tier1: TropeDefinition[] = [
     detectionType: 'heuristic',
     scoringWeight: 5,
     description:
-      'The single most commonly identified AI writing tell. One instance can land. Ten in a blog post is an insult to the reader. AI models love this rhetorical move because it sounds profound while requiring zero actual insight.',
+      'The single most commonly identified AI writing tell. A stray instance is forgivable, but ten in a blog post insults the reader. AI models love this rhetorical move because it sounds profound while requiring zero actual insight.',
     pattern:
       /\b(?:it(?:'s| is)|this (?:isn't|is not)) not .+?,?\s*(?:it(?:'s| is)|this is) .+?[.!]/gi,
   },
@@ -19,7 +19,7 @@ export const tier1: TropeDefinition[] = [
     detectionType: 'heuristic',
     scoringWeight: 5,
     description:
-      'This text treats em dashes like oxygen. GPT-4o uses roughly 10x more em dashes than GPT-3.5. Readers now pattern-match them as a robot tell. Two per page is fine. Two per paragraph is a confession.',
+      'This text treats em dashes like oxygen. GPT-4o uses roughly 10x more em dashes than GPT-3.5, and readers now pattern-match them as a robot tell. A couple per page blend in, but a couple per paragraph announce the machine.',
     pattern: /\u2014/g,
   },
   {
