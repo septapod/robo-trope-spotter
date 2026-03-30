@@ -29,7 +29,7 @@ export const tier1: TropeDefinition[] = [
     detectionType: 'heuristic',
     scoringWeight: 5,
     description:
-      'The word "delve" spiked 900% in academic papers after ChatGPT launched. A Chapman professor went viral saying if it shows up in your paper, there\'s a 99% chance AI wrote it. These words aren\'t banned from the English language, but their sudden ubiquity is a dead giveaway.',
+      'The word "delve" spiked 900% in academic papers after ChatGPT launched. A Chapman professor went viral saying if it shows up in your paper, there\'s a 99% chance AI wrote it. These words are fine in small doses. Their sudden ubiquity is the giveaway.',
     wordList: [
       'delve',
       'tapestry',

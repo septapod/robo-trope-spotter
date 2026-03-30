@@ -19,7 +19,7 @@ export const tier2: TropeDefinition[] = [
     detectionType: 'heuristic',
     scoringWeight: 3,
     description:
-      'AI models reach for the same decorative metaphors like a college freshman reaching for a thesaurus. "Tapestry of innovation." "Beacon of progress." "Fabric of society." These aren\'t metaphors. They\'re wallpaper. Real writers pick metaphors that surprise.',
+      'AI models reach for the same decorative metaphors like a college freshman reaching for a thesaurus. "Tapestry of innovation." "Beacon of progress." "Fabric of society." These are wallpaper, worn so smooth they carry zero meaning. Real writers pick metaphors that surprise.',
     wordList: [
       'tapestry of',
       'landscape of',

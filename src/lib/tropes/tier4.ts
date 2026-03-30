@@ -8,7 +8,7 @@ export const tier4: TropeDefinition[] = [
     detectionType: 'llm',
     scoringWeight: 1.5,
     description:
-      'Every word is the safest possible pick from the center of the vocabulary distribution. No surprising adjectives. No weird verb choices. No personality. It reads like a committee wrote it, because statistically, a committee did (a committee of billions of training tokens all averaged together).',
+      'Every word is the safest possible pick from the center of the vocabulary distribution. The adjectives are predictable, the verb choices generic, the personality absent. It reads like a committee wrote it, because statistically, a committee did (a committee of billions of training tokens all averaged together).',
   },
   {
     id: 'uniform-length',
@@ -71,6 +71,6 @@ export const tier4: TropeDefinition[] = [
     detectionType: 'llm',
     scoringWeight: 1.5,
     description:
-      'Same level of politeness from first word to last. Same formality. Same emotional register. No gear shifts. No moments where the writer gets angry or funny or blunt. Human writing has texture because human moods have texture. AI writes like it\'s on mood stabilizers.',
+      'Same level of politeness from first word to last. Same formality. Same emotional register. The writer never gets angry or funny or blunt. Human writing has texture because human moods have texture. AI writes like it\'s on mood stabilizers.',
   },
 ];
