@@ -31,6 +31,16 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
         <p className="font-mono text-xs tracking-widest uppercase text-zinc-400 mt-2">
           trope score
         </p>
+        {/* Scale reference */}
+        <div className="mt-4 flex items-center gap-1.5 font-mono text-[10px] tracking-wide text-zinc-400">
+          <span className="text-emerald-500">0 clean</span>
+          <span className="text-zinc-300">·</span>
+          <span className="text-yellow-500">15 mild</span>
+          <span className="text-zinc-300">·</span>
+          <span className="text-orange-500">30 noticeable</span>
+          <span className="text-zinc-300">·</span>
+          <span className="text-red-500">50+ heavy</span>
+        </div>
       </div>
 
       {/* Label */}
