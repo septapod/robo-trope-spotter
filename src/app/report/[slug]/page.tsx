@@ -85,22 +85,17 @@ export default async function ReportPage({ params }: PageProps) {
       </nav>
 
       <div className="relative z-10">
-        <div className="py-16">
-          <ScoreHero scoreResult={scoreResult} />
-        </div>
+        <ScoreHero scoreResult={scoreResult} />
 
-        <div className="py-16">
+        <div className="mt-4">
           <HighlightedText
             sourceText={report.sourceText}
             tropeResults={scoreResult.tropeResults}
           />
         </div>
 
-        <div className="py-16">
+        <div className="mt-8">
           <TopOffenders tropes={scoreResult.topOffenders} />
-        </div>
-
-        <div className="py-16">
           <AllDetections remaining={remaining} />
         </div>
       </div>
