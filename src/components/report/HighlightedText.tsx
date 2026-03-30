@@ -16,15 +16,10 @@ interface Highlight {
   color: string;
 }
 
-/**
- * Find all occurrences of an excerpt in the source text.
- * Uses case-insensitive substring matching, trimming whitespace.
- */
 function findExcerptPositions(
   source: string,
   excerpt: string
 ): { start: number; end: number }[] {
-  // Clean up the excerpt (LLM sometimes adds/removes whitespace)
   const clean = excerpt.trim();
   if (clean.length < 3) return [];
 
@@ -43,10 +38,6 @@ function findExcerptPositions(
   return positions;
 }
 
-/**
- * Build a list of non-overlapping highlights, sorted by position.
- * When highlights overlap, keep the higher-tier (lower number) one.
- */
 function buildHighlights(
   sourceText: string,
   tropeResults: TropeResult[]
@@ -68,8 +59,6 @@ function buildHighlights(
     }
   }
 
-  // Supplemental pass: for certain tropes, find ALL instances in the
-  // source text that the LLM's excerpts might have missed.
   const supplementalPatterns: Record<string, RegExp> = {
     'em-dash-addiction': /\u2014/g,
   };
@@ -81,13 +70,11 @@ function buildHighlights(
     const regex = new RegExp(pattern.source, pattern.flags);
     let match: RegExpExecArray | null;
     while ((match = regex.exec(sourceText)) !== null) {
-      // Expand to include surrounding sentence context (up to 40 chars each side)
       const contextStart = Math.max(0, sourceText.lastIndexOf(' ', Math.max(0, match.index - 30)));
       const contextEnd = Math.min(sourceText.length, sourceText.indexOf(' ', match.index + match[0].length + 30));
       const start = contextStart === 0 ? 0 : contextStart + 1;
       const end = contextEnd === -1 ? sourceText.length : contextEnd;
 
-      // Only add if this region isn't already covered by an existing highlight
       const alreadyCovered = raw.some(h =>
         h.tropeId === trope.tropeId && h.start <= match!.index && h.end >= match!.index + match![0].length
       );
@@ -103,14 +90,12 @@ function buildHighlights(
     }
   }
 
-  // Sort by start position
   raw.sort((a, b) => a.start - b.start);
 
-  // Remove overlaps (keep earlier/higher-priority one)
   const merged: Highlight[] = [];
   for (const h of raw) {
     const last = merged[merged.length - 1];
-    if (last && h.start < last.end) continue; // overlaps, skip
+    if (last && h.start < last.end) continue;
     merged.push(h);
   }
 
@@ -121,16 +106,13 @@ export function HighlightedText({ sourceText, tropeResults }: HighlightedTextPro
   const [hoveredTrope, setHoveredTrope] = useState<string | null>(null);
   const highlights = buildHighlights(sourceText, tropeResults);
 
-  // Build segments: alternating plain text and highlighted spans
   const segments: { text: string; highlight?: Highlight }[] = [];
   let cursor = 0;
 
   for (const h of highlights) {
-    // Plain text before this highlight
     if (h.start > cursor) {
       segments.push({ text: sourceText.slice(cursor, h.start) });
     }
-    // The highlighted span
     segments.push({
       text: sourceText.slice(h.start, h.end),
       highlight: h,
@@ -138,29 +120,15 @@ export function HighlightedText({ sourceText, tropeResults }: HighlightedTextPro
     cursor = h.end;
   }
 
-  // Remaining plain text after last highlight
   if (cursor < sourceText.length) {
     segments.push({ text: sourceText.slice(cursor) });
   }
 
-  if (highlights.length === 0) {
-    // No highlights found (excerpts didn't match source text)
-    return (
-      <section className="mx-auto max-w-2xl px-4 py-8">
-        <div className="rounded-2xl bg-white border border-zinc-200 p-6 shadow-sm">
-          <p className="text-[15px] leading-relaxed text-zinc-700 whitespace-pre-wrap">
-            {sourceText}
-          </p>
-        </div>
-      </section>
-    );
-  }
-
-  return (
-    <section className="mx-auto max-w-2xl px-4 py-8">
-      <div className="rounded-2xl bg-white border border-zinc-200 p-6 shadow-sm">
-        <p className="text-[15px] leading-[1.8] text-zinc-700 whitespace-pre-wrap">
-          {segments.map((seg, i) => {
+  const textContent = (
+    <p className="text-base leading-[1.85] text-zinc-700 whitespace-pre-wrap font-sans">
+      {highlights.length === 0
+        ? sourceText
+        : segments.map((seg, i) => {
             if (!seg.highlight) {
               return <span key={i}>{seg.text}</span>;
             }
@@ -181,7 +149,7 @@ export function HighlightedText({ sourceText, tropeResults }: HighlightedTextPro
               >
                 {seg.text}
                 {isHovered && (
-                  <span className="absolute bottom-full left-1/2 z-20 mb-2 -translate-x-1/2 whitespace-nowrap rounded-xl bg-zinc-900 px-3 py-1.5 text-xs text-white shadow-lg font-mono">
+                  <span className="absolute bottom-full left-1/2 z-20 mb-2 -translate-x-1/2 whitespace-nowrap rounded-xl bg-zinc-900 px-3 py-1.5 text-sm text-white shadow-lg font-mono">
                     {h.tropeName}
                     <span className="absolute left-1/2 top-full -translate-x-1/2 border-[5px] border-transparent border-t-zinc-900" />
                   </span>
@@ -189,7 +157,13 @@ export function HighlightedText({ sourceText, tropeResults }: HighlightedTextPro
               </span>
             );
           })}
-        </p>
+    </p>
+  );
+
+  return (
+    <section className="mx-auto max-w-2xl px-4 py-8">
+      <div className="rounded-2xl bg-white border border-zinc-200 p-6 shadow-sm">
+        {textContent}
       </div>
     </section>
   );

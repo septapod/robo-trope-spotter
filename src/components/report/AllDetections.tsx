@@ -18,10 +18,10 @@ export function AllDetections({ remaining }: AllDetectionsProps) {
       {!expanded ? (
         <button
           onClick={() => setExpanded(true)}
-          className="group flex w-full items-center justify-center gap-2 rounded-2xl border border-zinc-200 bg-white px-4 py-4 font-mono text-sm tracking-wide text-zinc-500 transition-all hover:border-candy-pink/40 hover:text-candy-pink shadow-sm"
+          className="group flex w-full items-center justify-center gap-2 rounded-2xl border border-zinc-200 bg-white px-4 py-4 font-display text-base font-bold tracking-tight text-zinc-500 transition-all hover:border-pop-pink/40 hover:text-pop-pink shadow-sm"
         >
           <svg
-            className="h-3.5 w-3.5 transition-transform group-hover:translate-y-0.5"
+            className="h-4 w-4 transition-transform group-hover:translate-y-0.5"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth={2}
@@ -39,15 +39,15 @@ export function AllDetections({ remaining }: AllDetectionsProps) {
         <>
           <div className="space-y-3">
             {remaining.map((trope, i) => (
-              <TropeCard key={trope.tropeId} trope={trope} index={i} />
+              <TropeCard key={trope.tropeId} trope={trope} index={i + 5} />
             ))}
           </div>
           <button
             onClick={() => setExpanded(false)}
-            className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl border border-zinc-200 bg-white px-4 py-3 font-mono text-sm tracking-wide text-zinc-400 transition-all hover:border-candy-pink/40 hover:text-candy-pink shadow-sm"
+            className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl border border-zinc-200 bg-white px-4 py-3 font-display text-base font-bold text-zinc-400 transition-all hover:border-pop-pink/40 hover:text-pop-pink shadow-sm"
           >
             <svg
-              className="h-3.5 w-3.5 rotate-180"
+              className="h-4 w-4 rotate-180"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={2}

@@ -15,9 +15,9 @@ const severityLabels: Record<number, string> = {
 };
 
 export function TropeCard({ trope, index }: TropeCardProps) {
-  // Prefer the LLM's contextual explanation over the static description
   const def = tropeById(trope.tropeId);
   const description = trope.explanation || def?.description || '';
+  const num = String(index + 1).padStart(2, '0');
 
   return (
     <article
@@ -30,21 +30,30 @@ export function TropeCard({ trope, index }: TropeCardProps) {
       }}
     >
       <div className="p-5 sm:p-6">
-        {/* Header row */}
+        {/* Header row with editorial number */}
         <div className="flex items-start justify-between gap-3">
-          <div className="space-y-2">
-            <h3 className="font-display text-xl font-bold text-zinc-900">
-              {trope.tropeName}
-            </h3>
+          <div className="flex items-start gap-4">
+            {/* Big editorial number */}
             <span
-              className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold tracking-wider uppercase"
-              style={{
-                backgroundColor: trope.color + '20',
-                color: trope.color,
-              }}
+              className="font-accent text-3xl font-bold leading-none opacity-30 select-none shrink-0 mt-0.5"
+              style={{ color: trope.color }}
             >
-              {severityLabels[trope.tier]}
+              {num}.
             </span>
+            <div className="space-y-2">
+              <h3 className="font-display text-xl font-extrabold text-zinc-900 leading-tight">
+                {trope.tropeName}
+              </h3>
+              <span
+                className="inline-flex items-center rounded-full px-3 py-1 text-sm font-bold tracking-wider uppercase"
+                style={{
+                  backgroundColor: trope.color + '20',
+                  color: trope.color,
+                }}
+              >
+                {severityLabels[trope.tier]}
+              </span>
+            </div>
           </div>
           <span
             className="shrink-0 rounded-2xl px-3 py-1.5 font-mono text-base font-bold tabular-nums"
@@ -59,18 +68,18 @@ export function TropeCard({ trope, index }: TropeCardProps) {
 
         {/* Description */}
         {description && (
-          <p className="mt-3 text-sm leading-relaxed text-zinc-500">
+          <p className="mt-3 text-base leading-relaxed text-zinc-500 pl-12">
             {description}
           </p>
         )}
 
         {/* Quoted examples */}
         {trope.examples.length > 0 && (
-          <div className="mt-4 space-y-2">
+          <div className="mt-4 space-y-2 pl-12">
             {trope.examples.map((example, i) => (
               <div
                 key={i}
-                className="rounded-xl px-4 py-3 text-sm leading-relaxed border"
+                className="rounded-xl px-4 py-3 text-base leading-relaxed border"
                 style={{
                   backgroundColor: trope.color + '08',
                   borderColor: trope.color + '20',

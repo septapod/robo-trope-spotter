@@ -153,23 +153,26 @@ export default function Home() {
   }, [activeMode, text, url, screenshotPreview, canAnalyze, router]);
 
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center px-4 py-16 overflow-hidden gradient-mesh">
-      {/* Decorative blobs */}
+    <main className="relative flex min-h-screen flex-col items-center justify-center px-5 py-20 overflow-hidden gradient-mesh">
+      {/* Decorative blobs — bold palette */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="animate-blob blob-shape absolute -top-24 -left-24 h-[500px] w-[500px] bg-candy-pink/[0.1] blur-3xl" />
-        <div className="animate-blob-alt blob-shape-alt absolute -bottom-32 -right-32 h-[550px] w-[550px] bg-candy-yellow/[0.14] blur-3xl" style={{ animationDelay: '-3s' }} />
+        <div className="animate-blob blob-shape absolute -top-24 -left-24 h-[420px] w-[420px] bg-pop-pink/[0.12] blur-3xl" />
+        <div className="animate-blob-alt blob-shape-alt absolute -bottom-32 -right-32 h-[480px] w-[480px] bg-pop-yellow/[0.15] blur-3xl" style={{ animationDelay: '-3s' }} />
+        <div className="animate-blob blob-shape-round absolute top-1/3 right-0 h-[300px] w-[300px] bg-pop-blue/[0.08] blur-3xl" style={{ animationDelay: '-7s' }} />
       </div>
 
-      <div className="relative z-10 w-full max-w-xl space-y-8">
-        {/* Header */}
-        <header className="text-center space-y-5">
-          <p className="font-mono text-sm tracking-widest uppercase text-candy-pink font-medium">
+      <div className="relative z-10 w-full max-w-xl space-y-10">
+        {/* Header — editorial hierarchy */}
+        <header className="space-y-5">
+          <div className="editorial-rule w-16" />
+          <p className="font-mono text-sm tracking-[0.2em] uppercase text-pop-pink font-medium">
             AI Writing Trope Detector
           </p>
-          <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl text-zinc-900 leading-[0.95]">
-            Robo Trope Spotter
+          <h1 className="font-display text-5xl font-extrabold tracking-tight sm:text-6xl text-zinc-900 leading-[0.9]">
+            Robo Trope<br />
+            <span className="font-accent italic text-pop-blue">Spotter</span>
           </h1>
-          <p className="text-zinc-500 text-lg max-w-sm mx-auto leading-relaxed font-sans">
+          <p className="text-zinc-500 text-lg max-w-md leading-relaxed font-sans">
             Paste text. See the tropes. Get the report card.
             Send it to someone who needs it.
           </p>
@@ -208,9 +211,9 @@ export default function Home() {
         <button
           onClick={handleAnalyze}
           disabled={!canAnalyze}
-          className={`group w-full rounded-2xl font-display font-bold py-5 px-8 text-lg transition-all duration-300 ${
+          className={`group w-full rounded-2xl font-display font-extrabold py-5 px-8 text-xl tracking-tight transition-all duration-300 ${
             canAnalyze
-              ? "bg-candy-pink text-white hover:bg-pink-600 shadow-lg shadow-candy-pink/20 hover:shadow-xl hover:shadow-candy-pink/30 hover:scale-[1.02] active:scale-[0.98]"
+              ? "bg-pop-pink text-white hover:bg-pink-600 shadow-lg shadow-pop-pink/25 hover:shadow-xl hover:shadow-pop-pink/35 hover:scale-[1.02] active:scale-[0.98]"
               : "bg-zinc-200 text-zinc-400 cursor-not-allowed"
           }`}
         >
@@ -245,14 +248,15 @@ export default function Home() {
 
         {/* Error message */}
         {error && (
-          <div className="rounded-2xl border-2 border-amber-200 bg-amber-50 px-5 py-4">
-            <p className="text-amber-700 text-sm text-center font-medium">{error}</p>
+          <div className="rounded-2xl border-2 border-amber-300 bg-amber-50 px-5 py-4">
+            <p className="text-amber-800 text-base text-center font-semibold">{error}</p>
           </div>
         )}
 
         {/* Footer */}
-        <footer className="text-center pt-6">
-          <p className="text-zinc-400 text-sm font-mono">
+        <footer className="pt-4">
+          <div className="editorial-rule w-10 mb-4" />
+          <p className="text-zinc-400 text-base font-accent italic">
             Because someone should tell them.
           </p>
         </footer>

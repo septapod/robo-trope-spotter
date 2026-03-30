@@ -74,12 +74,19 @@ export default async function ReportPage({ params }: PageProps) {
           className="animate-blob blob-shape absolute left-1/4 top-0 h-[500px] w-[500px] blur-[100px] opacity-[0.1]"
           style={{ backgroundColor: scoreResult.labelColor }}
         />
+        <div
+          className="animate-blob-alt blob-shape-alt absolute right-0 bottom-1/4 h-[350px] w-[350px] blur-[80px] opacity-[0.08]"
+          style={{ backgroundColor: '#3A86FF' }}
+        />
       </div>
 
       {/* Nav */}
       <nav className="relative z-10 flex items-center justify-between border-b border-zinc-200/60 px-6 py-4 backdrop-blur-sm bg-surface-0/80">
-        <a href="/" className="font-display text-base font-bold tracking-tight text-zinc-400 transition-colors hover:text-candy-pink">
-          Robo Trope Spotter
+        <a href="/" className="flex items-center gap-3 group">
+          <div className="editorial-rule w-6 transition-all group-hover:w-10" />
+          <span className="font-display text-base font-extrabold tracking-tight text-zinc-400 transition-colors group-hover:text-pop-pink">
+            Robo Trope Spotter
+          </span>
         </a>
         <ShareBar title={scoreResult.label} score={scoreResult.rawScore} />
       </nav>
@@ -101,13 +108,14 @@ export default async function ReportPage({ params }: PageProps) {
       </div>
 
       {/* Footer */}
-      <footer className="relative z-10 border-t border-zinc-200/60 px-4 py-10 text-center">
-        <p className="font-mono text-sm tracking-wider text-zinc-400 uppercase">
+      <footer className="relative z-10 border-t border-zinc-200/60 px-4 py-12 text-center">
+        <div className="editorial-rule w-10 mx-auto mb-5" />
+        <p className="font-accent italic text-base text-zinc-400">
           Because someone should tell them.
         </p>
         <a
           href="/"
-          className="mt-4 inline-block font-display font-bold text-sm btn-gradient rounded-2xl px-6 py-2.5 shadow-md shadow-candy-pink/15 transition-all hover:shadow-lg hover:shadow-candy-pink/25"
+          className="mt-5 inline-block font-display font-extrabold text-base btn-gradient rounded-2xl px-7 py-3 shadow-md shadow-pop-pink/15 transition-all hover:shadow-lg hover:shadow-pop-pink/25"
         >
           <span className="relative z-10">Analyze another text</span>
         </a>
