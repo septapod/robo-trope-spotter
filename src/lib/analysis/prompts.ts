@@ -87,7 +87,9 @@ ACCURACY: Each pattern must be a genuine match for its definition. Do not force-
 - A comma-separated list of items is NOT "from X to Y." That pattern requires "from [endpoint] to [endpoint]."
 - A short sentence is only "punchy fragments" if the brevity is used for manufactured rhetorical emphasis, not just because the sentence happens to be short.
 
-PRECISION: Each trope ID has a specific definition. Match the definition, not a vague resemblance. A comma-separated list is not "from X to Y" just because it lists things. A short sentence is not "punchy fragments" if its primary function is a reframe. Read the definition literally before applying a label.`;
+PRECISION: Each trope ID has a specific definition. Match the definition, not a vague resemblance. A comma-separated list is not "from X to Y" just because it lists things. A short sentence is not "punchy fragments" if its primary function is a reframe. Read the definition literally before applying a label.
+
+DISCUSSION vs. USAGE: Only flag patterns that are USED in the writing style. If a text discusses or describes a pattern (e.g., an article about em dashes, a style guide listing trope examples, a tool that names AI writing patterns), that is not the same as the text exhibiting the pattern. A page that says "em dashes are overused in AI writing" is discussing em dashes, not overusing them. Only flag em dashes if the text itself contains em dash characters as punctuation.`;
 
 export function buildUserPrompt(text: string): string {
   const maxChars = 12_000;
