@@ -2,7 +2,7 @@
 
 You know the feeling. You're scrolling LinkedIn and someone posted a thought leadership piece that opens with "In today's rapidly evolving landscape" and closes with "And that changes everything." There are four em dashes in the second paragraph. The word "delve" appears twice. Every sentence is the same length. You can feel the ChatGPT radiating off the screen.
 
-You want to say something. But what do you say? "Hey, your writing sounds like a robot"? That's rude. Sending a detailed report card with highlighted examples and a severity score? That's helpful.
+You want to say something. But what do you say? "Hey, your writing sounds like a robot"? Rude. A detailed report card with highlighted examples and a severity score gives them something they can actually use.
 
 **[robotropes.dxn.is](https://robotropes.dxn.is)**
 
@@ -15,8 +15,6 @@ Paste text. (Or a URL. Or a screenshot.) The app sends it to Claude Sonnet 4.6 w
 - Individual cards for each pattern found, with severity labels, explanations, and quoted excerpts
 - An OG preview image that renders when you drop the link in Slack, iMessage, or a group chat
 
-The report grades the writing. The writer is none of your business.
-
 ## The tropes
 
 42 patterns, five tiers of severity:
@@ -27,13 +25,13 @@ The report grades the writing. The writer is none of your business.
 
 **Worth Noting.** "Moreover" in a LinkedIn post. Bold-first bullet formatting. Punchy fragments for manufactured emphasis. Ideas grouped in threes on autopilot. Colon prefaces that add nothing.
 
-**Subtle Tell.** Every word choice is the safest possible option. Sentences cluster between 15 and 25 words. Vague where a human would be specific. The same tone from first paragraph to last.
+**Subtle Tell.** Safe, predictable word choices throughout. Sentences clustering between 15 and 25 words. Vague language where a human would be specific, and the same flat tone from first paragraph to last.
 
-**Deep Cut.** Flat sentence-length variation. Perfect grammar as an uncanny signal. Zero deviation in style or formatting. The kind of consistency that only a machine would sustain.
+**Deep Cut.** Flat sentence-length variation, perfect grammar as an uncanny signal, and the kind of consistency in style and formatting that only a machine would sustain.
 
 ## Because someone should tell them
 
-The whole point of this tool is that you can paste someone's writing, get a report card, and send them the link. The tone is playful. The intent is constructive. The hope is that next time they'll do one more editing pass before hitting publish.
+The whole point of this tool is that you can paste someone's writing, get a report card, and send them the link. The tone is playful and the intent is constructive. The hope is that next time they'll do one more editing pass before hitting publish.
 
 ## Running it yourself
 
@@ -63,7 +61,7 @@ Next.js 16 on Vercel. Claude Sonnet 4.6 for analysis and screenshot OCR. Neon Po
 
 ## Rate limits
 
-20 analyses per IP per hour. 500 total per day. The trope spotter needs sleep too.
+20 analyses per IP per hour. 500 total per day.
 
 ## License
 
