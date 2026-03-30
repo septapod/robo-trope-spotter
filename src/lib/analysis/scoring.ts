@@ -20,7 +20,7 @@ export interface DnaStripBand {
   tier: Tier;
   count: number;
   color: string;
-  position: number; // 0-1 ordering position
+  position: number;
 }
 
 export interface ScoreResult {
@@ -32,6 +32,7 @@ export interface ScoreResult {
   dnaStrip: DnaStripBand[];
   totalTropesDetected: number;
   totalInstancesDetected: number;
+  wordCount: number;
 }
 
 const TIER_WEIGHTS: Record<Tier, number> = {
@@ -42,30 +43,34 @@ const TIER_WEIGHTS: Record<Tier, number> = {
   5: 1,
 };
 
-// Em dashes are a density signal, not a per-instance credibility killer.
-// Cap their contribution so they never dominate the report.
 const EM_DASH_SCORE_CAP = 4;
 
+// Normalize scores to "tropes per 500 words" so short dense text
+// scores higher than long text with the same absolute count.
+const NORMALIZATION_BASE = 500;
+
 /**
- * Computes the score from LLM detections (the primary analysis path).
- * Each detection contributes: tier_weight * count * confidence,
- * with special capping for em dashes.
+ * Computes a density-normalized score from LLM detections.
+ * The score represents weighted trope density per 500 words.
  */
 export function computeScoreFromLlm(
-  detections: LlmDetection[]
+  detections: LlmDetection[],
+  wordCount: number = 500
 ): ScoreResult {
   const tropeResults: TropeResult[] = [];
+
+  let rawWeightedTotal = 0;
 
   for (const detection of detections) {
     const weight = TIER_WEIGHTS[detection.tier] ?? 2;
     const count = detection.count ?? 1;
     let weightedScore = weight * count * detection.confidence;
 
-    // Em dashes are a punctuation habit, not a credibility killer.
-    // Cap their score so they contribute but never top the list.
     if (detection.tropeId === 'em-dash-addiction') {
       weightedScore = Math.min(weightedScore, EM_DASH_SCORE_CAP);
     }
+
+    rawWeightedTotal += weightedScore;
 
     const def = tropeById(detection.tropeId);
 
@@ -84,11 +89,13 @@ export function computeScoreFromLlm(
   // Sort by weighted score descending
   tropeResults.sort((a, b) => b.weightedScore - a.weightedScore);
 
-  const rawScore = tropeResults.reduce((sum, r) => sum + r.weightedScore, 0);
-  const totalInstancesDetected = tropeResults.reduce((sum, r) => sum + r.count, 0);
-  const { label, color: labelColor } = getLabel(rawScore);
+  // Normalize: score per 500 words
+  const safeWordCount = Math.max(wordCount, 50); // floor at 50 words to avoid extreme inflation
+  const normalizedScore = (rawWeightedTotal / safeWordCount) * NORMALIZATION_BASE;
 
-  // DNA strip: ordered by position in the detection list (proxy for text order)
+  const totalInstancesDetected = tropeResults.reduce((sum, r) => sum + r.count, 0);
+  const { label, color: labelColor } = getLabel(normalizedScore);
+
   const dnaStrip: DnaStripBand[] = tropeResults.map((r, i) => ({
     tropeId: r.tropeId,
     tier: r.tier,
@@ -98,7 +105,7 @@ export function computeScoreFromLlm(
   }));
 
   return {
-    rawScore: Math.round(rawScore),
+    rawScore: Math.round(normalizedScore),
     label,
     labelColor,
     tropeResults,
@@ -106,10 +113,11 @@ export function computeScoreFromLlm(
     dnaStrip,
     totalTropesDetected: tropeResults.length,
     totalInstancesDetected,
+    wordCount: safeWordCount,
   };
 }
 
-// Keep backward-compatible export
+// Backward-compatible export
 export function computeScore(
   _heuristicMatches: unknown[],
   llmDetections: LlmDetection[],

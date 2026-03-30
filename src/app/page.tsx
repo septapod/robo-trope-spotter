@@ -166,7 +166,7 @@ export default function Home() {
           <p className="font-mono text-sm tracking-widest uppercase text-candy-pink font-medium">
             AI Writing Trope Detector
           </p>
-          <h1 className="font-display italic text-4xl font-bold tracking-tight sm:text-5xl text-zinc-900 leading-[0.95]">
+          <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl text-zinc-900 leading-[0.95]">
             Robo Trope Spotter
           </h1>
           <p className="text-zinc-500 text-lg max-w-sm mx-auto leading-relaxed font-sans">

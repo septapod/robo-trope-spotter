@@ -28,8 +28,12 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
         >
           {scoreResult.rawScore}
         </span>
-        <p className="font-mono text-sm tracking-widest uppercase text-zinc-400 mt-2">
+        <p className="font-mono text-sm tracking-widest uppercase text-zinc-400 mt-2 group relative cursor-help">
           trope score
+          <span className="invisible group-hover:visible absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 rounded-xl bg-zinc-900 px-4 py-3 text-xs text-zinc-300 text-left normal-case tracking-normal shadow-xl z-20">
+            Weighted by severity: major patterns count more than minor ones. Normalized to {scoreResult.wordCount} words, so density matters.
+            <span className="absolute left-1/2 top-full -translate-x-1/2 border-[5px] border-transparent border-t-zinc-900" />
+          </span>
         </p>
         {/* Visual scale bar */}
         <div className="mt-6 w-72 sm:w-80">
@@ -54,7 +58,7 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
 
       {/* Label */}
       <div className="animate-score-reveal" style={{ animationDelay: '0.1s' }}>
-        <h1 className="font-display italic text-4xl font-bold tracking-tight sm:text-5xl text-zinc-900">
+        <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl text-zinc-900">
           {clean ? getCleanBadge(scoreResult) : scoreResult.label}
         </h1>
       </div>
