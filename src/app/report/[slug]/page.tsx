@@ -105,12 +105,20 @@ export default async function ReportPage({ params }: PageProps) {
         <p className="font-mono text-sm tracking-wider text-zinc-400 uppercase">
           Because someone should tell them.
         </p>
-        <a
-          href="/"
-          className="mt-4 inline-block font-display font-bold text-sm btn-gradient rounded-2xl px-6 py-2.5 shadow-md shadow-candy-pink/15 transition-all hover:shadow-lg hover:shadow-candy-pink/25"
-        >
-          <span className="relative z-10">Analyze another text</span>
-        </a>
+        <div className="mt-4 flex items-center justify-center gap-4">
+          <a
+            href="/"
+            className="inline-block font-display font-bold text-sm bg-candy-pink text-white rounded-2xl px-6 py-2.5 shadow-md shadow-candy-pink/15 transition-all hover:bg-pink-600"
+          >
+            Analyze another text
+          </a>
+          <a
+            href="/tropes"
+            className="font-mono text-sm text-candy-pink hover:underline"
+          >
+            See all 42 tropes
+          </a>
+        </div>
       </footer>
     </main>
   );
