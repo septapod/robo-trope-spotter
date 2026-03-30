@@ -119,6 +119,10 @@ export default async function ReportPage({ params }: PageProps) {
             See all 42 tropes
           </a>
         </div>
+        <a href="https://dxn.is" target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex items-center gap-2 text-zinc-400 hover:text-zinc-600 transition-colors">
+          <img src="/dxn-logomark.png" alt="Dixon Strategic Labs" className="h-5 w-5" />
+          <span className="text-xs font-mono">Dixon Strategic Labs</span>
+        </a>
       </footer>
     </main>
   );

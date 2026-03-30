@@ -119,6 +119,10 @@ export default function TropesPage() {
           <p className="mt-4 font-mono text-xs text-zinc-400">
             Because someone should tell them.
           </p>
+          <a href="https://dxn.is" target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-2 text-zinc-400 hover:text-zinc-600 transition-colors">
+            <img src="/dxn-logomark.png" alt="Dixon Strategic Labs" className="h-5 w-5" />
+            <span className="text-xs font-mono">Dixon Strategic Labs</span>
+          </a>
         </footer>
       </div>
     </main>
