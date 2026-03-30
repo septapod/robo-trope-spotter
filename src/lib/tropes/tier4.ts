@@ -8,7 +8,7 @@ export const tier4: TropeDefinition[] = [
     detectionType: 'llm',
     scoringWeight: 1.5,
     description:
-      'Every word is the safest possible pick from the center of the vocabulary distribution. The adjectives are predictable, the verb choices generic, and the whole thing reads like a committee wrote it, because statistically, a committee did (a committee of billions of training tokens all averaged together).',
+      'Every word is the safest possible pick from the center of the vocabulary distribution. The adjectives are predictable and the verb choices generic. The whole thing reads like a committee wrote it, because statistically, a committee did (a committee of billions of training tokens all averaged together).',
   },
   {
     id: 'uniform-length',
@@ -71,6 +71,6 @@ export const tier4: TropeDefinition[] = [
     detectionType: 'llm',
     scoringWeight: 1.5,
     description:
-      'The politeness level stays constant from first word to last, the formality never shifts, and the emotional register holds perfectly flat. The writer never gets angry or funny. Human writing has texture because human moods have texture, and AI flattens all of it out.',
+      'The politeness level and formality stay constant from first word to last, the emotional register perfectly flat. The writer never gets angry or funny. Human writing has texture because human moods have texture, and AI flattens all of it out.',
   },
 ];

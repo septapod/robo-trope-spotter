@@ -17,7 +17,7 @@ export const tier5: TropeDefinition[] = [
     detectionType: 'llm',
     scoringWeight: 1,
     description:
-      'Burstiness measures how much sentence length varies. Humans are bursty. We write a 6-word zinger, then a 40-word monster, then something in between. AI flattens this curve into a gentle hum. The standard deviation of sentence lengths in AI text is measurably, consistently lower than in human text.',
+      'Burstiness measures how much sentence length varies. Humans are bursty. We write a 6-word zinger, then a 40-word monster. AI flattens this curve into a gentle hum. The standard deviation of sentence lengths in AI text is measurably, consistently lower than in human text.',
   },
   {
     id: 'perfect-grammar',

@@ -18,25 +18,25 @@ const tierMeta: Record<Tier, { label: string; severity: string; color: string; d
     label: 'Tier 2',
     severity: 'Red Flag',
     color: '#f97316',
-    description: 'Patterns that reliably cause readers to disengage. Editors flag these. Hiring managers notice.',
+    description: 'Patterns that reliably cause readers to disengage. Editors and hiring managers both flag these.',
   },
   3: {
     label: 'Tier 3',
     severity: 'Worth Noting',
     color: '#eab308',
-    description: 'Harmless alone. When three or more cluster in a few paragraphs, they signal an unedited draft.',
+    description: 'These are harmless alone, but when three or more cluster in a few paragraphs, they signal an unedited draft.',
   },
   4: {
     label: 'Tier 4',
     severity: 'Subtle Tell',
     color: '#14b8a6',
-    description: 'Invisible to casual readers. Decisive for editors, hiring managers, and publishers who evaluate writing professionally.',
+    description: 'Casual readers miss these, but editors and publishers who evaluate writing professionally catch them every time.',
   },
   5: {
     label: 'Tier 5',
     severity: 'Deep Cut',
     color: '#8b5cf6',
-    description: 'Statistical and structural patterns. Detectable through analysis, not casual reading.',
+    description: 'Statistical and structural patterns, detectable through analysis rather than casual reading.',
   },
 };
 
@@ -61,7 +61,7 @@ export default function TropesPage() {
           </h1>
           <p className="mt-4 text-lg text-zinc-500 leading-relaxed">
             Every AI writing pattern we scan for. Organized by severity,
-            from the patterns that make readers stop reading to the ones
+            starting with the patterns that make readers stop reading and ending with the ones
             only editors catch.
           </p>
         </header>

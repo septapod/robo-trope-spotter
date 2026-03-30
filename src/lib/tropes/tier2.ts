@@ -42,7 +42,7 @@ export const tier2: TropeDefinition[] = [
     detectionType: 'heuristic',
     scoringWeight: 3,
     description:
-      'Ask a question, then immediately answer it. "The result? Devastating." "So what does this mean? It means everything." This is the literary equivalent of high-fiving yourself. Once per piece can work. AI does it every other paragraph.',
+      'Ask a question, then immediately answer it. "The result? Devastating." "So what does this mean? It means everything." This is the literary equivalent of high-fiving yourself. Once per piece can work, but AI does it every other paragraph.',
     pattern:
       /(?:the (?:result|answer|truth|reality|takeaway|bottom line|catch|problem|solution|lesson|key|secret)\?\s+.{2,60}\.|so (?:what|why|how) (?:does|did|is|are|should|can|could) .+?\?\s+(?:it |well,? |simply |the answer is )?)/gi,
   },

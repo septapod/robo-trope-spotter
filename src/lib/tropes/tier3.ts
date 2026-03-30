@@ -90,7 +90,7 @@ export const tier3: TropeDefinition[] = [
     detectionType: 'heuristic',
     scoringWeight: 2,
     description:
-      'AI treats a SaaS feature update like the moon landing. "This fundamentally reshapes how we think about project management." No it doesn\'t. It added a Gantt chart. When every feature is a watershed moment, the reader tunes out all of them.',
+      'AI treats a SaaS feature update like the moon landing. "This fundamentally reshapes how we think about project management." It added a Gantt chart. When every feature is a watershed moment, the reader tunes out all of them.',
     pattern:
       /\b(?:fundamentally (?:reshap|transform|chang|alter|redefin)|(?:forever|profoundly|irrevocably|fundamentally) chang(?:e|ed|ing)|redefin(?:e|ed|es|ing) (?:what it means|how we|the way)|this is (?:a |the )(?:defining|watershed|seminal|pivotal) moment)\b/gi,
   },
