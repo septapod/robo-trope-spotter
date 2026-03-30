@@ -2,7 +2,7 @@
 
 You know the feeling. You're scrolling LinkedIn and someone posted a thought leadership piece that opens with "In today's rapidly evolving landscape" and closes with "And that changes everything." There are four em dashes in the second paragraph. The word "delve" appears twice. Every sentence is the same length. You can feel the ChatGPT radiating off the screen.
 
-You want to say something. But what do you say? "Hey, your writing sounds like a robot"? Rude. A detailed report card with highlighted examples and a severity score gives them something they can actually use.
+You want to say something. But what do you say? "Hey, your writing sounds like a robot"? Rude. A detailed report card with highlighted examples and a severity score gives them something they can use.
 
 **[robotropes.dxn.is](https://robotropes.dxn.is)**
 
