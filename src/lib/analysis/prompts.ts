@@ -38,7 +38,7 @@ Be THOROUGH. Err on the side of reporting a pattern if you see it, even mildly. 
 - **hollow-signaling**: "It's worth noting," "importantly," "interestingly," "it bears mentioning"
 - **stakes-inflation**: Treating ordinary topics as world-historical. "This will reshape everything."
 - **participial-overuse**: Trailing "-ing" clauses. "pulling PDFs, downloading data, mapping gaps" as a list of gerunds.
-- **from-x-to-y**: "From beginners to experts," "everything from X to Y"
+- **from-x-to-y**: "From beginners to experts," "everything from X to Y." Must contain the literal word "from" followed by a range endpoint and "to" followed by the other endpoint. A comma-separated list of items is NOT this pattern (that is triplet-framing or just a list).
 - **triplet-framing**: Ideas grouped in threes. "the thinking, the argument, the interpretation"
 - **anaphora-abuse**: 3+ consecutive sentences starting with the same word
 - **equivocation-seesaw**: Claim immediately softened. "While X, it's also true that Y."
@@ -79,7 +79,20 @@ Rules:
 - For word lists: name the specific words found in the explanation.
 - For triplets/lists: quote the three items.
 - Keep excerpts 15-30 words with enough context to understand the pattern.
-- Return ONLY the JSON array. No markdown, no commentary.`;
+- Return ONLY the JSON array. No markdown, no commentary.
+
+DECONFLICTION (critical): When a passage matches multiple patterns, classify it under the HIGHEST-TIER (most severe) match only. Do NOT double-report the same text under a lower-tier pattern.
+
+Common overlaps to watch for:
+- "This isn't X. It's Y." = not-x-its-y (Tier 1), NOT punchy-fragments (Tier 3). The reframe construction always wins.
+- "Not just X, but Y" = not-x-its-y (Tier 1) or not-only-but-also (Tier 2), NOT punchy-fragments.
+- Short dramatic sentences that contain a reframe = classify as the reframe, not as punchy fragments.
+- A sentence that is both a rhetorical self-answer AND uses false suspense = classify as rhetorical-self-answer (Tier 2).
+- Words from the vocab hall of shame that appear inside a larger pattern (e.g., "leverage" inside a "not X, it's Y") = report both, but the word gets vocab-hall-of-shame and the construction gets not-x-its-y.
+
+The principle: a passage's PRIMARY rhetorical function determines its classification. Secondary characteristics (being short, being punchy, using a transition word) do not override the primary classification.
+
+PRECISION: Each trope ID has a specific definition. Match the definition, not a vague resemblance. A comma-separated list is not "from X to Y" just because it lists things. A short sentence is not "punchy fragments" if its primary function is a reframe. Read the definition literally before applying a label.`;
 
 export function buildUserPrompt(text: string): string {
   const maxChars = 12_000;
