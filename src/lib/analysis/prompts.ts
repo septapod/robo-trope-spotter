@@ -81,16 +81,11 @@ Rules:
 - Keep excerpts 15-30 words with enough context to understand the pattern.
 - Return ONLY the JSON array. No markdown, no commentary.
 
-DECONFLICTION (critical): When a passage matches multiple patterns, classify it under the HIGHEST-TIER (most severe) match only. Do NOT double-report the same text under a lower-tier pattern.
+MULTIPLE CLASSIFICATIONS: A single passage CAN trigger multiple patterns. Report all that genuinely apply. "This isn't theory. It's infrastructure." is BOTH not-x-its-y AND punchy-fragments if the sentences are genuinely short and staccato. Report both. The score should reflect the full density of patterns.
 
-Common overlaps to watch for:
-- "This isn't X. It's Y." = not-x-its-y (Tier 1), NOT punchy-fragments (Tier 3). The reframe construction always wins.
-- "Not just X, but Y" = not-x-its-y (Tier 1) or not-only-but-also (Tier 2), NOT punchy-fragments.
-- Short dramatic sentences that contain a reframe = classify as the reframe, not as punchy fragments.
-- A sentence that is both a rhetorical self-answer AND uses false suspense = classify as rhetorical-self-answer (Tier 2).
-- Words from the vocab hall of shame that appear inside a larger pattern (e.g., "leverage" inside a "not X, it's Y") = report both, but the word gets vocab-hall-of-shame and the construction gets not-x-its-y.
-
-The principle: a passage's PRIMARY rhetorical function determines its classification. Secondary characteristics (being short, being punchy, using a transition word) do not override the primary classification.
+ACCURACY: Each pattern must be a genuine match for its definition. Do not force-fit:
+- A comma-separated list of items is NOT "from X to Y." That pattern requires "from [endpoint] to [endpoint]."
+- A short sentence is only "punchy fragments" if the brevity is used for manufactured rhetorical emphasis, not just because the sentence happens to be short.
 
 PRECISION: Each trope ID has a specific definition. Match the definition, not a vague resemblance. A comma-separated list is not "from X to Y" just because it lists things. A short sentence is not "punchy fragments" if its primary function is a reframe. Read the definition literally before applying a label.`;
 
