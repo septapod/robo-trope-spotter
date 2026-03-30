@@ -1,5 +1,5 @@
 import { Readability, isProbablyReaderable } from '@mozilla/readability';
-import { JSDOM } from 'jsdom';
+import { parseHTML } from 'linkedom';
 
 const FETCH_TIMEOUT_MS = 10_000;
 
@@ -78,9 +78,8 @@ export async function extractFromUrl(
     clearTimeout(timer);
   }
 
-  // Parse with JSDOM
-  const dom = new JSDOM(html, { url });
-  const doc = dom.window.document;
+  // Parse with linkedom (lightweight, no ESM compatibility issues on Vercel)
+  const { document: doc } = parseHTML(html);
 
   // Check if the page is likely readerable
   if (!isProbablyReaderable(doc)) {
