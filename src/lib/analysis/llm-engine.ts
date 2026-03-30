@@ -8,7 +8,7 @@ import type { Tier } from '@/lib/tropes/types';
 const VALID_TROPE_IDS = new Set(allTropes.map(t => t.id));
 const TROPE_TIER_MAP = new Map(allTropes.map(t => [t.id, t.tier]));
 
-const TIMEOUT_MS = 30_000; // 30s for full analysis
+const TIMEOUT_MS = 90_000; // 90s for full analysis (long texts need time)
 const MODEL = 'claude-sonnet-4-6';
 
 function createClient(): Anthropic {
@@ -114,7 +114,7 @@ export async function analyzeWithLlm(text: string): Promise<LlmResult> {
         messages: [{ role: 'user', content: buildUserPrompt(text) }],
       }),
       new Promise<never>((_, reject) =>
-        setTimeout(() => reject(new Error('Analysis timed out')), TIMEOUT_MS)
+        setTimeout(() => reject(new Error('Analysis took too long. Try shorter text or try again.')), TIMEOUT_MS)
       ),
     ]);
 
