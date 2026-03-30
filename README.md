@@ -1,47 +1,41 @@
 # Robo Trope Spotter
 
-**See the AI writing tropes. Get the report card. Send it to someone who needs it.**
+You know the feeling. You're scrolling LinkedIn and someone posted a thought leadership piece that opens with "In today's rapidly evolving landscape" and closes with "And that changes everything." There are four em dashes in the second paragraph. The word "delve" appears twice. Every sentence is the same length. You can feel the ChatGPT radiating off the screen.
 
-[robotropes.dxn.is](https://robotropes.dxn.is)
+You want to say something. But what do you say? "Hey, your writing sounds like a robot"? That's rude. Sending a detailed report card with highlighted examples and a severity score? That's helpful.
 
-Robo Trope Spotter identifies specific writing patterns that make text feel AI-generated, formulaic, or machine-assisted. It produces a shareable report card with inline highlighting, severity scoring, and quoted examples.
+**[robotropes.dxn.is](https://robotropes.dxn.is)**
 
-This is a social diagnostic tool. Think personality quiz meets gentle roast. Paste in a LinkedIn post, a blog article, or a newsletter draft. See what readers already notice. Because someone should tell them.
+## How it works
 
-## What it does
+Paste text. (Or a URL. Or a screenshot.) The app sends it to Claude Sonnet 4.6 with a 42-pattern trope taxonomy covering five severity tiers. You get back a shareable report card at a unique URL with:
 
-1. **Paste text** (or a URL, or a screenshot)
-2. **Claude Sonnet 4.6 analyzes** the text against a 42-pattern trope taxonomy across 5 severity tiers
-3. **Get a report card** at a unique shareable URL with:
-   - A density-normalized trope score (weighted by severity, adjusted for text length)
-   - The original text with inline color-coded highlights on every detected pattern
-   - Individual trope cards with severity labels, explanations, and quoted excerpts
-   - An OG image that renders in Slack, iMessage, LinkedIn, and Twitter previews
+- The original text with color-coded inline highlights on every detected pattern
+- A density-normalized trope score (shorter texts packed with tropes score higher)
+- Individual cards for each pattern found, with severity labels, explanations, and quoted excerpts
+- An OG preview image that renders when you drop the link in Slack, iMessage, or a group chat
 
-## What it detects
+The report grades the writing. The writer is none of your business.
 
-42 named patterns across 5 tiers:
+## The tropes
 
-- **Dead Giveaway** (Tier 1): "It's not X, it's Y" constructions, em dash overuse, the vocabulary hall of shame (delve, tapestry, landscape, leverage), leftover AI artifacts, fabricated citations
-- **Red Flag** (Tier 2): "In today's rapidly evolving landscape," rhetorical self-answers ("The result?"), false suspense ("Here's the thing."), formulaic conclusions, excessive hedging
-- **Worth Noting** (Tier 3): Formal transitions in casual writing, listicle bullet formatting, punchy fragments for manufactured emphasis, triplet framing, colon prefaces
-- **Subtle Tell** (Tier 4): Consensus-middle word choices, uniform sentence lengths, missing specifics, the treadmill effect (same point restated), uniform tone
-- **Deep Cut** (Tier 5): Low burstiness, perfect grammar as an uncanny signal, style over-consistency
+42 patterns, five tiers of severity:
 
-## What it does not do
+**Dead Giveaway.** "It's not X, it's Y." Em dash addiction. The vocabulary hall of shame: delve, tapestry, landscape, leverage, innovative, transformative. Leftover AI artifacts. Fabricated citations ("studies show" with no study named).
 
-This is not an AI detector. It does not answer "was this written by AI?" It answers "what specific patterns make this text feel robotic?" A human who writes with these patterns gets the same flags.
+**Red Flag.** "In today's rapidly evolving landscape." Rhetorical self-answers ("The result? Devastating."). False suspense ("Here's the thing."). Formulaic conclusions. Breathless enthusiasm with no substance behind it.
 
-## Stack
+**Worth Noting.** "Moreover" in a LinkedIn post. Bold-first bullet formatting. Punchy fragments for manufactured emphasis. Ideas grouped in threes on autopilot. Colon prefaces that add nothing.
 
-- Next.js 16 (App Router) on Vercel
-- Claude Sonnet 4.6 via Anthropic API (analysis + screenshot OCR)
-- Neon Postgres + Drizzle ORM (report persistence)
-- Bricolage Grotesque + Outfit + JetBrains Mono (typography)
-- @vercel/og for social preview images
-- @mozilla/readability for URL content extraction
+**Subtle Tell.** Every word choice is the safest possible option. Sentences cluster between 15 and 25 words. Vague where a human would be specific. The same tone from first paragraph to last.
 
-## Running locally
+**Deep Cut.** Flat sentence-length variation. Perfect grammar as an uncanny signal. Zero deviation in style or formatting. The kind of consistency that only a machine would sustain.
+
+## Because someone should tell them
+
+The whole point of this tool is that you can paste someone's writing, get a report card, and send them the link. The tone is playful. The intent is constructive. The hope is that next time they'll do one more editing pass before hitting publish.
+
+## Running it yourself
 
 ```bash
 git clone https://github.com/septapod/robo-trope-spotter.git
@@ -49,25 +43,28 @@ cd robo-trope-spotter
 npm install
 ```
 
-Create a `.env` file:
+You need two environment variables in a `.env` file:
 
 ```
-DATABASE_URL=postgresql://...your-neon-connection-string...
+DATABASE_URL=postgresql://...neon-connection-string...
 ANTHROPIC_API_KEY=sk-ant-...
 ```
 
-Set up the database and start:
+Then:
 
 ```bash
-npm run db:push
-npm run dev
+npm run db:push   # create the reports table
+npm run dev       # start the app
 ```
+
+## Stack
+
+Next.js 16 on Vercel. Claude Sonnet 4.6 for analysis and screenshot OCR. Neon Postgres for report persistence. Bricolage Grotesque, Outfit, and JetBrains Mono for typography. @vercel/og for social preview images. @mozilla/readability for URL extraction.
 
 ## Rate limits
 
-- 20 analyses per IP per hour
-- 500 total analyses per day (global cap)
+20 analyses per IP per hour. 500 total per day. The trope spotter needs sleep too.
 
 ## License
 
-Private repository. Not open source.
+[CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). Use it, remix it, share it. Give credit. Keep it non-commercial.
