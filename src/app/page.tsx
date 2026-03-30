@@ -253,7 +253,7 @@ export default function Home() {
         {/* Footer */}
         <footer className="text-center pt-6">
           <p className="text-zinc-400 text-sm font-mono">
-            We grade the writing. The writer is none of our business.
+            Because someone should tell them.
           </p>
         </footer>
       </div>
