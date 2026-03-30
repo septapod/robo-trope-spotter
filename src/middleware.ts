@@ -1,0 +1,119 @@
+import { NextRequest, NextResponse } from 'next/server';
+
+/**
+ * Rate limiting middleware.
+ * - Per-IP: 20 requests per hour to /api/analyze
+ * - Global: 500 analyses per day (resets at midnight UTC)
+ *
+ * Uses in-memory stores. On serverless, each instance has its own map,
+ * so the effective per-IP limit is per-instance. The global cap is
+ * approximate but still provides real protection against bill spikes.
+ */
+
+interface RateEntry {
+  count: number;
+  resetAt: number;
+}
+
+const ipStore = new Map<string, RateEntry>();
+const IP_LIMIT = 20;
+const IP_WINDOW_MS = 60 * 60 * 1000; // 1 hour
+
+let globalCount = 0;
+let globalResetAt = getNextMidnightUtc();
+const GLOBAL_DAILY_CAP = 500;
+
+function getNextMidnightUtc(): number {
+  const now = new Date();
+  const tomorrow = new Date(Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate() + 1,
+    0, 0, 0, 0
+  ));
+  return tomorrow.getTime();
+}
+
+function getClientIp(request: NextRequest): string {
+  return (
+    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+    request.headers.get('x-real-ip') ||
+    'unknown'
+  );
+}
+
+export function middleware(request: NextRequest) {
+  // Only rate-limit the analyze endpoint
+  if (!request.nextUrl.pathname.startsWith('/api/analyze')) {
+    return NextResponse.next();
+  }
+
+  // Only rate-limit POST (not OPTIONS/preflight)
+  if (request.method !== 'POST') {
+    return NextResponse.next();
+  }
+
+  const now = Date.now();
+
+  // --- Global daily cap ---
+  if (now >= globalResetAt) {
+    globalCount = 0;
+    globalResetAt = getNextMidnightUtc();
+  }
+
+  if (globalCount >= GLOBAL_DAILY_CAP) {
+    return NextResponse.json(
+      {
+        error: 'The trope spotter has hit its daily limit. Try again tomorrow.',
+      },
+      {
+        status: 429,
+        headers: {
+          'Retry-After': String(Math.ceil((globalResetAt - now) / 1000)),
+        },
+      }
+    );
+  }
+
+  // --- Per-IP rate limit ---
+  const ip = getClientIp(request);
+  const entry = ipStore.get(ip);
+
+  if (entry) {
+    if (now >= entry.resetAt) {
+      // Window expired, reset
+      ipStore.set(ip, { count: 1, resetAt: now + IP_WINDOW_MS });
+    } else if (entry.count >= IP_LIMIT) {
+      const retryAfter = Math.ceil((entry.resetAt - now) / 1000);
+      return NextResponse.json(
+        {
+          error: `Slow down. ${IP_LIMIT} analyses per hour. Try again in ${Math.ceil(retryAfter / 60)} minutes.`,
+        },
+        {
+          status: 429,
+          headers: { 'Retry-After': String(retryAfter) },
+        }
+      );
+    } else {
+      entry.count++;
+    }
+  } else {
+    ipStore.set(ip, { count: 1, resetAt: now + IP_WINDOW_MS });
+  }
+
+  // Increment global counter
+  globalCount++;
+
+  // Clean up old IP entries periodically (every 100 requests)
+  if (globalCount % 100 === 0) {
+    for (const [key, val] of ipStore) {
+      if (now >= val.resetAt) ipStore.delete(key);
+    }
+  }
+
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: '/api/analyze',
+};
