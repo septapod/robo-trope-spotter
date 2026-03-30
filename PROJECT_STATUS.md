@@ -1,43 +1,36 @@
 # Robo Trope Spotter
 
-**Status:** Design upgrade complete (Fraunces/Outfit fonts, saturated palette, DnaStrip removed), needs deploy
+**Status:** Live at robotropes.dxn.is, actively iterating
 
 ## What It Is
-A social diagnostic tool that identifies AI writing tropes in pasted text and produces a shareable, playful report card. Think personality quiz meets gentle roast. Not an AI detector, not a writing assistant.
+A social diagnostic tool that identifies AI writing tropes in pasted text and produces a shareable, playful report card. Paste text, get a report, send it to someone who needs it.
 
 ## What's Done
-- [x] GitHub repo created (septapod/robo-trope-spotter)
-- [x] 5-tier, 40-pattern trope taxonomy drafted
-- [x] Competitive research (Un-AI-ify, tropes.fyi, SlopDetector.org, GPTZero, etc.)
-- [x] Ideation: 8 ranked product ideas, 24 rejected with reasons
-- [x] Confirmed gap: no existing tool combines named-pattern taxonomy + shareable social object
-- [x] MVP requirements doc: docs/brainstorms/2026-03-28-mvp-requirements.md
-- [x] Implementation plan: docs/plans/2026-03-28-001-feat-mvp-report-card-plan.md
+- [x] MVP built and deployed to Vercel (robotropes.dxn.is)
+- [x] LLM-primary analysis using Claude Sonnet 4.6 with full 42-trope taxonomy
+- [x] Three input modes: text paste, URL extraction, screenshot OCR
+- [x] Shareable report cards with unique URLs and OG image previews
+- [x] Inline highlighted text showing where tropes appear in context
+- [x] Density-normalized scoring (weighted by severity, normalized per 500 words)
+- [x] Visual scale bar showing where score falls on clean-to-heavy spectrum
+- [x] Typography: Bricolage Grotesque (display) + Outfit (body) + JetBrains Mono (data)
+- [x] Bold candy color palette (pink, yellow, orange, teal, green, purple, blue)
+- [x] Human-readable severity labels: Dead Giveaway, Red Flag, Worth Noting, Subtle Tell, Deep Cut
+- [x] Supplemental em dash highlighting (catches all instances, not just LLM-quoted ones)
+- [x] SSRF protection, input size limits, proper error surfacing
+- [x] Custom favicon, branded 404 page, light-theme OG images
+- [x] Reanalyze endpoint for updating old reports with new scoring
 
 ## What's Next
-- [ ] End-to-end test with DATABASE_URL set
-- [ ] Deploy to Vercel
-
-## Recently Completed
-- [x] Typography and palette upgrade: Fraunces (display, wonky serif italic), Outfit (body), JetBrains Mono (data). Saturated candy colors (hotter pink, deeper teal, vivid purple, electric blue). Removed DnaStrip component. Cleaned unused CSS (gradient-text, dna-shimmer, score-ring). Analyze button solid pink with tighter corners.
-- [x] Design audit: 15 visual/UX fixes (smaller title, reduced blobs, removed heading from highlighted text, generous section spacing, cycling loading text, amber error states, Geist-only fonts, taller DNA strip with labels, body font for examples, solid pink button, prominent share bar, favicon, light OG image, 404 page, larger touch targets)
-- [x] Visual redesign: bold candy-color maximalist theme with Geist display font, animated blobs, gradient mesh backgrounds, cycling focus glow, colorful pill toggles, score ring gauge, taller DNA strip, colored trope cards
-- [x] Unit 9: Landing page polish (three input modes, loading states, error handling, screenshot drag/drop with preview, auto-collapse logic, client-side POST to /api/analyze with redirect)
-- [x] Unit 7: Report card page (ScoreHero, DnaStrip, TropeCard, TopOffenders, AllDetections, ShareBar, roast lines, clean-score copy)
-- [x] Unit 8: OG image generation (1200x630 PNG via next/og, score + label + DNA strip, Inter font, fallback for missing reports)
-- [x] Unit 6: API route + input handlers (URL extractor, screenshot OCR, normalize, POST /api/analyze with background LLM update)
-- [x] Unit 5: Scoring engine (composite scores, tier-based color coding, 6 named labels, DNA strip bands)
-- [x] Unit 3: Heuristic detection engine (regex + wordList matching, cloned regexes, character offsets, timing)
-- [x] Unit 2: Trope taxonomy data model (42 tropes across 5 tiers, typed definitions, registry with lookup functions)
-- [x] Unit 4: LLM semantic analysis engine (Claude API integration for Tier 4-5 trope detection)
+- [ ] Persona/archetype typing (v2 shareability feature)
+- [ ] Browser extension (v2 distribution)
+- [ ] Rate limiting on public API
+- [ ] Scoring calibration against more real-world samples
 
 ## Key Decisions
-- Social diagnostic, not writing tool (no Grammarly territory)
-- Heuristic-first detection (regex for lexical, LLM for semantic patterns)
-- Full 40-pattern taxonomy at launch, all 5 tiers
-- All three input types: text paste, URL, screenshot/OCR
-- Weighted composite score with per-trope color coding
-- One calibrated voice (playful but forwardable, no tone toggle)
-- Personas/archetypes deferred to v2
-- Shareable report cards with unique URLs and OG image previews
-- Pre-written copy components, never LLM-generated per-scan
+- Social diagnostic, not a writing tool (no Grammarly territory)
+- LLM-primary analysis (Claude Sonnet 4.6), heuristic engine deprecated
+- Density-normalized scoring: short texts with dense tropes score higher
+- Em dash scoring capped at 4 points (density signal, never dominates)
+- Tagline: "Because someone should tell them."
+- Reports are public by URL, no public archive or browse page
