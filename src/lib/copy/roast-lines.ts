@@ -46,7 +46,7 @@ export function getRoastLine(scoreResult: ScoreResult): string {
   }
 
   if (rawScore > 15) {
-    return `A few patterns showing: ${nameList}. They are there.`;
+    return `A few patterns showing: ${nameList}. Readers will notice.`;
   }
 
   if (rawScore > 5) {
