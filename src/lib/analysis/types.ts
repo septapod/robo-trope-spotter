@@ -14,6 +14,7 @@ export interface LlmDetection {
   count: number; // how many times the pattern appears
   matchedExcerpts: string[];
   explanation: string;
+  suggestion: string; // what a human writer would do instead
 }
 
 export interface LlmResult {

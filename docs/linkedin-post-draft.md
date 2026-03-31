@@ -1,16 +1,20 @@
-If you have ketchup on your nose, you want someone to tell you. You do not want to walk back into the meeting and spend forty minutes wondering why people keep looking at you like that.
+If you bite into a burger and get ketchup on your nose, you want someone to tell you. You do not want to spend the rest of lunch wondering why people keep looking at you like that.
 
-LinkedIn has ketchup on its nose.
+LinkedIn has a lot of ketchup on its nose.
 
-I watched a historian post about using AI in his research. A professional writer. The post promoting the piece had em dashes every thirty words, "delve," three reframe constructions, and a rhetorical question answered immediately. He writes for a living. Does he know? Would he want to know?
+Last week I saw a researcher (a professional writer!) post about using AI in his research. The post was stacked three rounds of "it's not about X, it's about Y," an assembly of em dashes, questions asked and answered in the same sentence, and a big ol' "delve" bomb (among other things). 
 
-I built something to help with that.
+A professional writer, giving away the reigns without much refection. Does he see it? Would he fix it if someone showed him?
 
-Robo Trope Spotter scans text, URLs, or screenshots for 42 named AI writing patterns across five severity levels. You get a score, your original text with every pattern highlighted inline, and cards explaining each hit. The report lives at a shareable URL. I designed it that way on purpose.
+I made something to help.
 
-I use AI constantly, including on this post. I also edited it. The patterns the tool catches are writing that stopped one step too early. One more editing pass and they disappear. The reader can feel the difference even when they can't name what's wrong.
+Robo Trope Spotter scans text, URLs, or screenshots for 42 AI writing patterns across five severity levels. You get a score, your original text with every pattern highlighted inline, and cards explaining each hit. The report lives at a shareable URL. 
 
-Think of it as a lint check for prose. You run it before you ship, and it shows you where the ketchup is.
+It gives you a report card you can send to a friend who posted something embarrassing and doesn't know it yet.
+
+I use AI constantly, including on this post. I also edited it.
+
+Run your text through it before you post. It shows you where the ketchup is.
 
 Because someone should tell them.
 

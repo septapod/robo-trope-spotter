@@ -4,23 +4,22 @@ import { ANALYSIS_SYSTEM_PROMPT, buildUserPrompt } from './prompts';
 import { allTropes } from '@/lib/tropes/registry';
 import type { Tier } from '@/lib/tropes/types';
 
-// Build the set of valid trope IDs from the registry
 const VALID_TROPE_IDS = new Set(allTropes.map(t => t.id));
 const TROPE_TIER_MAP = new Map(allTropes.map(t => [t.id, t.tier]));
+const TROPE_NAME_MAP = new Map(allTropes.map(t => [t.id, t.name]));
+const TROPE_DESC_MAP = new Map(allTropes.map(t => [t.id, t.description]));
 
-const TIMEOUT_MS = 90_000; // 90s for full analysis (long texts need time)
-const MODEL = 'claude-sonnet-4-6';
+const TIMEOUT_MS = 90_000;
+const DETECTION_MODEL = 'claude-sonnet-4-6';
+const VALIDATION_MODEL = 'claude-haiku-4-5-20251001';
+const DISPLAY_CONFIDENCE_THRESHOLD = 0.5;
 
 function createClient(): Anthropic {
   return new Anthropic();
 }
 
-/**
- * Validates a single detection from the LLM response.
- */
 function validateDetection(raw: unknown): LlmDetection | null {
   if (typeof raw !== 'object' || raw === null) return null;
-
   const obj = raw as Record<string, unknown>;
 
   const tropeId = typeof obj.tropeId === 'string' ? obj.tropeId : null;
@@ -41,6 +40,8 @@ function validateDetection(raw: unknown): LlmDetection | null {
   const explanation = typeof obj.explanation === 'string' ? obj.explanation : '';
   if (!explanation) return null;
 
+  const suggestion = typeof obj.suggestion === 'string' ? obj.suggestion : '';
+
   const tier = TROPE_TIER_MAP.get(tropeId) ?? (typeof obj.tier === 'number' ? obj.tier as Tier : 3);
 
   return {
@@ -49,18 +50,13 @@ function validateDetection(raw: unknown): LlmDetection | null {
     confidence: Math.round(confidence * 100) / 100,
     matchedExcerpts,
     explanation,
+    suggestion,
     count,
   };
 }
 
-/**
- * Parses the LLM text response into validated detections.
- */
 function parseResponse(text: string): LlmDetection[] {
-  // Strip markdown fences if present
   let cleaned = text.trim();
-
-  // Find the JSON array in the response
   const firstBracket = cleaned.indexOf('[');
   const lastBracket = cleaned.lastIndexOf(']');
   if (firstBracket !== -1 && lastBracket > firstBracket) {
@@ -71,12 +67,12 @@ function parseResponse(text: string): LlmDetection[] {
   try {
     parsed = JSON.parse(cleaned);
   } catch {
-    console.error('[llm-engine] Failed to parse LLM response as JSON:', cleaned.slice(0, 300));
+    console.error('[llm-engine] Failed to parse JSON:', cleaned.slice(0, 300));
     return [];
   }
 
   if (!Array.isArray(parsed)) {
-    console.error('[llm-engine] LLM response is not an array');
+    console.error('[llm-engine] Response is not an array');
     return [];
   }
 
@@ -85,16 +81,88 @@ function parseResponse(text: string): LlmDetection[] {
     const valid = validateDetection(item);
     if (valid) detections.push(valid);
   }
-
   return detections;
 }
 
 /**
- * Runs full trope analysis on the provided text using Claude.
- * This is the PRIMARY analysis engine. It covers all 5 tiers.
- *
- * Falls back gracefully: API errors, timeouts, and malformed responses
- * all result in an empty detections array.
+ * Haiku validation pass: reviews each detection and rejects false positives.
+ */
+async function validateWithHaiku(
+  client: Anthropic,
+  detections: LlmDetection[],
+  sourceText: string
+): Promise<LlmDetection[]> {
+  if (detections.length === 0) return [];
+
+  const validationPrompt = detections.map((d, i) => {
+    const name = TROPE_NAME_MAP.get(d.tropeId) ?? d.tropeId;
+    const definition = TROPE_DESC_MAP.get(d.tropeId) ?? '';
+    return `Detection ${i + 1}:
+Pattern: "${name}" (${d.tropeId})
+Definition: ${definition}
+Excerpt: "${d.matchedExcerpts[0]}"
+Explanation: ${d.explanation}`;
+  }).join('\n\n');
+
+  const truncatedSource = sourceText.length > 4000
+    ? sourceText.slice(0, 4000) + '\n[truncated]'
+    : sourceText;
+
+  try {
+    const response = await Promise.race([
+      client.messages.create({
+        model: VALIDATION_MODEL,
+        max_tokens: 1024,
+        system: `You are a precision validator for an AI writing trope detector. Your job is to review each detection and determine if the excerpt GENUINELY exhibits the specific pattern described in the definition.
+
+For each detection, respond with ONLY "VALID" or "REJECT" followed by a brief reason.
+
+Be strict. Common false positives to watch for:
+- A normal sentence flagged as "listicle-bullets" (requires actual formatted lists, not prose with commas)
+- A naturally short sentence flagged as "punchy-fragments" (requires manufactured staccato emphasis)
+- A comma-separated list flagged as "from-x-to-y" (requires literal "from X to Y" range construction)
+- Normal concluding sentences flagged as "verdict-language" (requires grand pronouncements)
+- A colon introducing a list flagged as "colon-preface" (requires unnecessary setup phrase before the colon)
+- Text that DISCUSSES a pattern being flagged as USING the pattern
+
+Reject anything where the excerpt does not clearly match the pattern definition.`,
+        messages: [{
+          role: 'user',
+          content: `Source text:\n---\n${truncatedSource}\n---\n\nDetections to validate:\n\n${validationPrompt}\n\nFor each detection (1 through ${detections.length}), respond with "Detection N: VALID" or "Detection N: REJECT - reason". One per line.`
+        }],
+      }),
+      new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error('Validation timed out')), 30_000)
+      ),
+    ]);
+
+    const content = response.content[0];
+    if (content.type !== 'text') return detections;
+
+    const lines = content.text.split('\n').filter(l => l.trim());
+    const validated: LlmDetection[] = [];
+
+    for (let i = 0; i < detections.length; i++) {
+      const line = lines.find(l => l.includes(`Detection ${i + 1}`));
+      if (!line || line.includes('VALID')) {
+        validated.push(detections[i]);
+      } else {
+        console.log(`[validator] Rejected: ${detections[i].tropeId} - ${line}`);
+      }
+    }
+
+    return validated;
+  } catch (error) {
+    console.error('[validator] Validation failed, keeping all detections:', error instanceof Error ? error.message : error);
+    return detections; // If validation fails, keep all detections rather than losing them
+  }
+}
+
+/**
+ * Two-pass analysis pipeline:
+ * 1. Sonnet detects patterns
+ * 2. Haiku validates each detection (rejects false positives)
+ * 3. Confidence threshold filters remaining detections
  */
 export async function analyzeWithLlm(text: string): Promise<LlmResult> {
   const start = performance.now();
@@ -106,9 +174,10 @@ export async function analyzeWithLlm(text: string): Promise<LlmResult> {
   try {
     const client = createClient();
 
+    // Pass 1: Sonnet detection
     const response = await Promise.race([
       client.messages.create({
-        model: MODEL,
+        model: DETECTION_MODEL,
         max_tokens: 4096,
         system: ANALYSIS_SYSTEM_PROMPT,
         messages: [{ role: 'user', content: buildUserPrompt(text) }],
@@ -120,11 +189,19 @@ export async function analyzeWithLlm(text: string): Promise<LlmResult> {
 
     const content = response.content[0];
     if (content.type !== 'text') {
-      console.error('[llm-engine] Unexpected content type:', content.type);
       return { detections: [], processingTimeMs: performance.now() - start };
     }
 
-    const detections = parseResponse(content.text);
+    let detections = parseResponse(content.text);
+    console.log(`[llm-engine] Sonnet found ${detections.length} detections`);
+
+    // Pass 2: Haiku validation
+    detections = await validateWithHaiku(client, detections, text);
+    console.log(`[llm-engine] After Haiku validation: ${detections.length} detections`);
+
+    // Pass 3: Confidence threshold
+    detections = detections.filter(d => d.confidence >= DISPLAY_CONFIDENCE_THRESHOLD);
+    console.log(`[llm-engine] After confidence filter (>=${DISPLAY_CONFIDENCE_THRESHOLD}): ${detections.length} detections`);
 
     return {
       detections,
@@ -134,10 +211,8 @@ export async function analyzeWithLlm(text: string): Promise<LlmResult> {
     const elapsed = Math.round(performance.now() - start);
     const msg = error instanceof Error ? error.message : String(error);
     console.error('[llm-engine] Analysis failed:', msg);
-    // Re-throw so the API route can surface the error to the user
     throw new Error(`LLM analysis failed: ${msg}`);
   }
 }
 
-// Keep backward-compatible export name
 export const analyzeSemantic = analyzeWithLlm;

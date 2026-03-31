@@ -13,6 +13,7 @@ export interface TropeResult {
   color: string;
   examples: string[];
   explanation: string;
+  suggestion: string;
 }
 
 export interface DnaStripBand {
@@ -83,6 +84,7 @@ export function computeScoreFromLlm(
       color: getTropeColor(detection.tier, count),
       examples: detection.matchedExcerpts.slice(0, 3),
       explanation: detection.explanation,
+      suggestion: detection.suggestion || '',
     });
   }
 

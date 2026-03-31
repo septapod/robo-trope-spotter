@@ -64,6 +64,14 @@ export function TropeCard({ trope, index }: TropeCardProps) {
           </p>
         )}
 
+        {/* Suggestion */}
+        {trope.suggestion && (
+          <div className="mt-3 flex gap-2 items-start rounded-lg bg-emerald-50 border border-emerald-200/60 px-4 py-2.5">
+            <span className="text-emerald-600 text-sm font-semibold shrink-0">Try:</span>
+            <p className="text-sm text-emerald-700 leading-relaxed">{trope.suggestion}</p>
+          </div>
+        )}
+
         {/* Quoted examples */}
         {trope.examples.length > 0 && (
           <div className="mt-4 space-y-2">

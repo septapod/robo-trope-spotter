@@ -70,26 +70,43 @@ Return a JSON array. Each detection:
   "count": number_of_occurrences,
   "confidence": 0.3 to 1.0,
   "matchedExcerpts": ["15-30 word quote showing the pattern in context"],
-  "explanation": "One sentence explaining what you found"
+  "explanation": "One sentence explaining what you found",
+  "suggestion": "Brief craft-level advice on what a human writer would do instead"
 }
 
+The "suggestion" field should give practical editing advice in plain language. Keep it to one sentence. Examples:
+- For em dashes: "Try a period or comma. The sentence works without the aside."
+- For "not X, it's Y": "State what it is. Drop the negation setup."
+- For rhetorical self-answer: "Cut the question. The answer stands on its own."
+- For false suspense: "Delete the setup. Start with the point."
+- For punchy fragments: "Combine into one flowing sentence."
+The suggestion should feel like advice from a good editor, specific to what was found.
+
 Rules:
-- Report EVERY pattern you find, even mild ones. Use confidence to express certainty (0.3 = borderline, 1.0 = unmistakable).
+- Report patterns you find. Use confidence to express certainty (0.5 = mild, 1.0 = unmistakable).
 - For em dashes: ONE detection entry with the total count. Quote a sentence containing one for context.
 - For word lists: name the specific words found in the explanation.
-- For triplets/lists: quote the three items.
+- For triplets/lists: quote the items.
 - Keep excerpts 15-30 words with enough context to understand the pattern.
 - Return ONLY the JSON array. No markdown, no commentary.
 
-MULTIPLE CLASSIFICATIONS: A single passage CAN trigger multiple patterns. Report all that genuinely apply. "This isn't theory. It's infrastructure." is BOTH not-x-its-y AND punchy-fragments if the sentences are genuinely short and staccato. Report both. The score should reflect the full density of patterns.
+MULTIPLE CLASSIFICATIONS: A single passage CAN trigger multiple patterns if they genuinely apply.
 
-ACCURACY: Each pattern must be a genuine match for its definition. Do not force-fit:
-- A comma-separated list of items is NOT "from X to Y." That pattern requires "from [endpoint] to [endpoint]."
-- A short sentence is only "punchy fragments" if the brevity is used for manufactured rhetorical emphasis, not just because the sentence happens to be short.
+ACCURACY IS CRITICAL. Each detection must be a genuine, unambiguous match for its specific pattern definition. If you are not confident, do not include it. A wrong detection is worse than a missed one.
 
-PRECISION: Each trope ID has a specific definition. Match the definition, not a vague resemblance. A comma-separated list is not "from X to Y" just because it lists things. A short sentence is not "punchy fragments" if its primary function is a reframe. Read the definition literally before applying a label.
+## What is NOT each pattern (common mistakes to avoid)
 
-DISCUSSION vs. USAGE: Only flag patterns that are USED in the writing style. If a text discusses or describes a pattern (e.g., an article about em dashes, a style guide listing trope examples, a tool that names AI writing patterns), that is not the same as the text exhibiting the pattern. A page that says "em dashes are overused in AI writing" is discussing em dashes, not overusing them. Only flag em dashes if the text itself contains em dash characters as punctuation.`;
+- **listicle-bullets**: Requires actual formatted lists (numbered items, bullet points, bold-first-phrase formatting). A regular sentence that mentions multiple things in prose is NOT a listicle. "We work with banks, credit unions, and fintechs" is a normal sentence with a list in it, not listicle formatting.
+- **punchy-fragments**: Requires deliberately short staccato sentences used for manufactured rhetorical emphasis. A sentence that happens to be short because the thought is short is NOT a punchy fragment. "I also edited it." is a normal short sentence. "Simple. Clean. Done." is punchy fragments.
+- **from-x-to-y**: Requires the literal construction "from [endpoint] to [endpoint]" expressing a range. A comma-separated list of items is NOT this pattern.
+- **triplet-framing**: Requires three items grouped for rhetorical effect when the number three is not natural. If someone genuinely has three things to say, listing three things is fine. "We have offices in New York, London, and Tokyo" is not triplet framing.
+- **anaphora-abuse**: Requires 3+ consecutive sentences starting with the same word for rhetorical repetition. Two sentences starting the same way is not anaphora.
+- **equivocation-seesaw**: Requires a claim immediately softened by a counterpoint in the same breath. Presenting genuine complexity or nuance is not equivocation.
+- **formal-transitions**: "Moreover" and "furthermore" in casual writing (LinkedIn, blogs, newsletters). In academic papers, legal writing, or formal reports, these are appropriate and should NOT be flagged.
+- **verdict-language**: Requires a grand summary pronouncement ("That's what leadership looks like"). A normal concluding observation is not verdict language.
+- **colon-preface**: Requires a setup phrase before a colon that adds no information ("Here's the takeaway: X"). A colon used to introduce a list or explanation is normal punctuation.
+
+DISCUSSION vs. USAGE: Only flag patterns that are USED in the writing style, not patterns that are discussed as a topic.`;
 
 export function buildUserPrompt(text: string): string {
   const maxChars = 12_000;
