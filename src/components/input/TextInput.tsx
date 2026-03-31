@@ -18,7 +18,7 @@ export function TextInput({ value, onChange, disabled }: TextInputProps) {
         disabled={disabled}
       />
       {value.length > 0 && (
-        <span className="absolute bottom-4 right-5 font-mono text-sm text-zinc-400 tabular-nums bg-white/80 px-2 py-0.5 rounded-lg backdrop-blur-sm">
+        <span className="absolute bottom-4 right-5 font-mono text-sm text-zinc-500 tabular-nums bg-white/80 px-2 py-0.5 rounded-lg backdrop-blur-sm">
           {value.length.toLocaleString()} chars
         </span>
       )}

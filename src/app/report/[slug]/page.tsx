@@ -78,7 +78,7 @@ export default async function ReportPage({ params }: PageProps) {
 
       {/* Nav */}
       <nav className="relative z-10 flex items-center justify-between border-b border-zinc-200/60 px-6 py-4 backdrop-blur-sm bg-surface-0/80">
-        <a href="/" className="font-display text-base font-bold tracking-tight text-zinc-400 transition-colors hover:text-candy-pink">
+        <a href="/" className="font-display text-base font-bold tracking-tight text-zinc-500 transition-colors hover:text-candy-pink">
           Robo Trope Spotter
         </a>
         <ShareBar title={scoreResult.label} score={scoreResult.rawScore} />
@@ -102,7 +102,7 @@ export default async function ReportPage({ params }: PageProps) {
 
       {/* Footer */}
       <footer className="relative z-10 border-t border-zinc-200/60 px-4 py-10 text-center">
-        <p className="font-mono text-sm tracking-wider text-zinc-400 uppercase">
+        <p className="font-mono text-sm tracking-wider text-zinc-500 uppercase">
           Because someone should tell them.
         </p>
         <div className="mt-4 flex items-center justify-center gap-4">
@@ -119,7 +119,7 @@ export default async function ReportPage({ params }: PageProps) {
             See all 42 tropes
           </a>
         </div>
-        <a href="https://dxn.is" target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex items-center gap-2 text-zinc-400 hover:text-zinc-600 transition-colors">
+        <a href="https://dxn.is" target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-600 transition-colors">
           <img src="/dxn-logomark.png" alt="Dixon Strategic Labs" className="h-5 w-5" />
           <span className="text-xs font-mono">Dixon Strategic Labs</span>
         </a>

@@ -103,18 +103,18 @@ export default function AdminPage() {
         </div>
 
         {loading && !data && (
-          <p className="text-zinc-400 font-mono text-sm">Loading...</p>
+          <p className="text-zinc-500 font-mono text-sm">Loading...</p>
         )}
 
         {data && data.reports.length === 0 && (
-          <p className="text-zinc-400 text-sm">No reports yet.</p>
+          <p className="text-zinc-500 text-sm">No reports yet.</p>
         )}
 
         {data && data.reports.length > 0 && (
           <div className="overflow-x-auto rounded-xl border border-zinc-200 bg-white">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-zinc-100 text-left text-xs font-mono uppercase tracking-wider text-zinc-400">
+                <tr className="border-b border-zinc-100 text-left text-xs font-mono uppercase tracking-wider text-zinc-500">
                   <th className="px-4 py-3">Slug</th>
                   <th className="px-4 py-3">Type</th>
                   <th className="px-4 py-3">Score</th>
@@ -151,7 +151,7 @@ export default function AdminPage() {
                     <td className="px-4 py-3 font-mono text-zinc-500">
                       {r.tropesDetected ?? '-'}
                     </td>
-                    <td className="px-4 py-3 text-zinc-400 font-mono text-xs">
+                    <td className="px-4 py-3 text-zinc-500 font-mono text-xs">
                       {r.createdAt
                         ? new Date(r.createdAt).toLocaleDateString('en-US', {
                             month: 'short',

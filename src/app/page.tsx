@@ -257,10 +257,10 @@ export default function Home() {
           <a href="/tropes" className="text-candy-pink text-sm font-mono hover:underline">
             See all 42 tropes
           </a>
-          <p className="text-zinc-400 text-sm font-mono">
+          <p className="text-zinc-500 text-sm font-mono">
             Because someone should tell them.
           </p>
-          <a href="https://dxn.is" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-zinc-400 hover:text-zinc-600 transition-colors">
+          <a href="https://dxn.is" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-600 transition-colors">
             <img src="/dxn-logomark.png" alt="Dixon Strategic Labs" className="h-5 w-5" />
             <span className="text-xs font-mono">Dixon Strategic Labs</span>
           </a>

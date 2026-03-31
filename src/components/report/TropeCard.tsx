@@ -37,10 +37,9 @@ export function TropeCard({ trope, index }: TropeCardProps) {
               {trope.tropeName}
             </h3>
             <span
-              className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold tracking-wider uppercase"
+              className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold tracking-wider uppercase text-white"
               style={{
-                backgroundColor: trope.color + '20',
-                color: trope.color,
+                backgroundColor: trope.color,
               }}
             >
               {severityLabels[trope.tier]}
@@ -59,7 +58,7 @@ export function TropeCard({ trope, index }: TropeCardProps) {
 
         {/* Description */}
         {description && (
-          <p className="mt-3 text-sm leading-relaxed text-zinc-500">
+          <p className="mt-3 text-sm leading-relaxed text-zinc-600">
             {description}
           </p>
         )}

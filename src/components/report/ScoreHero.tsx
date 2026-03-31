@@ -28,7 +28,7 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
         >
           {scoreResult.rawScore}
         </span>
-        <p className="font-mono text-sm tracking-widest uppercase text-zinc-400 mt-2">
+        <p className="font-mono text-sm tracking-widest uppercase text-zinc-600 mt-2">
           trope score
         </p>
         {/* Visual scale bar */}
@@ -44,7 +44,7 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
               style={{ left: `${Math.min(scoreResult.rawScore, 75) / 75 * 100}%` }}
             />
           </div>
-          <div className="flex justify-between mt-2 font-mono text-xs text-zinc-400">
+          <div className="flex justify-between mt-2 font-mono text-xs text-zinc-600">
             <span>Clean</span>
             <span>Mild</span>
             <span>Heavy</span>
@@ -75,8 +75,7 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
         }}
       >
         <p
-          className="text-lg leading-relaxed font-medium"
-          style={{ color: scoreResult.labelColor }}
+          className="text-lg leading-relaxed font-medium text-zinc-700"
         >
           {roastLine}
         </p>
@@ -84,7 +83,7 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
 
       {/* Stats */}
       <div className="animate-score-reveal flex flex-col items-center gap-3" style={{ animationDelay: '0.3s' }}>
-        <div className="flex items-center gap-5 font-mono text-sm tracking-wide text-zinc-400">
+        <div className="flex items-center gap-5 font-mono text-sm tracking-wide text-zinc-600">
           <span className="flex items-center gap-2">
             <span className="inline-block h-2 w-2 rounded-full bg-candy-pink" />
             {scoreResult.totalTropesDetected} trope{scoreResult.totalTropesDetected !== 1 ? 's' : ''}
@@ -100,7 +99,7 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
             {scoreResult.wordCount} words
           </span>
         </div>
-        <p className="text-xs text-zinc-400">
+        <p className="text-xs text-zinc-500">
           Score reflects concentration: fewer words with more tropes scores higher.
         </p>
       </div>

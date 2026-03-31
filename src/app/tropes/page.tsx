@@ -46,7 +46,7 @@ export default function TropesPage() {
   return (
     <main className="min-h-screen bg-surface-0">
       <nav className="flex items-center justify-between border-b border-zinc-200/60 px-6 py-4 backdrop-blur-sm bg-surface-0/80">
-        <a href="/" className="font-display text-base font-bold tracking-tight text-zinc-400 transition-colors hover:text-candy-pink">
+        <a href="/" className="font-display text-base font-bold tracking-tight text-zinc-500 transition-colors hover:text-candy-pink">
           Robo Trope Spotter
         </a>
         <a href="/" className="font-mono text-sm text-candy-pink hover:underline">
@@ -99,7 +99,7 @@ export default function TropesPage() {
                     <h3 className="font-display text-lg font-bold text-zinc-900">
                       {trope.name}
                     </h3>
-                    <p className="mt-2 text-sm text-zinc-500 leading-relaxed">
+                    <p className="mt-2 text-sm text-zinc-600 leading-relaxed">
                       {trope.description}
                     </p>
                   </div>
@@ -116,10 +116,10 @@ export default function TropesPage() {
           >
             Analyze some text
           </a>
-          <p className="mt-4 font-mono text-xs text-zinc-400">
+          <p className="mt-4 font-mono text-xs text-zinc-500">
             Because someone should tell them.
           </p>
-          <a href="https://dxn.is" target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-2 text-zinc-400 hover:text-zinc-600 transition-colors">
+          <a href="https://dxn.is" target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-600 transition-colors">
             <img src="/dxn-logomark.png" alt="Dixon Strategic Labs" className="h-5 w-5" />
             <span className="text-xs font-mono">Dixon Strategic Labs</span>
           </a>

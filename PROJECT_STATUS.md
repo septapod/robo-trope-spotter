@@ -21,6 +21,12 @@ A social diagnostic tool that identifies AI writing tropes in pasted text and pr
 - [x] Custom favicon, branded 404 page, light-theme OG images
 - [x] Reanalyze endpoint for updating old reports with new scoring
 
+## Recent Changes
+- [x] Fuzzy excerpt matching for highlighted text (normalize whitespace, prefix/middle/ellipsis fallbacks)
+- [x] Contrast accessibility pass: all text-zinc-400 upgraded to text-zinc-500 or text-zinc-600 across app
+- [x] TropeCard severity badges now use solid color backgrounds with white text for readability
+- [x] Roast line text changed from dynamic labelColor to text-zinc-700 for consistent readability
+
 ## What's Next
 - [ ] Persona/archetype typing (v2 shareability feature)
 - [ ] Browser extension (v2 distribution)
