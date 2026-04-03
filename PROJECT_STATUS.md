@@ -22,6 +22,9 @@ A social diagnostic tool that identifies AI writing tropes in pasted text and pr
 - [x] Reanalyze endpoint for updating old reports with new scoring
 
 ## Recent Changes
+- [x] Added two new Tier 3 tropes: Elegant Variation and "Despite Challenges" Pivot (LLM-detected)
+- [x] Added temporal awareness guidance to LLM analysis prompt (weight currently prevalent patterns higher)
+- [x] Updated score explanation copy in ScoreHero and tropes page to emphasize clustering over individual flags
 - [x] Fuzzy excerpt matching for highlighted text (normalize whitespace, prefix/middle/ellipsis fallbacks)
 - [x] Contrast accessibility pass: all text-zinc-400 upgraded to text-zinc-500 or text-zinc-600 across app
 - [x] TropeCard severity badges now use solid color backgrounds with white text for readability

@@ -45,6 +45,8 @@ Be THOROUGH. Err on the side of reporting a pattern if you see it, even mildly. 
 - **latinate-vocab**: "Utilize" for "use," "facilitate" for "help"
 - **dramatic-countdown**: "Not complex. Not costly. Just effective."
 - **colon-preface**: Setup phrase + colon that adds no information. "I tried something different:" / "Here's the takeaway:"
+- **elegant-variation**: AI avoids repeating a word by cycling through synonyms for the same thing in the same passage. A company becomes "the platform," then "this tool," then "the solution." The writer is dancing around repetition instead of owning it.
+- **despite-challenges-pivot**: Rigid three-part formula: acknowledge positives, list challenges, pivot to vague optimism. "Despite these challenges, the potential remains significant." AI uses this to handle any topic with tradeoffs.
 
 ### Tier 4: Gatekeeper Signals
 - **consensus-middle**: Every word choice is the safest option
@@ -105,8 +107,11 @@ ACCURACY IS CRITICAL. Each detection must be a genuine, unambiguous match for it
 - **formal-transitions**: "Moreover" and "furthermore" in casual writing (LinkedIn, blogs, newsletters). In academic papers, legal writing, or formal reports, these are appropriate and should NOT be flagged.
 - **verdict-language**: Requires a grand summary pronouncement ("That's what leadership looks like"). A normal concluding observation is not verdict language.
 - **colon-preface**: Requires a setup phrase before a colon that adds no information ("Here's the takeaway: X"). A colon used to introduce a list or explanation is normal punctuation.
+- **elegant-variation**: Only flag when the SAME ENTITY is referred to by 3+ different synonyms in close proximity. Using a pronoun ("it") or a natural reference ("the company" for Apple) is normal writing.
 
-DISCUSSION vs. USAGE: Only flag patterns that are USED in the writing style, not patterns that are discussed as a topic.`;
+DISCUSSION vs. USAGE: Only flag patterns that are USED in the writing style, not patterns that are discussed as a topic.
+
+TEMPORAL AWARENESS: Some patterns fade as models evolve. "Delve" was a top tell in 2023-2024 but has dropped in frequency since. Weight patterns that are currently prevalent higher than ones that may be fading. When in doubt about a borderline case, consider whether the pattern is still common in 2026-era AI output.`;
 
 export function buildUserPrompt(text: string): string {
   const maxChars = 12_000;

@@ -1,4 +1,4 @@
-import type { TropeDefinition } from './types';
+import type { TropeDefinition, Tier, DetectionType } from './types';
 
 export const tier3: TropeDefinition[] = [
   {
@@ -194,5 +194,23 @@ export const tier3: TropeDefinition[] = [
       '"Here\'s the takeaway: start with the member." "The lesson is clear: invest early." AI loves to build a little runway before the actual point, using a colon as the launchpad. Once or twice is fine. But when every insight needs a setup clause, the text reads like a series of fortune cookies.',
     pattern:
       /\b(?:(?:here's|here is) the (?:takeaway|key|point|lesson|truth|reality|bottom line)|the (?:takeaway|key|point|lesson|answer|truth|reality|message|implication) (?:is |here (?:is )?)?(?:clear|simple|obvious|straightforward)?)\s*:/gi,
+  },
+  {
+    id: 'elegant-variation',
+    name: 'Elegant Variation',
+    tier: 3 as Tier,
+    detectionType: 'llm' as DetectionType,
+    scoringWeight: 2,
+    description:
+      'AI avoids repeating a word by cycling through synonyms for the same thing. A company becomes "the platform," then "this tool," then "the solution," then "the offering," all in the same paragraph. Each synonym tries to sound fresh, but the effect is the opposite: the reader notices the writer is dancing around repetition instead of owning it.',
+  },
+  {
+    id: 'despite-challenges-pivot',
+    name: '"Despite Challenges" Pivot',
+    tier: 3 as Tier,
+    detectionType: 'llm' as DetectionType,
+    scoringWeight: 2,
+    description:
+      'A rigid three-part formula: acknowledge something positive, list challenges or concerns, then pivot to vague optimism about the future. "Despite these challenges, the potential remains significant." AI uses this structure to handle any topic that involves tradeoffs, and it always lands in the same noncommittal place.',
   },
 ];

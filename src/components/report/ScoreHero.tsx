@@ -100,7 +100,7 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
           </span>
         </div>
         <p className="text-xs text-zinc-500">
-          Score reflects concentration: fewer words with more tropes scores higher.
+          Individual patterns can be coincidental. The score reflects how many cluster together in a short text.
         </p>
       </div>
     </section>

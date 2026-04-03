@@ -62,7 +62,7 @@ export default function TropesPage() {
           <p className="mt-4 text-lg text-zinc-500 leading-relaxed">
             Every AI writing pattern we scan for. Organized by severity,
             starting with the patterns that make readers stop reading and ending with the ones
-            only editors catch.
+            only editors catch. No single pattern proves anything. The score reflects concentration, and some flags will be coincidental.
           </p>
         </header>
 
