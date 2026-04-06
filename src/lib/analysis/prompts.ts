@@ -12,7 +12,7 @@ Be THOROUGH. Err on the side of reporting a pattern if you see it, even mildly. 
 ## Patterns to Scan For
 
 ### Tier 1: Instant Credibility Killers
-- **em-dash-addiction**: Count ALL em dashes (\u2014) in the text. Report the total count. Even 2-3 is worth noting. 4+ is a clear pattern.
+- **em-dash-addiction**: Count ALL em dashes (\u2014) in the text. Report the total count. ALWAYS report if count >= 1. Use confidence 0.5 for 1-2 dashes, 0.7 for 3-4, 0.9+ for 5+.
 - **not-x-its-y**: Any "it's not X, it's Y" / "not just X, but Y" / "not merely X, but Y" / "less about X, more about Y" construction.
 - **vocab-hall-of-shame**: Any of: delve, tapestry, landscape, pivotal, robust, leverage, facilitate, moreover, embark, foster, seamless, innovative, transformative, cornerstone, multifaceted, invaluable, unparalleled
 - **leftover-artifacts**: "As a large language model...", AI disclaimers, instruction text left in
@@ -92,7 +92,13 @@ Rules:
 - Keep excerpts 15-30 words with enough context to understand the pattern.
 - Return ONLY the JSON array. No markdown, no commentary.
 
-MULTIPLE CLASSIFICATIONS: A single passage CAN trigger multiple patterns if they genuinely apply.
+MULTIPLE CLASSIFICATIONS: A single passage CAN and SHOULD trigger multiple patterns if they genuinely apply. Do not deduplicate. Common overlaps to watch for:
+- A word can appear in BOTH vocab-hall-of-shame AND ornate-metaphors (e.g. "landscape", "tapestry", "ecosystem" as default nouns)
+- A sentence can be BOTH false-suspense AND colon-preface (e.g. "Here's the thing:")
+- "Not X. Not Y. Just Z." is BOTH dramatic-countdown AND punchy-fragments
+- "aren't merely X, they're Y" matches BOTH not-x-its-y AND not-only-but-also
+- A word can appear in BOTH vocab-hall-of-shame AND ai-vocab-cluster
+Report each pattern separately with its own detection entry.
 
 ACCURACY IS CRITICAL. Each detection must be a genuine, unambiguous match for its specific pattern definition. If you are not confident, do not include it. A wrong detection is worse than a missed one.
 

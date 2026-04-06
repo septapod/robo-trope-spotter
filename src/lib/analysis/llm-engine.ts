@@ -117,7 +117,7 @@ Explanation: ${d.explanation}`;
 
 For each detection, respond with ONLY "VALID" or "REJECT" followed by a brief reason.
 
-Be strict. Common false positives to watch for:
+Be strict about FALSE POSITIVES but do not reject valid detections. Common false positives to watch for:
 - A normal sentence flagged as "listicle-bullets" (requires actual formatted lists, not prose with commas)
 - A naturally short sentence flagged as "punchy-fragments" (requires manufactured staccato emphasis)
 - A comma-separated list flagged as "from-x-to-y" (requires literal "from X to Y" range construction)
@@ -125,7 +125,7 @@ Be strict. Common false positives to watch for:
 - A colon introducing a list flagged as "colon-preface" (requires unnecessary setup phrase before the colon)
 - Text that DISCUSSES a pattern being flagged as USING the pattern
 
-Reject anything where the excerpt does not clearly match the pattern definition.`,
+IMPORTANT: Do NOT reject a detection just because the same passage was also flagged for a different pattern. Multiple patterns CAN apply to the same text. Do NOT reject em-dash-addiction at any count. Reject only when the excerpt does not match the pattern definition.`,
         messages: [{
           role: 'user',
           content: `Source text:\n---\n${truncatedSource}\n---\n\nDetections to validate:\n\n${validationPrompt}\n\nFor each detection (1 through ${detections.length}), respond with "Detection N: VALID" or "Detection N: REJECT - reason". One per line.`
