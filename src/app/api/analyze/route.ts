@@ -6,6 +6,9 @@ import { reports } from '@/db/schema';
 
 const VALID_TYPES = new Set(['text', 'url', 'screenshot']);
 
+// Sonnet detection (90s) + Haiku validation (30s) = 120s worst case
+export const maxDuration = 120;
+
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     // 1. Parse request body

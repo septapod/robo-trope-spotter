@@ -35,16 +35,19 @@ function getNextMidnightUtc(): number {
 }
 
 function getClientIp(request: NextRequest): string {
-  return (
-    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-    request.headers.get('x-real-ip') ||
-    'unknown'
-  );
+  // Use the last value in X-Forwarded-For (set by the edge proxy, not the client)
+  const forwarded = request.headers.get('x-forwarded-for');
+  if (forwarded) {
+    const parts = forwarded.split(',').map(s => s.trim()).filter(Boolean);
+    return parts[parts.length - 1] || 'unknown';
+  }
+  return request.headers.get('x-real-ip') || 'unknown';
 }
 
 export function middleware(request: NextRequest) {
-  // Only rate-limit the analyze endpoint
-  if (!request.nextUrl.pathname.startsWith('/api/analyze')) {
+  // Rate-limit analysis endpoints
+  const path = request.nextUrl.pathname;
+  if (!path.startsWith('/api/analyze') && !path.startsWith('/api/reanalyze')) {
     return NextResponse.next();
   }
 
@@ -115,5 +118,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: '/api/analyze',
+  matcher: ['/api/analyze', '/api/reanalyze'],
 };

@@ -3,14 +3,10 @@ import { db } from '@/db';
 import { reports } from '@/db/schema';
 import { desc, sql } from 'drizzle-orm';
 import type { ScoreResult } from '@/lib/analysis/scoring';
-
-function isAuthed(request: NextRequest): boolean {
-  const cookie = request.cookies.get('admin_session')?.value;
-  return !!cookie && cookie === process.env.ADMIN_PASSWORD;
-}
+import { isValidSession } from '@/lib/admin/session';
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
-  if (!isAuthed(request)) {
+  if (!isValidSession(request)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 

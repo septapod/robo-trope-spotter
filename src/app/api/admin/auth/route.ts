@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createSession } from '@/lib/admin/session';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const { password } = await request.json();
@@ -12,8 +13,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: 'Wrong password' }, { status: 401 });
   }
 
+  const token = createSession();
   const response = NextResponse.json({ ok: true });
-  response.cookies.set('admin_session', adminPassword, {
+  response.cookies.set('admin_session', token, {
     httpOnly: true,
     secure: true,
     sameSite: 'lax',

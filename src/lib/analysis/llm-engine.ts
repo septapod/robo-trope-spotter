@@ -144,7 +144,7 @@ Reject anything where the excerpt does not clearly match the pattern definition.
 
     for (let i = 0; i < detections.length; i++) {
       const line = lines.find(l => l.includes(`Detection ${i + 1}`));
-      if (!line || line.includes('VALID')) {
+      if (line && line.includes('VALID')) {
         validated.push(detections[i]);
       } else {
         console.log(`[validator] Rejected: ${detections[i].tropeId} - ${line}`);

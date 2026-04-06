@@ -19,9 +19,18 @@ A social diagnostic tool that identifies AI writing tropes in pasted text and pr
 - [x] Supplemental em dash highlighting (catches all instances, not just LLM-quoted ones)
 - [x] SSRF protection, input size limits, proper error surfacing
 - [x] Custom favicon, branded 404 page, light-theme OG images
-- [x] Reanalyze endpoint for updating old reports with new scoring
+- [x] Reanalyze endpoint for updating old reports with new scoring (admin-only)
+- [x] Rate limiting: 20/IP/hour, 500/day global on analysis endpoints
+- [x] Admin dashboard with session-based auth
+- [x] Two-pass LLM pipeline: Sonnet detection + Haiku validation (rejects false positives)
 
 ## Recent Changes
+- [x] **Security: credential leak fixed** -- removed .env.vercel from git tracking, added to .gitignore. Password rotation required (Neon console).
+- [x] **Security: admin cookie** -- replaced raw password in cookie with random session token (new shared session module at src/lib/admin/session.ts)
+- [x] **Security: reanalyze endpoint** -- added admin auth check + rate limiting. Was previously open to unauthenticated requests.
+- [x] **Security: IP spoofing** -- rate limiter now uses last X-Forwarded-For value (edge proxy's entry) instead of first (client-spoofable)
+- [x] **Reliability: Haiku validation bug** -- fixed condition where missing Haiku responses defaulted to VALID instead of REJECT
+- [x] **Reliability: maxDuration** -- added export to analyze and reanalyze routes (120s for Sonnet + Haiku pipeline)
 - [x] Added two new Tier 3 tropes: Elegant Variation and "Despite Challenges" Pivot (LLM-detected)
 - [x] Added temporal awareness guidance to LLM analysis prompt (weight currently prevalent patterns higher)
 - [x] Updated score explanation copy in ScoreHero and tropes page to emphasize clustering over individual flags
@@ -31,9 +40,10 @@ A social diagnostic tool that identifies AI writing tropes in pasted text and pr
 - [x] Roast line text changed from dynamic labelColor to text-zinc-700 for consistent readability
 
 ## What's Next
+- [ ] **URGENT: Rotate Neon DB password** -- old password npg_zQrPAKB6nvF8 was in public git history. Rotate in Neon console, update in Vercel env vars.
+- [ ] **URGENT: Scrub .env.vercel from git history** -- requires force push (git filter-repo)
 - [ ] Persona/archetype typing (v2 shareability feature)
 - [ ] Browser extension (v2 distribution)
-- [ ] Rate limiting on public API
 - [ ] Scoring calibration against more real-world samples
 
 ## Key Decisions
