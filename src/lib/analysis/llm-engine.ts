@@ -195,7 +195,12 @@ export async function analyzeWithLlm(text: string): Promise<LlmResult> {
     let detections = parseResponse(content.text);
     console.log(`[llm-engine] Sonnet found ${detections.length} detections`);
 
-    // Guaranteed em dash detection — regex is 100% reliable, don't trust LLM for counting
+    // Pass 2: Haiku validation (before em dash injection — Haiku can't reject regex-guaranteed detection)
+    detections = await validateWithHaiku(client, detections, text);
+    console.log(`[llm-engine] After Haiku validation: ${detections.length} detections`);
+
+    // Guaranteed em dash detection — injected AFTER Haiku so it can't be rejected
+    // Regex is 100% reliable; LLM counting is not
     const emDashCount = (text.match(/\u2014/g) || []).length;
     if (emDashCount > 0) {
       const hasEmDash = detections.some(d => d.tropeId === 'em-dash-addiction');
@@ -214,10 +219,6 @@ export async function analyzeWithLlm(text: string): Promise<LlmResult> {
         console.log(`[llm-engine] Added guaranteed em-dash detection (count: ${emDashCount})`);
       }
     }
-
-    // Pass 2: Haiku validation
-    detections = await validateWithHaiku(client, detections, text);
-    console.log(`[llm-engine] After Haiku validation: ${detections.length} detections`);
 
     // Pass 3: Confidence threshold
     detections = detections.filter(d => d.confidence >= DISPLAY_CONFIDENCE_THRESHOLD);
