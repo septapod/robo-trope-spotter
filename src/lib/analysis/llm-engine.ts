@@ -195,6 +195,26 @@ export async function analyzeWithLlm(text: string): Promise<LlmResult> {
     let detections = parseResponse(content.text);
     console.log(`[llm-engine] Sonnet found ${detections.length} detections`);
 
+    // Guaranteed em dash detection — regex is 100% reliable, don't trust LLM for counting
+    const emDashCount = (text.match(/\u2014/g) || []).length;
+    if (emDashCount > 0) {
+      const hasEmDash = detections.some(d => d.tropeId === 'em-dash-addiction');
+      if (!hasEmDash) {
+        const confidence = emDashCount === 1 ? 0.5 : emDashCount <= 3 ? 0.65 : emDashCount <= 6 ? 0.85 : 1.0;
+        const exampleSentence = text.split(/[.!?]/).find(s => s.includes('\u2014'))?.trim() ?? text.slice(0, 80);
+        detections.push({
+          tropeId: 'em-dash-addiction',
+          tier: 1,
+          confidence,
+          count: emDashCount,
+          matchedExcerpts: [exampleSentence.slice(0, 120)],
+          explanation: `Found ${emDashCount} em dash${emDashCount === 1 ? '' : 'es'}. ${emDashCount === 1 ? 'Even one is worth noting.' : emDashCount <= 3 ? 'A noticeable pattern.' : 'Heavy usage.'}`,
+          suggestion: 'Try a period or comma instead. The sentence usually works without the aside.',
+        });
+        console.log(`[llm-engine] Added guaranteed em-dash detection (count: ${emDashCount})`);
+      }
+    }
+
     // Pass 2: Haiku validation
     detections = await validateWithHaiku(client, detections, text);
     console.log(`[llm-engine] After Haiku validation: ${detections.length} detections`);

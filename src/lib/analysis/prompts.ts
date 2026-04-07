@@ -114,6 +114,7 @@ ACCURACY IS CRITICAL. Each detection must be a genuine, unambiguous match for it
 - **verdict-language**: Requires a grand summary pronouncement ("That's what leadership looks like"). A normal concluding observation is not verdict language.
 - **colon-preface**: Requires a setup phrase before a colon that adds no information ("Here's the takeaway: X"). A colon used to introduce a list or explanation is normal punctuation.
 - **elegant-variation**: Only flag when the SAME ENTITY is referred to by 3+ different synonyms in close proximity. Using a pronoun ("it") or a natural reference ("the company" for Apple) is normal writing.
+- **not-x-its-y**: The pattern is specifically the AI pivot construction used for rhetorical positioning: "It's not about X, it's about Y" / "not just X, but Y" (reframing the topic). A classical contrast like "not from ignorance but from fear" (directly characterizing a single thing) is NOT this pattern — it's a normal literary construction. The test: is the writer pivoting away from one framing to establish a different one, or simply characterizing something through contrast?
 
 DISCUSSION vs. USAGE: Only flag patterns that are USED in the writing style, not patterns that are discussed as a topic.
 
