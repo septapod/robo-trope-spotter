@@ -124,6 +124,7 @@ Be strict about FALSE POSITIVES but do not reject valid detections. Common false
 - Normal concluding sentences flagged as "verdict-language" (requires grand pronouncements)
 - A colon introducing a list flagged as "colon-preface" (requires unnecessary setup phrase before the colon)
 - Text that DISCUSSES a pattern being flagged as USING the pattern
+- "formal-transitions" flagged in academic writing: if the source text reads like a research abstract, study summary, or formal report (hedged claims, methodology language, passive voice), REJECT formal-transitions detections — "Moreover" and "Furthermore" are correct in that register
 
 IMPORTANT: Do NOT reject a detection just because the same passage was also flagged for a different pattern. Multiple patterns CAN apply to the same text. Do NOT reject em-dash-addiction at any count. Reject only when the excerpt does not match the pattern definition.`,
         messages: [{
@@ -208,7 +209,7 @@ export async function analyzeWithLlm(text: string): Promise<LlmResult> {
       const existingIdx = detections.findIndex(d => d.tropeId === 'em-dash-addiction');
       const emDashDetection: LlmDetection = {
         tropeId: 'em-dash-addiction',
-        tier: 1,
+        tier: emDashCount <= 2 ? 2 : 1,
         confidence,
         count: emDashCount,
         matchedExcerpts: [exampleSentence.slice(0, 120)],

@@ -96,7 +96,7 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
           <span className="h-3 w-px bg-zinc-300" />
           <span className="flex items-center gap-2">
             <span className="inline-block h-2 w-2 rounded-full bg-candy-teal" />
-            {scoreResult.wordCount} words
+            {scoreResult.actualWordCount} words analyzed
           </span>
         </div>
         <p className="text-xs text-zinc-500">

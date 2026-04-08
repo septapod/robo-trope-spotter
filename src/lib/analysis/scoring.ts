@@ -34,6 +34,7 @@ export interface ScoreResult {
   totalTropesDetected: number;
   totalInstancesDetected: number;
   wordCount: number;
+  actualWordCount: number;
 }
 
 const TIER_WEIGHTS: Record<Tier, number> = {
@@ -117,6 +118,7 @@ export function computeScoreFromLlm(
     totalTropesDetected: tropeResults.length,
     totalInstancesDetected,
     wordCount: safeWordCount,
+    actualWordCount: wordCount,
   };
 }
 

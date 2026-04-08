@@ -57,7 +57,7 @@ export const tier3: TropeDefinition[] = [
     detectionType: 'heuristic',
     scoringWeight: 2,
     description:
-      'AI turns everything into a numbered list with bold lead-ins. "1. **Improved Efficiency**: By streamlining..." Readable, yes, but also the formatting equivalent of a uniform. Every AI output looks the same, and this pattern is the main reason.',
+      'AI turns everything into a numbered list with bold lead-ins even when prose would work better. "1. **Improved Efficiency**: By streamlining..." Genuine lists — steps in a process, items in an order, things that are actually enumerable — are fine. This flags the AI tell: generic benefit-summary lists where the content would read better as connected sentences.',
     pattern:
       /(?:^\d+\.\s+\*\*.+?\*\*[:\s]|^[-*]\s+\*\*.+?\*\*[:\s])/gm,
   },
