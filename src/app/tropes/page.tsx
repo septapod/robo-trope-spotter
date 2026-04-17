@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { allTropes } from '@/lib/tropes/registry';
 import type { Tier } from '@/lib/tropes/types';
 import type { Metadata } from 'next';
@@ -49,7 +50,10 @@ export default function TropesPage() {
         <a href="/" className="font-display text-base font-bold tracking-tight text-zinc-500 transition-colors hover:text-candy-pink">
           Robo Trope Spotter
         </a>
-        <a href="/" className="font-mono text-sm text-link-pink underline underline-offset-4 hover:no-underline">
+        <a
+          href="/"
+          className="font-mono text-sm text-link-pink underline underline-offset-4 hover:no-underline inline-flex items-center min-h-[44px] px-3 py-3"
+        >
           Analyze text
         </a>
       </nav>
@@ -112,15 +116,20 @@ export default function TropesPage() {
         <footer className="border-t border-zinc-200/60 pt-8 text-center">
           <a
             href="/"
-            className="inline-block font-display font-bold text-sm bg-candy-pink text-white rounded-2xl px-6 py-2.5 shadow-md shadow-candy-pink/15 transition-all hover:bg-pink-600"
+            className="inline-flex items-center min-h-[44px] font-display font-bold text-sm bg-candy-pink text-white rounded-2xl px-6 py-2.5 shadow-md shadow-candy-pink/15 transition-all hover:bg-pink-600"
           >
             Analyze some text
           </a>
           <p className="mt-4 font-mono text-xs text-zinc-500">
             Because it's better to know.
           </p>
-          <a href="https://dxn.is" target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-600 transition-colors">
-            <img src="/dxn-logomark.png" alt="Dixon Strategic Labs" className="h-5 w-5" />
+          <a
+            href="https://dxn.is"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-flex items-center gap-2 min-h-[44px] px-3 py-3 text-zinc-500 hover:text-zinc-600 transition-colors"
+          >
+            <Image src="/dxn-logomark.png" alt="Dixon Strategic Labs" width={20} height={20} />
             <span className="text-xs font-mono">Dixon Strategic Labs</span>
           </a>
         </footer>

@@ -100,7 +100,8 @@ export function ScreenshotInput({
               <button
                 type="button"
                 onClick={clearFile}
-                className="absolute top-2 right-2 rounded-full bg-white/90 hover:bg-white p-2 text-zinc-500 hover:text-candy-pink transition-all duration-200 shadow-md hover:shadow-lg"
+                aria-label="Clear screenshot"
+                className="absolute top-2 right-2 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/90 hover:bg-white text-zinc-500 hover:text-candy-pink transition-all duration-200 shadow-md hover:shadow-lg"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

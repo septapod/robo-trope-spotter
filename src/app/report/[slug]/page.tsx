@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import { eq } from 'drizzle-orm';
+import Image from 'next/image';
 import { db } from '@/db';
 import { reports } from '@/db/schema';
 import type { ScoreResult } from '@/lib/analysis/scoring';
@@ -108,19 +109,24 @@ export default async function ReportPage({ params }: PageProps) {
         <div className="mt-4 flex items-center justify-center gap-4">
           <a
             href="/"
-            className="inline-block font-display font-bold text-sm bg-candy-pink text-white rounded-2xl px-6 py-2.5 shadow-md shadow-candy-pink/15 transition-all hover:bg-pink-600"
+            className="inline-flex items-center min-h-[44px] font-display font-bold text-sm bg-candy-pink text-white rounded-2xl px-6 py-2.5 shadow-md shadow-candy-pink/15 transition-all hover:bg-pink-600"
           >
             Analyze another text
           </a>
           <a
             href="/tropes"
-            className="font-mono text-sm text-link-pink underline underline-offset-4 hover:no-underline"
+            className="font-mono text-sm text-link-pink underline underline-offset-4 hover:no-underline inline-flex items-center min-h-[44px] px-3 py-3"
           >
             See all 42 tropes
           </a>
         </div>
-        <a href="https://dxn.is" target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-600 transition-colors">
-          <img src="/dxn-logomark.png" alt="Dixon Strategic Labs" className="h-5 w-5" />
+        <a
+          href="https://dxn.is"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-6 inline-flex items-center gap-2 min-h-[44px] px-3 py-3 text-zinc-500 hover:text-zinc-600 transition-colors"
+        >
+          <Image src="/dxn-logomark.png" alt="Dixon Strategic Labs" width={20} height={20} />
           <span className="text-xs font-mono">Dixon Strategic Labs</span>
         </a>
       </footer>

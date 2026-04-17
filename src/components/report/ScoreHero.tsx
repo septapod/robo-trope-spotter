@@ -23,8 +23,8 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
       {/* Score number */}
       <div className="animate-score-reveal relative">
         <span
-          className="relative font-display text-[140px] font-bold tabular-nums tracking-tighter leading-none sm:text-[180px]"
-          style={{ color: scoreResult.labelColor }}
+          className="relative font-display font-bold tabular-nums tracking-tighter leading-none"
+          style={{ color: scoreResult.labelColor, fontSize: 'clamp(6rem, 22vw, 11rem)' }}
         >
           {scoreResult.rawScore}
         </span>
