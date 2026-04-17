@@ -117,11 +117,22 @@ export function ScreenshotInput({
             </div>
           ) : (
             <div
+              role="button"
+              tabIndex={disabled ? -1 : 0}
+              aria-label="Upload screenshot"
+              aria-disabled={disabled}
               onDrop={handleDrop}
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
-              onClick={() => fileInputRef.current?.click()}
-              className={`rounded-2xl border-3 border-dashed p-8 text-center cursor-pointer transition-all duration-300 ${
+              onClick={() => !disabled && fileInputRef.current?.click()}
+              onKeyDown={(e) => {
+                if (disabled) return;
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  fileInputRef.current?.click();
+                }
+              }}
+              className={`focus-glow rounded-2xl border-3 border-dashed p-8 text-center cursor-pointer transition-all duration-300 ${
                 dragOver
                   ? "border-candy-teal/60 bg-candy-teal/5 scale-[1.02]"
                   : "border-zinc-300 hover:border-candy-teal/40 hover:bg-candy-teal/5 bg-white"

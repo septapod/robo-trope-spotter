@@ -162,9 +162,10 @@
 }
 
 /* ============================================
-   FOCUS GLOW (motion-gated; Unit 6 reworks for one-shot transition.
-   Solid outline fallback outside the motion block keeps focus visible
-   regardless of motion preference.)
+   FOCUS GLOW
+   Solid outline fallback (outside motion block) keeps focus visible for
+   every user. When motion is allowed, a one-shot 400ms box-shadow/border
+   transition replaces the previous infinite cycling animation.
    ============================================ */
 
 .focus-glow:focus-visible {
@@ -173,31 +174,14 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  @keyframes focus-glow {
-    0% {
-      box-shadow: 0 0 0 4px rgba(244, 63, 94, 0.25), 0 0 30px rgba(244, 63, 94, 0.1);
-      border-color: rgba(244, 63, 94, 0.5);
-    }
-    25% {
-      box-shadow: 0 0 0 4px rgba(251, 146, 60, 0.25), 0 0 30px rgba(251, 146, 60, 0.1);
-      border-color: rgba(251, 146, 60, 0.5);
-    }
-    50% {
-      box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.25), 0 0 30px rgba(45, 212, 191, 0.1);
-      border-color: rgba(45, 212, 191, 0.5);
-    }
-    75% {
-      box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.25), 0 0 30px rgba(167, 139, 250, 0.1);
-      border-color: rgba(167, 139, 250, 0.5);
-    }
-    100% {
-      box-shadow: 0 0 0 4px rgba(244, 63, 94, 0.25), 0 0 30px rgba(244, 63, 94, 0.1);
-      border-color: rgba(244, 63, 94, 0.5);
-    }
+  .focus-glow {
+    transition: box-shadow 400ms ease-out, border-color 400ms ease-out;
   }
 
-  .focus-glow:focus {
-    animation: focus-glow 4s ease-in-out infinite;
+  .focus-glow:focus,
+  .focus-glow:focus-visible {
+    box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.25), 0 0 24px rgba(236, 72, 153, 0.12);
+    border-color: rgba(236, 72, 153, 0.55);
     outline: none;
   }
 }
