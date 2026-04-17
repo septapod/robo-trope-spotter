@@ -5,10 +5,30 @@ import { useState } from 'react';
 interface ShareBarProps {
   title: string;
   score: number;
+  slug: string;
 }
 
-export function ShareBar({ title, score }: ShareBarProps) {
+export function ShareBar({ title, score, slug }: ShareBarProps) {
   const [copied, setCopied] = useState(false);
+
+  const trackShare = (method: 'clipboard' | 'native') => {
+    try {
+      const payload = JSON.stringify({ reportSlug: slug, method });
+      const blob = new Blob([payload], { type: 'application/json' });
+      if (typeof navigator !== 'undefined' && typeof navigator.sendBeacon === 'function') {
+        const queued = navigator.sendBeacon('/api/track-share', blob);
+        if (queued) return;
+      }
+      void fetch('/api/track-share', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: payload,
+        keepalive: true,
+      }).catch(() => {});
+    } catch {
+      // Tracking must never affect UX.
+    }
+  };
 
   const handleCopy = async () => {
     try {
@@ -25,6 +45,7 @@ export function ShareBar({ title, score }: ShareBarProps) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
+    trackShare('clipboard');
   };
 
   const handleShare = async () => {
@@ -35,8 +56,9 @@ export function ShareBar({ title, score }: ShareBarProps) {
           text: `This text scored ${score} on the trope detector.`,
           url: window.location.href,
         });
+        trackShare('native');
       } catch {
-        // User cancelled
+        // User cancelled — no event recorded
       }
     } else {
       handleCopy();

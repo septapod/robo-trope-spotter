@@ -81,7 +81,7 @@ export default async function ReportPage({ params }: PageProps) {
         <a href="/" className="font-display text-base font-bold tracking-tight text-zinc-500 transition-colors hover:text-candy-pink">
           Robo Trope Spotter
         </a>
-        <ShareBar title={scoreResult.label} score={scoreResult.rawScore} />
+        <ShareBar title={scoreResult.label} score={scoreResult.rawScore} slug={report.slug} />
       </nav>
 
       <div className="relative z-10">
