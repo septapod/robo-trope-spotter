@@ -239,6 +239,16 @@ export function HighlightedText({ sourceText, tropeResults }: HighlightedTextPro
     return () => document.removeEventListener('mousedown', handler);
   }, [pinnedId]);
 
+  // Global Escape dismissal (fires even when focus has left the highlight region).
+  useEffect(() => {
+    if (!pinnedId) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setPinnedId(null);
+    };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, [pinnedId]);
+
   const segments = useMemo(() => {
     const out: { text: string; highlight?: Highlight }[] = [];
     let cursor = 0;

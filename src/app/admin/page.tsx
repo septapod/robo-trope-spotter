@@ -36,6 +36,8 @@ interface SharesData {
   totalShares: number;
   sharesToday: number;
   shareRate: number;
+  eventsPerReport: number;
+  distinctSharedReports: number;
   byScoreBand: ScoreBand[];
   events: ShareEventRow[];
 }
@@ -221,9 +223,10 @@ function SharesPanel({ shares }: { shares: SharesData | null }) {
       <div className="flex items-baseline justify-between mb-8">
         <h2 className="font-display text-2xl font-bold text-zinc-900">Shares</h2>
         <div className="flex gap-6 font-mono text-sm text-zinc-500">
-          <span>14d: <strong className="text-zinc-900">{shares?.totalShares ?? 0}</strong></span>
+          <span>14d events: <strong className="text-zinc-900">{shares?.totalShares ?? 0}</strong></span>
           <span>Today: <strong className="text-zinc-900">{shares?.sharesToday ?? 0}</strong></span>
-          <span>Rate: <strong className="text-zinc-900">{shares ? sharePct(shares.shareRate) : '-'}</strong></span>
+          <span>% reports shared: <strong className="text-zinc-900">{shares ? sharePct(shares.shareRate) : '-'}</strong></span>
+          <span>Events / report: <strong className="text-zinc-900">{shares ? shares.eventsPerReport.toFixed(2) : '-'}</strong></span>
         </div>
       </div>
 

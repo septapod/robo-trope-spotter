@@ -21,6 +21,12 @@ re-create tables that already exist.
 After bootstrap, the existing `0000_share_events.sql` in this directory is the
 first tracked delta. `npm run db:migrate` will apply it on deploy.
 
+The SQL in `0000_share_events.sql` uses plain `CREATE TABLE` / `CREATE INDEX`
+statements so the file hash matches what `drizzle-kit generate` would emit
+against a baseline that does not yet contain `share_events`. If you need to
+re-apply this migration idempotently, drop the existing `share_events` table
+first or apply only the missing statements manually.
+
 ## Applying new migrations
 
 1. Edit `src/db/schema.ts`.

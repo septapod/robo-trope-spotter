@@ -182,7 +182,7 @@
   .focus-glow:focus-visible {
     box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.25), 0 0 24px rgba(236, 72, 153, 0.12);
     border-color: rgba(236, 72, 153, 0.55);
-    outline: none;
+    /* outline stays from the rule outside this block — keeps focus visible if box-shadow is suppressed (forced-colors etc.) */
   }
 }
 

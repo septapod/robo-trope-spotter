@@ -38,7 +38,16 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const totalShares = totalSharesRow?.count ?? 0;
   const sharesToday = sharesTodayRow?.count ?? 0;
   const totalReportsInWindow = totalReportsRow?.count ?? 0;
-  const shareRate = totalReportsInWindow > 0 ? totalShares / totalReportsInWindow : 0;
+  // eventsPerReport = total events / total reports. Can exceed 1 when a report is shared multiple times.
+  const eventsPerReport = totalReportsInWindow > 0 ? totalShares / totalReportsInWindow : 0;
+
+  // distinctSharedReports = reports that got at least one share. Used to express % reports shared.
+  const [distinctSharedRow] = await database
+    .select({ count: sql<number>`count(distinct ${shareEvents.reportSlug})::int` })
+    .from(shareEvents)
+    .where(gte(shareEvents.createdAt, windowStart));
+  const distinctSharedReports = distinctSharedRow?.count ?? 0;
+  const shareRate = totalReportsInWindow > 0 ? distinctSharedReports / totalReportsInWindow : 0;
 
   // Score-band aggregation: join share_events on reports by slug, group by score label.
   const bandRows = await database.execute(sql`
@@ -89,6 +98,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     totalShares,
     sharesToday,
     shareRate,
+    eventsPerReport,
+    distinctSharedReports,
     byScoreBand,
     events,
   });

@@ -27,9 +27,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     const { reportSlug, method } = body;
 
-    if (typeof reportSlug !== 'string' || reportSlug.trim().length === 0) {
+    if (
+      typeof reportSlug !== 'string' ||
+      reportSlug.trim().length === 0 ||
+      reportSlug.length > 128
+    ) {
       return NextResponse.json(
-        { error: 'reportSlug is required and must be a non-empty string.' },
+        { error: 'reportSlug must be a non-empty string up to 128 characters.' },
         { status: 400 }
       );
     }
