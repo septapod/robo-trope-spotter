@@ -37,7 +37,9 @@ export function TropeCard({ trope, index }: TropeCardProps) {
               {trope.tropeName}
             </h3>
             <span
-              className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold tracking-wider uppercase text-white"
+              className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-bold tracking-wider uppercase ${
+                trope.tier >= 3 ? 'text-zinc-900' : 'text-white'
+              }`}
               style={{
                 backgroundColor: trope.color,
               }}

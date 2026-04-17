@@ -10,7 +10,9 @@
   --color-surface-2: #F3F2EF;
   --color-surface-3: #E8E6E1;
 
-  --color-candy-pink: #EC4899;
+  --color-brand-pink: #EC4899;
+  --color-candy-pink: var(--color-brand-pink);
+  --color-link-pink: oklch(55% 0.18 0);
   --color-candy-yellow: #EAB308;
   --color-candy-orange: #F97316;
   --color-candy-teal: #14B8A6;

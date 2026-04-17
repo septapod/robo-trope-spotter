@@ -254,7 +254,7 @@ export default function Home() {
 
         {/* Footer */}
         <footer className="text-center pt-6 space-y-4">
-          <a href="/tropes" className="text-candy-pink text-sm font-mono hover:underline">
+          <a href="/tropes" className="text-link-pink text-sm font-mono underline underline-offset-4 hover:no-underline">
             See all 42 tropes
           </a>
           <p className="text-zinc-500 text-sm font-mono">

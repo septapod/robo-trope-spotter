@@ -49,7 +49,7 @@ export default function TropesPage() {
         <a href="/" className="font-display text-base font-bold tracking-tight text-zinc-500 transition-colors hover:text-candy-pink">
           Robo Trope Spotter
         </a>
-        <a href="/" className="font-mono text-sm text-candy-pink hover:underline">
+        <a href="/" className="font-mono text-sm text-link-pink underline underline-offset-4 hover:no-underline">
           Analyze text
         </a>
       </nav>

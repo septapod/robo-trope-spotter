@@ -114,7 +114,7 @@ export default async function ReportPage({ params }: PageProps) {
           </a>
           <a
             href="/tropes"
-            className="font-mono text-sm text-candy-pink hover:underline"
+            className="font-mono text-sm text-link-pink underline underline-offset-4 hover:no-underline"
           >
             See all 42 tropes
           </a>
