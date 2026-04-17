@@ -47,7 +47,7 @@ export default function TropesPage() {
   return (
     <main className="min-h-screen bg-surface-0">
       <nav className="flex items-center justify-between border-b border-zinc-200/60 px-6 py-4 backdrop-blur-sm bg-surface-0/80">
-        <a href="/" className="font-display text-base font-bold tracking-tight text-zinc-500 transition-colors hover:text-candy-pink">
+        <a href="/" className="font-display text-base font-bold tracking-tight text-zinc-500 transition-colors hover:text-link-pink">
           Robo Trope Spotter
         </a>
         <a

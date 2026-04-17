@@ -115,7 +115,7 @@ export default function AdminPage() {
             onChange={(e) => setPassword(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
             placeholder="Password"
-            className="w-full rounded-xl border-2 border-zinc-200 bg-white px-4 py-3 text-zinc-900 placeholder-zinc-400 focus:border-candy-pink focus:outline-none"
+            className="w-full rounded-xl border-2 border-zinc-200 bg-white px-4 py-3 text-zinc-900 placeholder-zinc-500 focus:border-candy-pink focus:outline-none"
             autoFocus
           />
           <button
@@ -139,7 +139,7 @@ export default function AdminPage() {
           <h1 className="font-display text-3xl font-bold text-zinc-900">Reports</h1>
           <div className="flex gap-6 font-mono text-sm text-zinc-500">
             <span>Total: <strong className="text-zinc-900">{data?.total ?? 0}</strong></span>
-            <span>Today: <strong className="text-candy-pink">{data?.today ?? 0}</strong></span>
+            <span>Today: <strong className="text-link-pink">{data?.today ?? 0}</strong></span>
           </div>
         </div>
 
@@ -174,7 +174,7 @@ export default function AdminPage() {
                     <td className="px-4 py-3">
                       <a
                         href={`/report/${r.slug}`}
-                        className="font-mono text-candy-pink hover:underline"
+                        className="font-mono text-link-pink underline underline-offset-4 hover:no-underline"
                         target="_blank"
                         rel="noopener noreferrer"
                       >

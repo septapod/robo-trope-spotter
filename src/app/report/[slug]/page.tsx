@@ -79,7 +79,7 @@ export default async function ReportPage({ params }: PageProps) {
 
       {/* Nav */}
       <nav className="relative z-10 flex items-center justify-between border-b border-zinc-200/60 px-6 py-4 backdrop-blur-sm bg-surface-0/80">
-        <a href="/" className="font-display text-base font-bold tracking-tight text-zinc-500 transition-colors hover:text-candy-pink">
+        <a href="/" className="font-display text-base font-bold tracking-tight text-zinc-500 transition-colors hover:text-link-pink">
           Robo Trope Spotter
         </a>
         <ShareBar title={scoreResult.label} score={scoreResult.rawScore} slug={report.slug} />

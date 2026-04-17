@@ -14,7 +14,7 @@ export function TextInput({ value, onChange, disabled }: TextInputProps) {
       </label>
       <textarea
         id="text-input"
-        className="focus-glow w-full h-56 rounded-3xl bg-white border-3 border-zinc-200 p-6 text-zinc-900 text-base leading-relaxed placeholder-zinc-400 resize-none transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed font-sans shadow-sm hover:border-zinc-300 hover:shadow-md"
+        className="focus-glow w-full h-56 rounded-3xl bg-white border-3 border-zinc-200 p-6 text-zinc-900 text-base leading-relaxed placeholder-zinc-500 resize-none transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed font-sans shadow-sm hover:border-zinc-300 hover:shadow-md"
         style={{ borderWidth: '3px' }}
         placeholder="paste something suspicious..."
         value={value}

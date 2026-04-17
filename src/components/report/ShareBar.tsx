@@ -71,7 +71,7 @@ export function ShareBar({ title, score, slug }: ShareBarProps) {
     <div className="flex items-center gap-2">
       <button
         onClick={handleCopy}
-        className="flex items-center gap-2 rounded-2xl border-2 border-zinc-200 bg-white px-5 py-2.5 font-mono text-sm font-semibold text-zinc-500 transition-all duration-200 hover:border-candy-pink/40 hover:text-candy-pink hover:shadow-md shadow-sm"
+        className="flex items-center gap-2 rounded-2xl border-2 border-zinc-200 bg-white px-5 py-2.5 font-mono text-sm font-semibold text-zinc-500 transition-all duration-200 hover:border-candy-pink/40 hover:text-link-pink hover:shadow-md shadow-sm"
       >
         {copied ? (
           <>

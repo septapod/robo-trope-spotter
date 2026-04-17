@@ -67,10 +67,10 @@ export function ScreenshotInput({
         disabled={collapsed}
         className={`pill-toggle flex items-center gap-2 rounded-2xl border-2 py-3 px-5 text-sm font-display font-bold transition-all duration-200 ${
           isOpen
-            ? "active border-candy-teal bg-candy-teal/10 text-candy-teal"
+            ? "active border-teal-700 bg-teal-700/10 text-teal-700"
             : collapsed
               ? "border-zinc-200 bg-zinc-100 text-zinc-300 cursor-not-allowed opacity-40"
-              : "border-zinc-200 bg-white text-zinc-500 hover:border-candy-teal/40 hover:text-candy-teal hover:bg-candy-teal/5"
+              : "border-zinc-200 bg-white text-zinc-500 hover:border-teal-700/40 hover:text-teal-700 hover:bg-teal-700/5"
         }`}
       >
         <svg
@@ -101,7 +101,7 @@ export function ScreenshotInput({
                 type="button"
                 onClick={clearFile}
                 aria-label="Clear screenshot"
-                className="absolute top-2 right-2 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/90 hover:bg-white text-zinc-500 hover:text-candy-pink transition-all duration-200 shadow-md hover:shadow-lg"
+                className="absolute top-2 right-2 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/90 hover:bg-white text-zinc-500 hover:text-link-pink transition-all duration-200 shadow-md hover:shadow-lg"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -135,8 +135,8 @@ export function ScreenshotInput({
               }}
               className={`focus-glow rounded-2xl border-3 border-dashed p-8 text-center cursor-pointer transition-all duration-300 ${
                 dragOver
-                  ? "border-candy-teal/60 bg-candy-teal/5 scale-[1.02]"
-                  : "border-zinc-300 hover:border-candy-teal/40 hover:bg-candy-teal/5 bg-white"
+                  ? "border-teal-700/60 bg-teal-700/5 scale-[1.02]"
+                  : "border-zinc-300 hover:border-teal-700/40 hover:bg-teal-700/5 bg-white"
               } ${disabled ? "opacity-30 cursor-not-allowed" : ""}`}
               style={{ borderWidth: '3px' }}
             >

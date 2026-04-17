@@ -164,7 +164,7 @@ export default function Home() {
       <div className="relative z-10 w-full max-w-xl space-y-8">
         {/* Header */}
         <header className="text-center space-y-5">
-          <p className="font-mono text-sm tracking-widest uppercase text-candy-pink font-medium">
+          <p className="font-mono text-sm tracking-widest uppercase text-link-pink font-medium">
             AI Writing Trope Detector
           </p>
           <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl text-zinc-900 leading-[0.95]">
