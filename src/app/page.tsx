@@ -258,7 +258,7 @@ export default function Home() {
             See all 42 tropes
           </a>
           <p className="text-zinc-500 text-sm font-mono">
-            Because someone should tell them.
+            Because it's better to know.
           </p>
           <a href="https://dxn.is" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-600 transition-colors">
             <img src="/dxn-logomark.png" alt="Dixon Strategic Labs" className="h-5 w-5" />

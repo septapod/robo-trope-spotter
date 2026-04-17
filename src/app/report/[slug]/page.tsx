@@ -103,7 +103,7 @@ export default async function ReportPage({ params }: PageProps) {
       {/* Footer */}
       <footer className="relative z-10 border-t border-zinc-200/60 px-4 py-10 text-center">
         <p className="font-mono text-sm tracking-wider text-zinc-500 uppercase">
-          Because someone should tell them.
+          Because it's better to know.
         </p>
         <div className="mt-4 flex items-center justify-center gap-4">
           <a
