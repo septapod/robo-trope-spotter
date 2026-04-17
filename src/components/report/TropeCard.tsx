@@ -48,10 +48,11 @@ export function TropeCard({ trope, index }: TropeCardProps) {
             </span>
           </div>
           <span
-            className="shrink-0 rounded-2xl px-3 py-1.5 font-mono text-base font-bold tabular-nums"
+            className={`shrink-0 rounded-2xl px-3 py-1.5 font-mono text-base font-bold tabular-nums ${
+              trope.tier >= 3 ? 'text-zinc-900' : 'text-white'
+            }`}
             style={{
-              backgroundColor: trope.color + '18',
-              color: trope.color,
+              backgroundColor: trope.color,
             }}
           >
             {trope.count}x
@@ -85,7 +86,7 @@ export function TropeCard({ trope, index }: TropeCardProps) {
                   borderColor: trope.color + '20',
                 }}
               >
-                <span style={{ color: trope.color }} className="font-medium">
+                <span className="font-medium text-zinc-900">
                   &ldquo;{example}&rdquo;
                 </span>
               </div>

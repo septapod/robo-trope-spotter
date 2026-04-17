@@ -1,6 +1,7 @@
 import type { ScoreResult } from '@/lib/analysis/scoring';
 import { getRoastLine } from '@/lib/copy/roast-lines';
 import { isCleanScore, getCleanBadge, getCleanSubtitle } from '@/lib/copy/clean-score';
+import { getLabelInkColor } from '@/lib/analysis/colors';
 
 interface ScoreHeroProps {
   scoreResult: ScoreResult;
@@ -9,6 +10,7 @@ interface ScoreHeroProps {
 export function ScoreHero({ scoreResult }: ScoreHeroProps) {
   const clean = isCleanScore(scoreResult);
   const roastLine = getRoastLine(scoreResult);
+  const inkColor = getLabelInkColor(scoreResult.label);
 
   return (
     <section className="relative flex flex-col items-center gap-8 py-20 px-4 text-center sm:py-24">
@@ -24,7 +26,7 @@ export function ScoreHero({ scoreResult }: ScoreHeroProps) {
       <div className="animate-score-reveal relative">
         <span
           className="relative font-display font-bold tabular-nums tracking-tighter leading-none"
-          style={{ color: scoreResult.labelColor, fontSize: 'clamp(6rem, 22vw, 11rem)' }}
+          style={{ color: inkColor, fontSize: 'clamp(6rem, 22vw, 11rem)' }}
         >
           {scoreResult.rawScore}
         </span>

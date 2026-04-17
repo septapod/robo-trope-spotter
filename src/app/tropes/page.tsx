@@ -81,10 +81,7 @@ export default function TropesPage() {
                   <h2 className="font-display text-2xl font-bold text-zinc-900">
                     {meta.severity}
                   </h2>
-                  <span
-                    className="font-mono text-xs tracking-wider uppercase font-semibold"
-                    style={{ color: meta.color }}
-                  >
+                  <span className="font-mono text-xs tracking-wider uppercase font-semibold text-zinc-600">
                     {meta.label} ({tropes.length} patterns)
                   </span>
                 </div>
