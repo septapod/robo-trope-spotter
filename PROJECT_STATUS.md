@@ -13,7 +13,7 @@ A social diagnostic tool that identifies AI writing tropes in pasted text and pr
 - [x] Inline highlighted text showing where tropes appear in context
 - [x] Density-normalized scoring (weighted by severity, normalized per 500 words)
 - [x] Visual scale bar showing where score falls on clean-to-heavy spectrum
-- [x] Typography: Bricolage Grotesque (display) + Outfit (body) + JetBrains Mono (data)
+- [x] Typography: Bricolage Grotesque (display) + Hanken Grotesk (body) + JetBrains Mono (data), loaded via next/font
 - [x] Bold candy color palette (pink, yellow, orange, teal, green, purple, blue)
 - [x] Human-readable severity labels: Dead Giveaway, Red Flag, Worth Noting, Subtle Tell, Deep Cut
 - [x] Supplemental em dash highlighting (catches all instances, not just LLM-quoted ones)
@@ -25,6 +25,7 @@ A social diagnostic tool that identifies AI writing tropes in pasted text and pr
 - [x] Two-pass LLM pipeline: Sonnet detection + Haiku validation (rejects false positives)
 
 ## Recent Changes
+- [x] **PR 1 audit repair + share instrumentation** -- next/font migration (Hanken replaces Outfit), candy-pink split into `--color-brand-pink` (vivid, kept on OG/buttons) + `--color-link-pink` `oklch(55% 0.18 0)` for WCAG link contrast, tier-3+ badge ink color, form labels + role=alert + aria-live + aria-busy, all keyframes wrapped in `prefers-reduced-motion: no-preference`, drop zone keyboard-operable (role=button + Enter/Space), HighlightedText tooltip rewritten as buttons with click-to-pin + roving tabindex + aria-describedby, focus-glow replaced infinite animation with one-shot transition + solid outline fallback, next/image logomark, 44x44 touch targets, fluid score `clamp(6rem, 22vw, 11rem)`, share_events table + `/api/track-share` POST + dedicated rate limit (`TRACK_SHARE_IP_LIMIT` default 60/h, `TRACK_SHARE_GLOBAL_CAP` default 5000/day), ShareBar sendBeacon with fetch keepalive fallback, admin `/api/admin/shares` + SharesPanel with score-band breakdown
 - [x] **Detection: 5-round iterative testing loop** -- prompt refinements and engine fixes across rounds 1-5
 - [x] **Detection: guaranteed em dash** -- regex-based injection after Haiku validation; count always corrected from regex (not LLM)
 - [x] **Detection: not-x-its-y** -- tightened to exclude classical literary contrasts; only AI pivot constructions fire
