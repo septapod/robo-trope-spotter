@@ -41,16 +41,22 @@ export function UrlInput({ value, onChange, disabled, collapsed }: UrlInputProps
       </button>
 
       {isOpen && (
-        <input
-          type="url"
-          className="focus-glow mt-3 w-full rounded-2xl bg-white border-3 border-zinc-200 px-5 py-3.5 text-sm text-zinc-900 placeholder-zinc-400 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed font-mono shadow-sm"
-          style={{ borderWidth: '3px' }}
-          placeholder="https://..."
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          disabled={disabled}
-          autoFocus
-        />
+        <>
+          <label htmlFor="url-input" className="sr-only">
+            URL to analyze
+          </label>
+          <input
+            id="url-input"
+            type="url"
+            className="focus-glow mt-3 w-full rounded-2xl bg-white border-3 border-zinc-200 px-5 py-3.5 text-sm text-zinc-900 placeholder-zinc-400 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed font-mono shadow-sm"
+            style={{ borderWidth: '3px' }}
+            placeholder="https://..."
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            disabled={disabled}
+            autoFocus
+          />
+        </>
       )}
     </div>
   );

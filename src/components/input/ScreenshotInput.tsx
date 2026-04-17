@@ -140,6 +140,7 @@ export function ScreenshotInput({
                 ref={fileInputRef}
                 type="file"
                 accept="image/png,image/jpeg,image/webp"
+                aria-label="Upload screenshot"
                 className="hidden"
                 onChange={(e) => {
                   const f = e.target.files?.[0];

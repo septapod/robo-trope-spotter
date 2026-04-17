@@ -208,6 +208,7 @@ export default function Home() {
         <button
           onClick={handleAnalyze}
           disabled={!canAnalyze}
+          aria-busy={loading}
           className={`group w-full rounded-2xl font-display font-bold py-5 px-8 text-lg transition-all duration-300 ${
             loading
               ? "bg-candy-pink/80 text-white cursor-wait"
@@ -218,12 +219,18 @@ export default function Home() {
         >
           {loading ? (
             <span className="flex items-center justify-center gap-4">
-              <span className="loading-dots flex gap-1.5">
+              <span className="loading-dots flex gap-1.5" aria-hidden="true">
                 <span />
                 <span />
                 <span />
               </span>
-              <span className="font-display text-base font-bold tracking-wide text-white">{loadingMessages[loadingMsgIndex]}</span>
+              <span
+                aria-live="polite"
+                aria-atomic="true"
+                className="font-display text-base font-bold tracking-wide text-white"
+              >
+                {loadingMessages[loadingMsgIndex]}
+              </span>
             </span>
           ) : (
             <span className="flex items-center justify-center gap-3">
@@ -234,6 +241,7 @@ export default function Home() {
                 viewBox="0 0 24 24"
                 strokeWidth={2.5}
                 stroke="currentColor"
+                aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"
@@ -247,7 +255,7 @@ export default function Home() {
 
         {/* Error message */}
         {error && (
-          <div className="rounded-2xl border-2 border-amber-200 bg-amber-50 px-5 py-4">
+          <div role="alert" className="rounded-2xl border-2 border-amber-200 bg-amber-50 px-5 py-4">
             <p className="text-amber-700 text-sm text-center font-medium">{error}</p>
           </div>
         )}
