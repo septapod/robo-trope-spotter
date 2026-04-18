@@ -9,16 +9,16 @@ topic: editorial-redesign-audit-repair
 
 The April 17 impeccable audit scored the site 8/20. Two classes of finding emerged:
 
-1. **Objective failures** — WCAG AA contrast fails on candy-yellow severity badge and pink links, no form labels, drop zone unreachable by keyboard, tooltips hover-only, no live regions, no reduced-motion guards, blocking font `@import`, animated box-shadow repaints, native `<img>` tags, 44px touch-target misses. These have WCAG / browser / perf basis independent of tone.
+1. **Objective failures**. WCAG AA contrast fails on candy-yellow severity badge and pink links, no form labels, drop zone unreachable by keyboard, tooltips hover-only, no live regions, no reduced-motion guards, blocking font `@import`, animated box-shadow repaints, native `<img>` tags, 44px touch-target misses. These have WCAG / browser / perf basis independent of tone.
 
-2. **Aesthetic critique** — BAN 1 side-stripe borders, Outfit on the reflex-reject list, stacked AI-template decoration (blobs, gradient mesh, glow shadows), candy palette reading as template, score-hero dots+metric layout. These are the same audit tool's aesthetic rubric, not independent objective findings.
+2. **Aesthetic critique**. BAN 1 side-stripe borders, Outfit on the reflex-reject list, stacked AI-template decoration (blobs, gradient mesh, glow shadows), candy palette reading as template, score-hero dots+metric layout. These are the same audit tool's aesthetic rubric, not independent objective findings.
 
-Document review (2026-04-17, two passes) surfaced strong consensus that these two classes should not ship together. The objective failures stand on their own merits regardless of what tone the product takes. The aesthetic reset is a positioning bet that deserves its own gate, its own share-rate evidence, and its own acceptance criterion. Bundling them means a tonal regret would revert the a11y wins with it — and the PR 2 gate would have no real data to operate on.
+Document review (2026-04-17, two passes) surfaced strong consensus that these two classes should not ship together. The objective failures stand on their own merits regardless of what tone the product takes. The aesthetic reset is a positioning bet that deserves its own gate, its own share-rate evidence, and its own acceptance criterion. Bundling them means a tonal regret would revert the a11y wins with it. and the PR 2 gate would have no real data to operate on.
 
 **This doc commits to a two-PR sequence:**
 
-- **PR 1 — Audit Repair + Share Instrumentation.** Objective a11y, performance, responsive fixes. Split brand pink from link pink so WCAG AA on links doesn't shift the brand color on shared OGs. Keeps full existing visual language intact (candy palette, blobs, gradient mesh, glow shadows, card stripes all preserved — their removal moves to PR 2 alongside their replacement). Adds share-event tracking so PR 2's acceptance gate has real data. Defensible regardless of any tone decisions downstream. Ships immediately.
-- **PR 2 — Editorial Deadpan Reset.** Visual-language redesign (muted tier hues, pink-only accent, decoration removal, editorial marginalia, score hero rewrite, OG image update). Tonal bet. Gated on PR 1 shipping + 14 days of share baseline + counted mockup comparison + post-merge monitoring. May not ship. 60-day termination clause.
+- **PR 1. Audit Repair + Share Instrumentation.** Objective a11y, performance, responsive fixes. Split brand pink from link pink so WCAG AA on links doesn't shift the brand color on shared OGs. Keeps full existing visual language intact (candy palette, blobs, gradient mesh, glow shadows, card stripes all preserved. their removal moves to PR 2 alongside their replacement). Adds share-event tracking so PR 2's acceptance gate has real data. Defensible regardless of any tone decisions downstream. Ships immediately.
+- **PR 2. Editorial Deadpan Reset.** Visual-language redesign (muted tier hues, pink-only accent, decoration removal, editorial marginalia, score hero rewrite, OG image update). Tonal bet. Gated on PR 1 shipping + 14 days of share baseline + counted mockup comparison + post-merge monitoring. May not ship. 60-day termination clause.
 
 ## Design Context (applies to PR 2 only)
 
@@ -32,9 +32,9 @@ Locked in from earlier brainstorm dialogue. PR 1 does not depend on these.
 
 ---
 
-## PR 1 — Audit Repair
+## PR 1. Audit Repair
 
-Scope: fix every objective audit failure without touching tone or visual language. Candy palette, blobs, gradient mesh, glow shadows, existing score hero, existing OG image, and existing card stripes all preserved here. PR 2 handles the tonal reset and all decoration-removal separately — that way PR 1's standalone state is coherent rather than an orphaned candy-palette-without-scaffolding.
+Scope: fix every objective audit failure without touching tone or visual language. Candy palette, blobs, gradient mesh, glow shadows, existing score hero, existing OG image, and existing card stripes all preserved here. PR 2 handles the tonal reset and all decoration-removal separately. that way PR 1's standalone state is coherent rather than an orphaned candy-palette-without-scaffolding.
 
 PR 1 also instruments share-event tracking so PR 2's acceptance gate has real data to read from.
 
@@ -72,7 +72,7 @@ PR 1 also instruments share-event tracking so PR 2's acceptance gate has real da
 ### Performance (PR 1)
 
 - P1. `next/font/google` migration (covered in T3).
-- P2. Memoize `buildHighlights` in `src/components/report/HighlightedText.tsx:219` with `useMemo([sourceText, tropeResults])`. Parent (`src/app/report/[slug]/page.tsx`) is a server component so the prop reference is stable for the client component's lifetime — no upstream change needed.
+- P2. Memoize `buildHighlights` in `src/components/report/HighlightedText.tsx:219` with `useMemo([sourceText, tropeResults])`. Parent (`src/app/report/[slug]/page.tsx`) is a server component so the prop reference is stable for the client component's lifetime. no upstream change needed.
 - P3. Swap native `<img>` tags for `next/image` on the dxn-logomark across `src/app/page.tsx`, `src/app/tropes/page.tsx`, `src/app/report/[slug]/page.tsx`.
 - P4. Rework `focus-glow` in `src/app/globals.css:160-186`. Either one-shot animation on focus-in, or solid outline-color transition. No infinite box-shadow animation.
 - P5. Verify no residual `backdrop-blur` or `blur-[100px]` on navs after D1/D2 unless there's a real reason.
@@ -88,7 +88,7 @@ PR 1 also instruments share-event tracking so PR 2's acceptance gate has real da
 
 - Zero WCAG AA contrast failures across body text, links, tier badges, and score number.
 - 100% of interactive elements reachable by keyboard, including the drop zone.
-- `prefers-reduced-motion` honored on every keyframe animation (blobs, gradient mesh, focus-glow, score-reveal, card-enter — all frozen when the user opts out).
+- `prefers-reduced-motion` honored on every keyframe animation (blobs, gradient mesh, focus-glow, score-reveal, card-enter. all frozen when the user opts out).
 - Font load does not block render; no CDN `@import` in `globals.css`.
 - Clear-file button and footer links all ≥44×44px touch targets.
 - Share-event tracking live and writing to `share_events` table.
@@ -113,7 +113,7 @@ Standalone PR. Vercel preview. Merge as soon as the acceptance list passes. Reve
 
 ---
 
-## PR 2 — Editorial Deadpan Reset (gated, may not ship)
+## PR 2. Editorial Deadpan Reset (gated, may not ship)
 
 Scope: commit to editorial deadpan as the product's visual tone. Ships only if the pre-merge share-rate check (see acceptance gate below) does not show regression risk.
 
@@ -125,9 +125,9 @@ Scope: commit to editorial deadpan as the product's visual tone. Ships only if t
 
 ### Color (PR 2)
 
-- C1. `--color-brand-pink` (PR 1 C-PR1-tokens) becomes the single vivid brand accent in the editorial layout. Used only on: Analyze button, primary CTAs, the score number when in highest-severity band, and one marginalia mark per page. Not on every link — links continue using `--color-link-pink` from PR 1.
+- C1. `--color-brand-pink` (PR 1 C-PR1-tokens) becomes the single vivid brand accent in the editorial layout. Used only on: Analyze button, primary CTAs, the score number when in highest-severity band, and one marginalia mark per page. Not on every link. links continue using `--color-link-pink` from PR 1.
 - C3. Mute the five tier colors hard. Convert each to editorial OKLCH with lower chroma (target ~0.08-0.12 chroma). Working names: ink-red (T1), mustard (T2), moss (T3), slate-teal (T4), ink-plum (T5). Preserve tier order semantics.
-- C-PR2-derive. **Old-report color strategy.** Stop reading stored `labelColor` and per-trope `color` fields at render time. At the score level, derive color from `rawScore` via a numeric band lookup in `src/lib/analysis/colors.ts` (NOT from the `label` string — labels may be renamed in future passes without affecting score derivation). At the per-trope level, derive color from `tier` and `count` via the same lookup. Legacy hex values in the `results` jsonb blob become ignored data — no migration. For the rare edge case where an old report lacks `tier` on a trope result, fall back to the stored `color` field unchanged. Affects: `ScoreHero.tsx`, `TropeCard.tsx`, `HighlightedText.tsx`, `opengraph-image.tsx`.
+- C-PR2-derive. **Old-report color strategy.** Stop reading stored `labelColor` and per-trope `color` fields at render time. At the score level, derive color from `rawScore` via a numeric band lookup in `src/lib/analysis/colors.ts` (NOT from the `label` string. labels may be renamed in future passes without affecting score derivation). At the per-trope level, derive color from `tier` and `count` via the same lookup. Legacy hex values in the `results` jsonb blob become ignored data. no migration. For the rare edge case where an old report lacks `tier` on a trope result, fall back to the stored `color` field unchanged. Affects: `ScoreHero.tsx`, `TropeCard.tsx`, `HighlightedText.tsx`, `opengraph-image.tsx`.
 - C5. Replace hex-alpha string concatenation (`trope.color + '18'`) with `color-mix(in oklch, <color>, transparent 90%)`. Browser floor: Chrome 111+, Safari 16.2+, Firefox 113+ (~95% of modern traffic). Accept silent degradation below that; do not add `@supports` fallbacks.
 - C6. Replace `rgba(0, 0, 0, ...)` shadow hacks with `color-mix(in oklch, var(--color-ink-900), transparent 92%)` style.
 - C7. Centralize tier colors in `src/lib/analysis/colors.ts`. Delete duplicate tier color table in `src/app/tropes/page.tsx:10-41`. Export both as hex constants (for Satori / OG image) and as OKLCH strings (for `@theme` tokens).
@@ -140,7 +140,7 @@ Scope: commit to editorial deadpan as the product's visual tone. Ships only if t
 - D3. Remove candy-pink glow shadows (`shadow-candy-pink/20`, `shadow-candy-pink/30`, etc.). Cards use a single neutral shadow if elevation is needed.
 - D4. Remove the gradient button class (`.btn-gradient`). Share button becomes solid pink consistent with Analyze.
 - D-PR2-ban. Remove the 6px colored left-stripe from `src/components/report/TropeCard.tsx:26-30` and the 4px colored left-stripe from `src/app/tropes/page.tsx:97` (both BAN 1 violations). Card rewrite per L4.
-- D5. Add editorial marginalia: small mono section IDs in the corner of each major section (format: `§ 01 / ANALYSIS`, `§ 02 / TAXONOMY`), hairline zinc rules between sections. **Accessibility classification**: decorative. `aria-hidden="true"`. Minimum font size 11px — users who need larger text rely on the actual section headings, not the marginalia. **Cool-not-corny gate**: Brent reviews Vercel preview before merge. If any piece reads as costumey (fake-newspaper, hand-drawn, nostalgic), cut that piece and ship without it.
+- D5. Add editorial marginalia: small mono section IDs in the corner of each major section (format: `§ 01 / ANALYSIS`, `§ 02 / TAXONOMY`), hairline zinc rules between sections. **Accessibility classification**: decorative. `aria-hidden="true"`. Minimum font size 11px. users who need larger text rely on the actual section headings, not the marginalia. **Cool-not-corny gate**: Brent reviews Vercel preview before merge. If any piece reads as costumey (fake-newspaper, hand-drawn, nostalgic), cut that piece and ship without it.
 - D6. No kraft-paper textures, no fake-newspaper headlines, no "EST." medallions, no hand-drawn underlines.
 - D7. Replace the bounce-dot loader. **Implementation plan**: start with static cycling mono messages (no per-character animation) wrapped in `aria-live="polite"`. If the static version ships and reads flat, a follow-on iteration can add the scan-line-through-sample-trope treatment. Commitment in PR 2 is the static version; the animated variant is optional polish deferred. Simpler to accept and keeps D7 from becoming a vibe debate.
 
@@ -155,7 +155,7 @@ Scope: commit to editorial deadpan as the product's visual tone. Ships only if t
 ### Zero-Trope and Edge-State Layouts (PR 2)
 
 - L7. **Zero-trope report state.** Score renders `0`. Stats row shows `0 TROPES · 0 INSTANCES · N WORDS`. Roast line is replaced with a clean-score line (existing copy in `src/lib/copy/clean-score.ts`) in the same typographic treatment. No trope card list section renders.
-- L8. **Partial detection states.** Any state where top offenders exist but additional detections don't — render only the sections with content. No empty card lists, no "No additional detections" strings.
+- L8. **Partial detection states.** Any state where top offenders exist but additional detections don't. render only the sections with content. No empty card lists, no "No additional detections" strings.
 
 ### Theming Foundations (PR 2)
 
@@ -164,7 +164,7 @@ Scope: commit to editorial deadpan as the product's visual tone. Ships only if t
 
 ### Supporting Updates (PR 2)
 
-- S1. Update the OG image generator in `src/app/report/[slug]/opengraph-image.tsx` to match the redesigned visual language. Uses hex constants from `src/lib/analysis/colors.ts` (Satori-safe). Dimensions stay at current (1200×630). Elements that translate: the oversized score number in Bricolage, the stats row in mono, the muted tier accent. Elements that don't translate: hairline rules beyond 1px can disappear in Satori rendering — verify or bump to 2px. No marginalia section IDs in OG (too small to read at thumbnail size). Fonts loaded via `fetch + arrayBuffer` in the route (not `next/font`).
+- S1. Update the OG image generator in `src/app/report/[slug]/opengraph-image.tsx` to match the redesigned visual language. Uses hex constants from `src/lib/analysis/colors.ts` (Satori-safe). Dimensions stay at current (1200×630). Elements that translate: the oversized score number in Bricolage, the stats row in mono, the muted tier accent. Elements that don't translate: hairline rules beyond 1px can disappear in Satori rendering. verify or bump to 2px. No marginalia section IDs in OG (too small to read at thumbnail size). Fonts loaded via `fetch + arrayBuffer` in the route (not `next/font`).
 - S2. Update the 404 page in `src/app/not-found.tsx` to match (display numeral, editorial layout, no rounded-3xl candy button).
 - S3. Confirm the favicon / `src/app/icon.tsx` reads correctly against the new warm off-white surface. Adjust only if contrast fails; brand mark itself stays pink.
 
@@ -201,7 +201,7 @@ If any check surfaces problems that aren't fixable inside PR 2, keep PR 1's wins
 
 ### PR 2 Shipping
 
-Standalone PR after PR 1 has shipped. Vercel preview. Acceptance gate (above) runs pre-merge. Revert plan: one git command — and because PR 1 is already merged, the a11y and perf wins stay.
+Standalone PR after PR 1 has shipped. Vercel preview. Acceptance gate (above) runs pre-merge. Revert plan: one git command. and because PR 1 is already merged, the a11y and perf wins stay.
 
 **Termination clause.** If PR 2 has not merged within 60 days of PR 1 shipping, the editorial-deadpan direction is considered not pursued: PR 2 branch is deleted and the March 29 candy-palette decision stands until new evidence (share-rate data, qualitative user feedback, product-job conflict) justifies revisiting. This prevents PR 2 from becoming a zombie branch and forces a real ship-or-kill decision on a calendar.
 
@@ -222,4 +222,4 @@ None outstanding. Prior open questions (tooltip pattern, marginalia naming, load
 ## Next Steps
 
 - -> `/ce:plan` for PR 1 implementation sequencing. Start there. PR 1 is safe to plan and ship regardless of PR 2's fate.
-- -> `/ce:plan` for PR 2 implementation sequencing, after PR 1 ships and the acceptance gate is designed. Do not plan PR 2 prematurely — if PR 1 changes the user or engagement picture, PR 2's scope should revisit in light of that.
+- -> `/ce:plan` for PR 2 implementation sequencing, after PR 1 ships and the acceptance gate is designed. Do not plan PR 2 prematurely. if PR 1 changes the user or engagement picture, PR 2's scope should revisit in light of that.

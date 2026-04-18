@@ -19,17 +19,39 @@ Authoritative SQL migrations for the production database.
 
 1. Edit `src/db/schema.ts`.
 2. Run `npm run db:generate` to emit a new numbered `.sql` file here.
-3. Review the SQL, commit it, and deploy. Vercel's build pipeline runs
-   `npm run db:migrate` against prod.
+3. Review the SQL, commit it, and apply.
 
 Never run `npm run db:push` against production. It bypasses the tracked
 migration history.
 
-## First deploy after this change
+## Applying migrations
 
-`drizzle-kit migrate` will:
+There is no automated `db:migrate` hook in the Vercel build today (no
+`buildCommand` in `vercel.json`, no pre/post hook in `package.json`). Until a
+build hook is added, run migrations manually from a machine with the
+production `DATABASE_URL`:
 
-1. Create `drizzle.__drizzle_migrations` if missing.
-2. Record `0000_silky_harrier` as applied (empty execution because the SQL body
-   is commented out).
-3. Apply any subsequent `000N_*.sql` files on future deploys.
+```
+DATABASE_URL=... npm run db:migrate
+```
+
+On first run after this PR:
+
+1. `drizzle.__drizzle_migrations` is created if missing.
+2. `0000_silky_harrier` is recorded as applied. Its SQL body is commented out,
+   so no tables are re-created.
+3. Subsequent `000N_*.sql` deltas apply normally.
+
+Verified against drizzle-orm 0.45 source: the migrator does not re-check
+stored hashes against file content on later runs, so the commented-out baseline
+is safe as long as the first `db:migrate` call succeeds against Neon. Smoke
+test against a scratch Neon branch before running against production if
+changing this pattern.
+
+## Fresh-environment bootstrap
+
+For a local dev or CI environment with an empty Postgres, the commented-out
+baseline will record as applied but never create tables. To bootstrap schema
+in a fresh environment, run `npm run db:push` once against that environment
+only (never against production). `db:push` syncs `src/db/schema.ts` directly
+and is appropriate for throwaway DBs.

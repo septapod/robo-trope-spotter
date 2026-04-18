@@ -1,16 +1,16 @@
 ---
-title: "feat: PR 1 — Audit Repair + Share Instrumentation"
+title: "feat: PR 1. Audit Repair + Share Instrumentation"
 type: feat
 status: active
 date: 2026-04-17
 origin: docs/brainstorms/2026-04-17-editorial-redesign-requirements.md
 ---
 
-# PR 1 — Audit Repair + Share Instrumentation
+# PR 1. Audit Repair + Share Instrumentation
 
 ## Overview
 
-PR 1 closes the objective findings from the April 17 impeccable audit and instruments share-event tracking so PR 2's acceptance gate has real data to operate on. The candy palette and existing decorative visual language are preserved; decoration-removal moves to PR 2 alongside its editorial-deadpan replacement. No user-visible redesign in this PR — the changes are a11y repairs, perf fixes, touch-target adjustments, font migration, link-color contrast fix, and one new data pipeline for share analytics.
+PR 1 closes the objective findings from the April 17 impeccable audit and instruments share-event tracking so PR 2's acceptance gate has real data to operate on. The candy palette and existing decorative visual language are preserved; decoration-removal moves to PR 2 alongside its editorial-deadpan replacement. No user-visible redesign in this PR. the changes are a11y repairs, perf fixes, touch-target adjustments, font migration, link-color contrast fix, and one new data pipeline for share analytics.
 
 ## Problem Frame
 
@@ -23,7 +23,7 @@ The audit scored the site 8/20 (see origin: `docs/brainstorms/2026-04-17-editori
 - R3. `prefers-reduced-motion` honored on every keyframe animation (origin: A6).
 - R4. Font load does not block render; no CDN `@import` in `globals.css` (origin: T1, T2, T3).
 - R5. Clear-file button and footer links all ≥44×44px touch targets (origin: R1, R2).
-- R6. Share-event tracking live and writing to `share_events` table; admin view available at `/admin/shares` (origin: ST1–ST4).
+- R6. Share-event tracking live and writing to `share_events` table; admin view available at `/admin/shares` (origin: ST1, ST4).
 - R7. All existing functionality and visual language preserved (candy palette, blobs, mesh, glow shadows, score hero, card stripes all intact until PR 2).
 - R8. Screen readers announce form field purposes, loading state changes, and analyze errors (origin: A1, A4, A5).
 - R9. Tooltips on highlighted text reachable by focus, touch, and hover; dismissible by Escape or click-outside (origin: A3, R4).
@@ -42,7 +42,7 @@ The audit scored the site 8/20 (see origin: `docs/brainstorms/2026-04-17-editori
 
 ### Deferred to Separate Tasks
 
-- Decoration removal (blobs, gradient mesh, glow shadows, gradient button, BAN 1 stripes): PR 2 (origin: D1–D4, D-PR2-ban).
+- Decoration removal (blobs, gradient mesh, glow shadows, gradient button, BAN 1 stripes): PR 2 (origin: D1, D4, D-PR2-ban).
 - Editorial tonal redesign (muted tier hues, marginalia, score hero rewrite, OG image redesign): PR 2.
 - Tier color centralization and OKLCH tokenization: PR 2 (origin: C3, C5, C7, F1, F2).
 - Gradient scale bar replacement and score-reveal blur cleanup: PR 2 (origin: C8, L1).
@@ -55,12 +55,12 @@ The audit scored the site 8/20 (see origin: `docs/brainstorms/2026-04-17-editori
 - **Admin-auth route pattern**: `src/app/api/admin/reports/route.ts` (session check via `isValidSession(request)` from `src/lib/admin/session.ts`, returns `{ error: 'Unauthorized' }` on 401, then reads from DB). Mirror for `src/app/api/admin/shares/route.ts`.
 - **Admin page pattern**: `src/app/admin/page.tsx` is the existing admin dashboard. Mirror for `src/app/admin/shares/page.tsx` or extend the existing page with a new section.
 - **Drizzle schema pattern**: `src/db/schema.ts` defines tables with `pgTable`, `uuid` primary keys with `defaultRandom()`, `timestamp` with `defaultNow()`. Follow for `share_events` table.
-- **Drizzle migration workflow**: `drizzle-kit generate` produces SQL in `./drizzle` directory (doesn't exist yet — first migration creates it). `drizzle-kit migrate` applies.
+- **Drizzle migration workflow**: `drizzle-kit generate` produces SQL in `./drizzle` directory (doesn't exist yet. first migration creates it). `drizzle-kit migrate` applies.
 - **Middleware matcher pattern**: `src/middleware.ts:120-122` uses `config.matcher` to scope rate limiting. Extend matcher to include `/api/track-share` with a separate (higher, lighter-cost) limit branch.
 - **Client component with browser APIs**: `src/components/report/ShareBar.tsx` already uses `navigator.clipboard` and `navigator.share` with `try/catch`. Fire-and-forget tracking call fits the same pattern.
 - **Existing loader copy pattern**: `src/app/page.tsx:24` holds the cycling loading messages array. Interval pattern at lines 28-45.
 - **Existing `focus-glow` class**: `src/app/globals.css:160-186`. Applied via `focus-glow` class on inputs.
-- **Existing keyframes inventory**: `animate-blob`, `animate-blob-alt`, `animate-blob-pulse`, `animate-score-reveal`, `animate-card-enter`, `focus-glow`, bounce-dot loader — all in `src/app/globals.css`.
+- **Existing keyframes inventory**: `animate-blob`, `animate-blob-alt`, `animate-blob-pulse`, `animate-score-reveal`, `animate-card-enter`, `focus-glow`, bounce-dot loader. all in `src/app/globals.css`.
 - **Tailwind 4 `@theme` block**: `src/app/globals.css:4-21` defines `--color-candy-pink` etc. Variable-first fonts wire from `next/font/google` will plug in here.
 - **Next/Image setup**: No existing `next/image` usages in the code I read; Next 16 supports it out of the box.
 
@@ -93,11 +93,11 @@ None needed. Codebase patterns are sufficient.
 - Should `/admin/shares` be a new route or a section of existing `/admin`? Section. Simpler.
 - Does the tooltip need click-to-pin or is focus-reveal enough? Click-to-pin. Matches A3's touch-reachable requirement.
 - How to preserve candy pink visually while fixing link contrast? Token split (brand vs. link).
-- Font-display strategy? `swap` with next/font's automatic fallback adjustment. Accept minor CLS on the score hero — the display font is not critical to first meaningful paint.
+- Font-display strategy? `swap` with next/font's automatic fallback adjustment. Accept minor CLS on the score hero. the display font is not critical to first meaningful paint.
 - SQL shape of the admin shares aggregate query? Server-side aggregation: endpoint returns `{ totalShares, sharesToday, shareRate, byScoreBand: [{ bandLabel, count, rate }...], events }` over a 14-day window. Score-band breakdown comes from joining `share_events` with `reports.results->>'score'->>'label'`. See Unit 4b.
 - Rate-limit store: separate `Map` for share-tracking, distinct from the existing `/api/analyze` `ipStore`. Keyed by IP. Prevents share traffic from consuming analyze budget.
 - Client transport for share tracking: `navigator.sendBeacon` with `fetch` POST fallback. `sendBeacon` survives tab unload/nav; `fetch` is the fallback path when sendBeacon is unavailable or rejects. Fire-and-forget on either path.
-- `--color-link-pink` starting value: `oklch(55% 0.18 0)` — a desaturated darkened candy-pink that should reach ≥4.5:1 against `--color-surface-0`. If under 4.5:1 at implementation, drop lightness another step; if the color stops reading as pink, add underline-by-default to links as an additional distinction signal.
+- `--color-link-pink` starting value: `oklch(55% 0.18 0)`. a desaturated darkened candy-pink that should reach ≥4.5:1 against `--color-surface-0`. If under 4.5:1 at implementation, drop lightness another step; if the color stops reading as pink, add underline-by-default to links as an additional distinction signal.
 - CSRF posture for `/api/track-share`: JSON-body parse is the implicit CSRF defense (cross-origin form POSTs land as `application/x-www-form-urlencoded` and fail JSON parse). Endpoint requires `Content-Type: application/json` and validates body shape.
 
 ### Deferred to Implementation
@@ -107,7 +107,7 @@ None needed. Codebase patterns are sufficient.
 
 ## Implementation Units
 
-- [ ] **Unit 1: Typography migration — next/font + @theme bridge**
+- [ ] **Unit 1: Typography migration. next/font + @theme bridge**
 
 **Goal:** Replace the CDN `@import` font load with `next/font/google`, wire the fonts to Tailwind 4's `@theme` via CSS variables, swap Outfit for Hanken Grotesk.
 
@@ -135,7 +135,7 @@ None needed. Codebase patterns are sufficient.
 - Happy path: page loads, body text renders in Hanken Grotesk (system fallback swaps to Hanken after font fetch completes), no `@import` network call in devtools Network tab.
 - Happy path: display headings render in Bricolage Grotesque with the existing variable-width character.
 - Happy path: mono labels render in JetBrains Mono (unchanged from before).
-- Edge case: page loads with slow network — fallback font (system sans) displays first, then swaps without layout collapse.
+- Edge case: page loads with slow network. fallback font (system sans) displays first, then swaps without layout collapse.
 - Integration: `@theme` tokens resolve to the correct `var(--font-*)` values; no regression on `font-sans` / `font-display` / `font-mono` utility classes.
 - Regression: Outfit no longer appears anywhere in the codebase (grep check); `@import url(...)` removed from globals.css.
 
@@ -172,12 +172,12 @@ None needed. Codebase patterns are sufficient.
 - Severity badge conditional rendering in `TropeCard.tsx:39-46` (tier-based styling).
 
 **Test scenarios:**
-- Contrast: automated check — `--color-link-pink` on `--color-surface-0` passes 4.5:1.
-- Contrast: automated check — Tier 3 badge text-on-background passes 4.5:1 (dark ink on candy-yellow).
+- Contrast: automated check. `--color-link-pink` on `--color-surface-0` passes 4.5:1.
+- Contrast: automated check. Tier 3 badge text-on-background passes 4.5:1 (dark ink on candy-yellow).
 - Contrast: all other tier badges (1, 2, 4, 5) verified at 4.5:1 minimum; any additional failures get ink text.
 - Regression: Analyze button, primary CTAs, OG image, pink glow shadows all render with unchanged brand-pink (visual check + grep `candy-pink` still references brand).
 - Regression: three link sites (landing, taxonomy, report) now render in darker link-pink; visually distinguishable from buttons.
-- Integration: OG image preview (at a shared report URL) still shows original vivid pink — no brand-continuity break on already-shared reports.
+- Integration: OG image preview (at a shared report URL) still shows original vivid pink. no brand-continuity break on already-shared reports.
 
 **Verification:**
 - WCAG contrast checker passes on all text-link-pink / candy-yellow-badge pairings.
@@ -201,8 +201,8 @@ None needed. Codebase patterns are sufficient.
 
 **Approach:**
 - **Drizzle baseline first.** The `drizzle/` directory does not exist yet; the production DB already has a `reports` table from `db:push`. Running `db:generate` against this state would emit `CREATE TABLE reports` in the first migration, which fails on apply. Two acceptable paths: (a) run `drizzle-kit introspect` (or `drizzle-kit pull`) against the production DB first to seed `drizzle/meta/_journal.json` with the existing schema baseline, commit that, then run `db:generate` so the delta contains only `share_events`; OR (b) hand-write the baseline migration representing the current `reports` schema, mark it as applied in `__drizzle_migrations` on prod manually, then run `db:generate` for share_events. Path (a) is preferred; path (b) is the fallback if introspect produces noise.
-- Add `share_events` table to `src/db/schema.ts`: `id uuid primary key default random`, `report_slug text not null`, `method text not null` (`'clipboard' | 'native'`), `created_at timestamp default now`. Add composite index on `(report_slug, created_at)` and single index on `created_at desc` for admin query performance. No foreign key to `reports.slug` — keeping write path cheap, validation happens in the handler (below).
-- Create `src/app/api/track-share/route.ts`: POST handler, require `Content-Type: application/json` header (reject otherwise with 415), parse JSON body, validate `reportSlug` (non-empty string) and `method` (`in ['clipboard', 'native']`). Before insert, verify the slug exists in `reports` (single SELECT by slug — cheap, indexed). If slug not found, return 404 quietly. Otherwise insert into `share_events`, return `{ ok: true }` with 200. Return 400 on body-shape failures.
+- Add `share_events` table to `src/db/schema.ts`: `id uuid primary key default random`, `report_slug text not null`, `method text not null` (`'clipboard' | 'native'`), `created_at timestamp default now`. Add composite index on `(report_slug, created_at)` and single index on `created_at desc` for admin query performance. No foreign key to `reports.slug`. keeping write path cheap, validation happens in the handler (below).
+- Create `src/app/api/track-share/route.ts`: POST handler, require `Content-Type: application/json` header (reject otherwise with 415), parse JSON body, validate `reportSlug` (non-empty string) and `method` (`in ['clipboard', 'native']`). Before insert, verify the slug exists in `reports` (single SELECT by slug. cheap, indexed). If slug not found, return 404 quietly. Otherwise insert into `share_events`, return `{ ok: true }` with 200. Return 400 on body-shape failures.
 - Extend `src/middleware.ts` `config.matcher` to include `/api/track-share`. Add a dedicated `shareIpStore = new Map<string, RateEntry>()` separate from `ipStore` so share traffic does not consume the analyze budget. Per-IP limit tunable via env var `TRACK_SHARE_IP_LIMIT` (default 60/hour). Add a global daily cap mirroring the existing `globalCount` pattern: `TRACK_SHARE_GLOBAL_CAP` env var (default 5000/day). Reuse `getClientIp`. Document that IP-based rate limiting trusts Vercel edge to set `X-Forwarded-For`; if hosting changes, re-evaluate.
 - Run `npm run db:generate` AFTER baseline is established to produce the migration SQL for `share_events` only; commit the generated file in `drizzle/`.
 - Do not run `db:push` locally on production DB; migrations apply via `db:migrate` against production on deploy.
@@ -222,7 +222,7 @@ None needed. Codebase patterns are sufficient.
 - Edge case: POST with malformed JSON body returns 400.
 - Edge case: POST without `Content-Type: application/json` returns 415.
 - Edge case: POST with `reportSlug` that does not exist in `reports` returns 404, no row inserted.
-- Error path: database write failure propagates as 500 (or handler returns a graceful 500 — verify no unhandled rejection).
+- Error path: database write failure propagates as 500 (or handler returns a graceful 500. verify no unhandled rejection).
 - Rate limit: IP limit + 1 requests from the same IP within an hour returns 429 with `Retry-After` header.
 - Rate limit: global daily cap + 1 requests across all IPs within a 24h window returns 429.
 - Rate limit: the existing `/api/analyze` rate limit is unaffected by the new branch (share traffic does not deplete analyze budget).
@@ -267,7 +267,7 @@ None needed. Codebase patterns are sufficient.
 - Happy path: on a device without `navigator.share`, clicking "share" falls back to copy and fires `sendBeacon` with `method: "clipboard"`.
 - Happy path: when the user taps the native share sheet and the OS immediately backgrounds the page, the `sendBeacon` request still lands in the DB (verify on iOS Safari specifically).
 - Fallback: on a browser without `sendBeacon` (or when `sendBeacon` returns `false`), `fetch` with `keepalive: true` runs.
-- Error path: if both `sendBeacon` and `fetch` fail silently, no UI impact — the "copied" transition still fires.
+- Error path: if both `sendBeacon` and `fetch` fail silently, no UI impact. the "copied" transition still fires.
 - Regression: no new network activity visible when the report page loads (only on user action).
 
 **Verification:**
@@ -296,7 +296,7 @@ None needed. Codebase patterns are sufficient.
   - `shareRate`: `totalShares / totalReports` where `totalReports` is the count of `reports` in the same 14-day window.
   - `byScoreBand`: array of `{ bandLabel, shareCount, reportCount, rate }` joining `share_events.report_slug` with `reports.slug` and pulling the label from `reports.results->'score'->>'label'`. Restores the origin-doc ST3 score-band breakdown.
   - `events`: LIMIT 500, ordered by `created_at desc`. Paginated when the table grows; 500 is a pragmatic cap for the v1 view.
-- Add a `<SharesPanel>` section to `src/app/admin/page.tsx` that fetches `/api/admin/shares` on mount (behind the existing login gate — reuse the auth state from the existing page; don't fetch until authed). Renders a header stats row (total / today / overall rate / per-band rates) followed by a table: `report_slug | method | created_at`.
+- Add a `<SharesPanel>` section to `src/app/admin/page.tsx` that fetches `/api/admin/shares` on mount (behind the existing login gate. reuse the auth state from the existing page; don't fetch until authed). Renders a header stats row (total / today / overall rate / per-band rates) followed by a table: `report_slug | method | created_at`.
 - Visual treatment matches the existing reports table in `admin/page.tsx:113-169`: `rounded-xl border border-zinc-200 bg-white` wrapper, `font-mono uppercase tracking-wider text-zinc-500` headers, `hover:bg-surface-2/50` row hover. No new design language introduced in PR 1.
 - Section placement: below the existing reports table. No refactor of the existing panel.
 
@@ -377,16 +377,16 @@ None needed. Codebase patterns are sufficient.
 
 **Files:**
 - Modify: `src/components/input/ScreenshotInput.tsx`
-- Modify: `src/components/report/HighlightedText.tsx` (tooltip rewrite + the `useMemo` optimization moved from Unit 7 — single owner of this file)
+- Modify: `src/components/report/HighlightedText.tsx` (tooltip rewrite + the `useMemo` optimization moved from Unit 7. single owner of this file)
 - Modify: `src/app/globals.css`
 
 **Approach:**
 - In `ScreenshotInput.tsx:119-150`, change the drop zone `<div onClick={...}>` to `<div role="button" tabIndex={0} onClick={...} onKeyDown={...}>`. The `onKeyDown` handler: if `e.key === 'Enter' || e.key === ' '`, call `e.preventDefault()` then trigger the file input click. Add `aria-label="Upload screenshot"`.
 - In `HighlightedText.tsx:268-286`, swap the highlighted `<span>` for `<button type="button">`. Add a new piece of state `pinnedTropeId: string | null` alongside existing `hoveredTropeId`. Use CSS `:focus-visible` in the stylesheet to show the tooltip on focus (keeps the DOM rendering pattern consistent without a third React state). The tooltip-content `<span>` is always in the DOM but visually hidden (`opacity: 0; pointer-events: none`) unless hovered, pinned, or its associated button matches `:focus-visible`.
-- On click, toggle `pinnedTropeId`. On `Escape` keydown (when pinned), clear it. Add a global click listener on `document` (mousedown, not click — fires before focus changes) that clears `pinnedTropeId` when the target is outside any highlighted button AND outside the tooltip content node. Call `e.stopPropagation` only when dismissing, so link clicks on links adjacent to tooltips still navigate.
+- On click, toggle `pinnedTropeId`. On `Escape` keydown (when pinned), clear it. Add a global click listener on `document` (mousedown, not click. fires before focus changes) that clears `pinnedTropeId` when the target is outside any highlighted button AND outside the tooltip content node. Call `e.stopPropagation` only when dismissing, so link clicks on links adjacent to tooltips still navigate.
 - Add `aria-describedby` linking the button to its tooltip-content `<span id={...}>`.
 - **Roving tabindex** for the highlighted-text region: the container uses `role="group"` with `aria-label="Detected writing tropes"`. The first highlighted button has `tabIndex={0}`; all subsequent highlights have `tabIndex={-1}`. Arrow keys (`ArrowLeft`, `ArrowRight`) move between highlights within the region by updating the active tabindex and calling `.focus()` on the target. `Home` moves to the first highlight; `End` moves to the last. `Tab` exits the region to the next interactive element on the page. This keeps a long report's highlighted span out of the default tab sequence (one tab stop enters, Tab again exits) while preserving keyboard navigation among highlights. Pattern reference: ARIA Authoring Practices "Toolbar" / "Grid" composite-widget pattern.
-- Wrap the `buildHighlights(sourceText, tropeResults)` call in `useMemo(() => buildHighlights(sourceText, tropeResults), [sourceText, tropeResults])` (moved from former Unit 7 — Unit 6 is the sole owner of `HighlightedText.tsx` in PR 1). Parent is a server component, so prop refs are stable.
+- Wrap the `buildHighlights(sourceText, tropeResults)` call in `useMemo(() => buildHighlights(sourceText, tropeResults), [sourceText, tropeResults])` (moved from former Unit 7. Unit 6 is the sole owner of `HighlightedText.tsx` in PR 1). Parent is a server component, so prop refs are stable.
 - In `globals.css:160-186`, remove `animation: focus-glow 4s ease-in-out infinite` on `.focus-glow:focus`. Replace with a one-shot 400ms transition on `box-shadow` + `border-color` that fires on focus-in and settles into the final candy-pink ring. Both the replacement transition and any residual `@keyframes focus-glow` live inside the `@media (prefers-reduced-motion: no-preference)` block from Unit 5. Add `outline: 2px solid var(--color-brand-pink); outline-offset: 2px;` OUTSIDE the media query as a WCAG-visible fallback that works in both motion contexts.
 
 **Patterns to follow:**
@@ -411,7 +411,7 @@ None needed. Codebase patterns are sufficient.
 - Focus-glow: with `prefers-reduced-motion: reduce`, the one-shot transition is also suppressed and only the solid outline shows.
 - Regression: clicking the drop zone still opens the file picker (mouse path unchanged).
 - Perf: hovering a highlighted word does not re-run `buildHighlights` (verify via React DevTools profiler or console.log added-then-removed).
-- Integration: with a tooltip pinned, single-tap on the footer "Analyze another text" link navigates on first tap without requiring a second tap (iOS Safari specifically — no double-tap issue). The global dismissal handler does not eat the link click.
+- Integration: with a tooltip pinned, single-tap on the footer "Analyze another text" link navigates on first tap without requiring a second tap (iOS Safari specifically. no double-tap issue). The global dismissal handler does not eat the link click.
 
 **Verification:**
 - Keyboard-only navigation through the entire app succeeds.
@@ -470,14 +470,14 @@ None needed. Codebase patterns are sufficient.
 - **State lifecycle risks:** No persistent client state added except `pinnedTropeId` in `HighlightedText`. Global click-outside listener added for tooltip dismissal must be cleaned up on unmount.
 - **API surface parity:** No breaking changes to existing APIs. New `/api/track-share` and `/api/admin/shares` are additive.
 - **Integration coverage:** End-to-end verification that a share click writes a DB row and appears in `/admin/shares` is the primary integration test.
-- **Unchanged invariants:** Candy color palette, decorative blobs, gradient mesh, glow shadows, gradient button class, BAN 1 left-stripes, existing score hero layout, existing trope card layout, OG image template, 404 page, landing copy, rate limits on `/api/analyze` and `/api/reanalyze` — all preserved. PR 2 changes them.
+- **Unchanged invariants:** Candy color palette, decorative blobs, gradient mesh, glow shadows, gradient button class, BAN 1 left-stripes, existing score hero layout, existing trope card layout, OG image template, 404 page, landing copy, rate limits on `/api/analyze` and `/api/reanalyze`. all preserved. PR 2 changes them.
 
 ## Risks & Dependencies
 
 | Risk | Mitigation |
 |------|------------|
 | `next/font` automatic fallback-metric adjustment leaves visible CLS on the score hero at 140-180px. | Accept minor CLS; score hero is below the fold and not first meaningful paint. If user complaint surfaces, add manual `ascent-override` / `size-adjust` for Bricolage in a follow-up. |
-| Token rename (`--color-candy-pink` → `--color-brand-pink` alias) misses a consumer that references the hex directly. | Grep for `#EC4899` across the repo before merge; replace any direct hex with `var(--color-brand-pink)`. Note: `rgba(244, 63, 94, ...)` in `globals.css` is `#F43F5E` (rose-500), NOT candy-pink — leave those alone in PR 1; they are a known color inconsistency that PR 2's palette consolidation will address. |
+| Token rename (`--color-candy-pink` → `--color-brand-pink` alias) misses a consumer that references the hex directly. | Grep for `#EC4899` across the repo before merge; replace any direct hex with `var(--color-brand-pink)`. Note: `rgba(244, 63, 94, ...)` in `globals.css` is `#F43F5E` (rose-500), NOT candy-pink. leave those alone in PR 1; they are a known color inconsistency that PR 2's palette consolidation will address. |
 | `@keyframes` wrapped in `@media (prefers-reduced-motion)` regresses default animation if Tailwind's `animate-*` class is defined outside the media query but the keyframes are inside. | Both the `.animate-*` selector and the `@keyframes` live INSIDE the media query block. Base-state fallbacks (like `opacity: 0` on `.animate-card-enter`) also move inside the block so reduced-motion users see the final visible state. Verify animation still runs with default settings in DevTools after Unit 5 ships. |
 | Global click-outside listener for tooltip dismissal eats link navigation when a user taps an adjacent link with a tooltip pinned (iOS Safari tap-delay specifically). | Listener uses `mousedown` (before focus changes), checks target is outside both button AND tooltip content, does not call `stopPropagation` on the original event so link clicks still navigate. Explicit test scenario for iOS link interaction in Unit 6. |
 | Share-event per-IP rate limit too tight for legitimate users (e.g., users who click share multiple times while the UI is transitioning). | `TRACK_SHARE_IP_LIMIT` env var (default 60/hour) allows tuning without deploy. 1/minute average is generous for human behavior. Monitor `/admin/shares` for 429 feedback. |
@@ -485,17 +485,17 @@ None needed. Codebase patterns are sufficient.
 | Abusive scripted POSTs pollute `share_events` with fabricated slugs, skewing PR 2's baseline. | Handler validates slug exists in `reports` before insert (extra SELECT per request, cheap with indexed `slug`). Global daily cap (`TRACK_SHARE_GLOBAL_CAP`, default 5000/day) bounds total writes regardless of IP count. |
 | First-ever Drizzle migration emits `CREATE TABLE reports` against a prod DB that already has it. | `drizzle-kit introspect` runs FIRST to snapshot the existing schema as baseline; `db:generate` only after that produces the share_events-only migration. Handwritten migration is the fallback path if introspect output is noisy. |
 | OG image `ImageResponse` loses Bricolage when the CDN `@import` is removed in Unit 1 (font variables don't inherit into Satori). | Unit 1 includes an explicit check of `src/app/report/[slug]/opengraph-image.tsx` for font usage; if it currently relies on the `@import`, add explicit `fetch + arrayBuffer` font loading with the `fonts` option on `ImageResponse`. |
-| Rate-limiter in-memory store is per-serverless-instance on Vercel — cold-start creates a fresh counter, effectively multiplying the per-IP cap. | Documented limitation shared with existing `/api/analyze` limit. Global daily cap provides coarse upper bound. If virality arrives, migrate to Redis/KV; out of scope for PR 1. |
+| Rate-limiter in-memory store is per-serverless-instance on Vercel. cold-start creates a fresh counter, effectively multiplying the per-IP cap. | Documented limitation shared with existing `/api/analyze` limit. Global daily cap provides coarse upper bound. If virality arrives, migrate to Redis/KV; out of scope for PR 1. |
 
 ## Documentation / Operational Notes
 
 - **Migration deploy**: PR 1 includes Drizzle migrations (baseline + share_events). Production deploy sequence: (1) run `drizzle-kit introspect` to capture existing prod schema as baseline, commit that; (2) run `db:generate` for share_events; (3) run `db:migrate` against a staging DB to verify; (4) run against production before or alongside code deploy. Vercel build hook can run the final migrate step.
 - **Environment variables**: new variables `TRACK_SHARE_IP_LIMIT` (default 60) and `TRACK_SHARE_GLOBAL_CAP` (default 5000) allow rate-limit tuning without redeploy. Set in Vercel dashboard.
-- **Rate-limit observability**: the existing in-memory rate limiter has no persistence — on redeploy, counters reset. Acceptable for share tracking (cheap operation). Document in admin page header that baseline collection starts at deploy time.
+- **Rate-limit observability**: the existing in-memory rate limiter has no persistence. on redeploy, counters reset. Acceptable for share tracking (cheap operation). Document in admin page header that baseline collection starts at deploy time.
 - **PROJECT_STATUS update**: after PR 1 ships, update `PROJECT_STATUS.md` to note the a11y pass, next/font migration, pink token split, share-event tracking, and the new env vars. Follow existing "Recent Changes" section style.
 - **Baseline collection window**: per the origin document, PR 2's acceptance gate needs at least 14 days of `share_events` data and ≥30 total events. Clock starts on PR 1 merge.
-- **X-Forwarded-For trust**: IP-based rate limiting on `/api/track-share` inherits the same trust model as `/api/analyze` — relies on Vercel edge setting the last value in X-Forwarded-For. If hosting changes, re-evaluate.
-- **Privacy posture (decided 2026-04-17)**: `share_events` stores only anonymous data (`report_slug` = nanoid, `method`, `created_at` — no user ID, no IP in the row, IP used only in-memory for rate limiting). Decision: ship without additional consent mechanism or privacy policy page. Trace data is anonymous enough that the risk threshold doesn't justify the UX cost of a banner or disclosure. If the product acquires meaningful EU traffic or a user specifically asks about logging, revisit.
+- **X-Forwarded-For trust**: IP-based rate limiting on `/api/track-share` inherits the same trust model as `/api/analyze`. relies on Vercel edge setting the last value in X-Forwarded-For. If hosting changes, re-evaluate.
+- **Privacy posture (decided 2026-04-17)**: `share_events` stores only anonymous data (`report_slug` = nanoid, `method`, `created_at`. no user ID, no IP in the row, IP used only in-memory for rate limiting). Decision: ship without additional consent mechanism or privacy policy page. Trace data is anonymous enough that the risk threshold doesn't justify the UX cost of a banner or disclosure. If the product acquires meaningful EU traffic or a user specifically asks about logging, revisit.
 - **Deprecation path if PR 2 terminates**: per the origin document's 60-day termination clause, if PR 2 is abandoned, file a follow-up issue to deprecate `/api/track-share`, the SharesPanel, and the `share_events` table. Share instrumentation has no standalone product value; its purpose is to feed PR 2's gate.
 - **P5 from origin doc (backdrop-blur audit)**: moved to PR 2 Deferred. The existing `backdrop-blur-sm` in nav surfaces is tied to the visual decoration that PR 2 removes; auditing it in PR 1 has no action.
 
