@@ -23,6 +23,15 @@ let globalCount = 0;
 let globalResetAt = getNextMidnightUtc();
 const GLOBAL_DAILY_CAP = 500;
 
+// --- Share tracking rate limit (separate store + budget) ---
+const shareIpStore = new Map<string, RateEntry>();
+const SHARE_IP_LIMIT = Number(process.env.TRACK_SHARE_IP_LIMIT) || 60;
+const SHARE_IP_WINDOW_MS = 60 * 60 * 1000; // 1 hour
+
+let shareGlobalCount = 0;
+let shareGlobalResetAt = getNextMidnightUtc();
+const SHARE_GLOBAL_DAILY_CAP = Number(process.env.TRACK_SHARE_GLOBAL_CAP) || 5000;
+
 function getNextMidnightUtc(): number {
   const now = new Date();
   const tomorrow = new Date(Date.UTC(
@@ -45,11 +54,7 @@ function getClientIp(request: NextRequest): string {
 }
 
 export function middleware(request: NextRequest) {
-  // Rate-limit analysis endpoints
   const path = request.nextUrl.pathname;
-  if (!path.startsWith('/api/analyze') && !path.startsWith('/api/reanalyze')) {
-    return NextResponse.next();
-  }
 
   // Only rate-limit POST (not OPTIONS/preflight)
   if (request.method !== 'POST') {
@@ -57,6 +62,55 @@ export function middleware(request: NextRequest) {
   }
 
   const now = Date.now();
+
+  // --- Share tracking branch (dedicated store, higher cap) ---
+  if (path.startsWith('/api/track-share')) {
+    if (now >= shareGlobalResetAt) {
+      shareGlobalCount = 0;
+      shareGlobalResetAt = getNextMidnightUtc();
+    }
+    if (shareGlobalCount >= SHARE_GLOBAL_DAILY_CAP) {
+      return NextResponse.json(
+        { error: 'Share tracking daily cap reached.' },
+        {
+          status: 429,
+          headers: { 'Retry-After': String(Math.ceil((shareGlobalResetAt - now) / 1000)) },
+        }
+      );
+    }
+
+    const shareIp = getClientIp(request);
+    const shareEntry = shareIpStore.get(shareIp);
+    if (shareEntry) {
+      if (now >= shareEntry.resetAt) {
+        shareIpStore.set(shareIp, { count: 1, resetAt: now + SHARE_IP_WINDOW_MS });
+      } else if (shareEntry.count >= SHARE_IP_LIMIT) {
+        const retryAfter = Math.ceil((shareEntry.resetAt - now) / 1000);
+        return NextResponse.json(
+          { error: 'Share tracking rate limit exceeded.' },
+          { status: 429, headers: { 'Retry-After': String(retryAfter) } }
+        );
+      } else {
+        shareEntry.count++;
+      }
+    } else {
+      shareIpStore.set(shareIp, { count: 1, resetAt: now + SHARE_IP_WINDOW_MS });
+    }
+
+    shareGlobalCount++;
+    if (shareGlobalCount % 500 === 0) {
+      for (const [key, val] of shareIpStore) {
+        if (now >= val.resetAt) shareIpStore.delete(key);
+      }
+    }
+
+    return NextResponse.next();
+  }
+
+  // --- Analysis branch (existing) ---
+  if (!path.startsWith('/api/analyze') && !path.startsWith('/api/reanalyze')) {
+    return NextResponse.next();
+  }
 
   // --- Global daily cap ---
   if (now >= globalResetAt) {
@@ -118,5 +172,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/api/analyze', '/api/reanalyze'],
+  matcher: ['/api/analyze', '/api/reanalyze', '/api/track-share'],
 };

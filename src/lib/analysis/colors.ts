@@ -34,9 +34,32 @@ const labelColors: Record<string, string> = {
 };
 
 /**
+ * Darker text-safe variants of labelColors. Each hits >=4.5:1 against
+ * --color-surface-0 (#FAF9F6) so the score number and label text meet
+ * WCAG AA without swapping the identity of the hue.
+ */
+const labelInkColors: Record<string, string> = {
+  Clean: '#15803d',
+  'Light Touches': '#4d7c0f',
+  'Noticeable Patterns': '#a16207',
+  'Needs Another Pass': '#c2410c',
+  'Full Robot Mode': '#b91c1c',
+  'Unedited AI Output': '#7f1d1d',
+};
+
+/**
  * Returns the hex color associated with a score label.
  * Falls back to a neutral gray if the label is unrecognized.
  */
 export function getLabelColor(label: string): string {
   return labelColors[label] ?? '#6b7280';
+}
+
+/**
+ * Returns a contrast-safe hex color for score label text and the score
+ * number on a light surface. Use for foreground; use getLabelColor for
+ * background tints and decorative shapes.
+ */
+export function getLabelInkColor(label: string): string {
+  return labelInkColors[label] ?? '#3f3f46';
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { TropeResult } from '@/lib/analysis/scoring';
 
 interface HighlightedTextProps {
@@ -215,33 +215,86 @@ function buildHighlights(
 }
 
 export function HighlightedText({ sourceText, tropeResults }: HighlightedTextProps) {
-  const [hoveredTrope, setHoveredTrope] = useState<string | null>(null);
-  const highlights = buildHighlights(sourceText, tropeResults);
+  const [pinnedId, setPinnedId] = useState<string | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const buttonRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
-  // Build segments: alternating plain text and highlighted spans
-  const segments: { text: string; highlight?: Highlight }[] = [];
-  let cursor = 0;
+  const highlights = useMemo(
+    () => buildHighlights(sourceText, tropeResults),
+    [sourceText, tropeResults]
+  );
 
-  for (const h of highlights) {
-    // Plain text before this highlight
-    if (h.start > cursor) {
-      segments.push({ text: sourceText.slice(cursor, h.start) });
+  // Global click-outside dismissal (mousedown so it fires before focus shifts).
+  useEffect(() => {
+    if (!pinnedId) return;
+    const handler = (e: MouseEvent) => {
+      const container = containerRef.current;
+      if (!container) return;
+      if (!(e.target instanceof Node) || !container.contains(e.target)) {
+        setPinnedId(null);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [pinnedId]);
+
+  // Global Escape dismissal (fires even when focus has left the highlight region).
+  useEffect(() => {
+    if (!pinnedId) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setPinnedId(null);
+    };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, [pinnedId]);
+
+  const segments = useMemo(() => {
+    const out: { text: string; highlight?: Highlight }[] = [];
+    let cursor = 0;
+    for (const h of highlights) {
+      if (h.start > cursor) out.push({ text: sourceText.slice(cursor, h.start) });
+      out.push({ text: sourceText.slice(h.start, h.end), highlight: h });
+      cursor = h.end;
     }
-    // The highlighted span
-    segments.push({
-      text: sourceText.slice(h.start, h.end),
-      highlight: h,
-    });
-    cursor = h.end;
-  }
+    if (cursor < sourceText.length) out.push({ text: sourceText.slice(cursor) });
+    return out;
+  }, [sourceText, highlights]);
 
-  // Remaining plain text after last highlight
-  if (cursor < sourceText.length) {
-    segments.push({ text: sourceText.slice(cursor) });
-  }
+  const highlightCount = highlights.length;
 
-  if (highlights.length === 0) {
-    // No highlights found (excerpts didn't match source text)
+  const focusAt = useCallback((index: number) => {
+    const clamped = Math.max(0, Math.min(highlightCount - 1, index));
+    setActiveIndex(clamped);
+    buttonRefs.current[clamped]?.focus();
+  }, [highlightCount]);
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLButtonElement>, index: number, tropeId: string) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        focusAt(index + 1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        focusAt(index - 1);
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        focusAt(0);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        focusAt(highlightCount - 1);
+      } else if (e.key === 'Escape' && pinnedId) {
+        e.preventDefault();
+        setPinnedId(null);
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        setPinnedId((prev) => (prev === tropeId ? null : tropeId));
+      }
+    },
+    [focusAt, highlightCount, pinnedId]
+  );
+
+  if (highlightCount === 0) {
     return (
       <section className="mx-auto max-w-2xl px-4 py-8">
         <div className="rounded-2xl bg-white border border-zinc-200 p-6 shadow-sm">
@@ -253,9 +306,16 @@ export function HighlightedText({ sourceText, tropeResults }: HighlightedTextPro
     );
   }
 
+  let highlightIndex = 0;
+
   return (
     <section className="mx-auto max-w-2xl px-4 py-8">
-      <div className="rounded-2xl bg-white border border-zinc-200 p-6 shadow-sm">
+      <div
+        ref={containerRef}
+        role="group"
+        aria-label="Detected writing tropes"
+        className="rounded-2xl bg-white border border-zinc-200 p-6 shadow-sm"
+      >
         <p className="text-[15px] leading-[1.8] text-zinc-700 whitespace-pre-wrap">
           {segments.map((seg, i) => {
             if (!seg.highlight) {
@@ -263,27 +323,43 @@ export function HighlightedText({ sourceText, tropeResults }: HighlightedTextPro
             }
 
             const h = seg.highlight;
-            const isHovered = hoveredTrope === h.tropeId;
+            const idx = highlightIndex++;
+            const tooltipId = `trope-tip-${i}`;
+            const isPinned = pinnedId === h.tropeId;
 
             return (
-              <span
+              <button
                 key={i}
-                className="relative cursor-pointer rounded-md px-0.5 transition-all duration-150"
+                type="button"
+                aria-describedby={tooltipId}
+                aria-pressed={isPinned}
+                tabIndex={idx === activeIndex ? 0 : -1}
+                ref={(el) => {
+                  buttonRefs.current[idx] = el;
+                }}
+                onClick={() => {
+                  setActiveIndex(idx);
+                  setPinnedId((prev) => (prev === h.tropeId ? null : h.tropeId));
+                }}
+                onKeyDown={(e) => handleKeyDown(e, idx, h.tropeId)}
+                onFocus={() => setActiveIndex(idx)}
+                className="highlight-trigger group relative cursor-pointer rounded-md px-0.5 text-left align-baseline transition-all duration-150"
                 style={{
-                  backgroundColor: h.color + (isHovered ? '30' : '18'),
+                  backgroundColor: h.color + (isPinned ? '30' : '18'),
                   borderBottom: `2px solid ${h.color}`,
                 }}
-                onMouseEnter={() => setHoveredTrope(h.tropeId)}
-                onMouseLeave={() => setHoveredTrope(null)}
               >
                 {seg.text}
-                {isHovered && (
-                  <span className="absolute bottom-full left-1/2 z-20 mb-2 -translate-x-1/2 whitespace-nowrap rounded-xl bg-zinc-900 px-3 py-1.5 text-xs text-white shadow-lg font-mono">
-                    {h.tropeName}
-                    <span className="absolute left-1/2 top-full -translate-x-1/2 border-[5px] border-transparent border-t-zinc-900" />
-                  </span>
-                )}
-              </span>
+                <span
+                  id={tooltipId}
+                  role="tooltip"
+                  data-pinned={isPinned || undefined}
+                  className="highlight-tooltip pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 -translate-x-1/2 whitespace-nowrap rounded-xl bg-zinc-900 px-3 py-1.5 text-xs text-white shadow-lg font-mono opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100 data-[pinned]:opacity-100"
+                >
+                  {h.tropeName}
+                  <span className="absolute left-1/2 top-full -translate-x-1/2 border-[5px] border-transparent border-t-zinc-900" />
+                </span>
+              </button>
             );
           })}
         </p>

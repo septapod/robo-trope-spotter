@@ -9,8 +9,12 @@ interface TextInputProps {
 export function TextInput({ value, onChange, disabled }: TextInputProps) {
   return (
     <div className="relative">
+      <label htmlFor="text-input" className="sr-only">
+        Text to analyze
+      </label>
       <textarea
-        className="focus-glow w-full h-56 rounded-3xl bg-white border-3 border-zinc-200 p-6 text-zinc-900 text-base leading-relaxed placeholder-zinc-400 resize-none transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed font-sans shadow-sm hover:border-zinc-300 hover:shadow-md"
+        id="text-input"
+        className="focus-glow w-full h-56 rounded-3xl bg-white border-3 border-zinc-200 p-6 text-zinc-900 text-base leading-relaxed placeholder-zinc-500 resize-none transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed font-sans shadow-sm hover:border-zinc-300 hover:shadow-md"
         style={{ borderWidth: '3px' }}
         placeholder="paste something suspicious..."
         value={value}

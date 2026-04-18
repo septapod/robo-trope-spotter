@@ -1,17 +1,18 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 @theme {
-  --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
-  --font-sans: 'Outfit', system-ui, sans-serif;
+  --font-display: var(--font-bricolage), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+  --font-sans: var(--font-hanken), system-ui, sans-serif;
 
   --color-surface-0: #FAF9F6;
   --color-surface-1: #FFFFFF;
   --color-surface-2: #F3F2EF;
   --color-surface-3: #E8E6E1;
 
-  --color-candy-pink: #EC4899;
+  --color-brand-pink: #EC4899;
+  --color-candy-pink: var(--color-brand-pink);
+  --color-link-pink: oklch(55% 0.18 0);
   --color-candy-yellow: #EAB308;
   --color-candy-orange: #F97316;
   --color-candy-teal: #14B8A6;
@@ -64,39 +65,41 @@
 }
 
 /* ============================================
-   BLOB ANIMATIONS
+   BLOB ANIMATIONS (motion-gated)
    ============================================ */
 
-@keyframes blob-float {
-  0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
-  20% { transform: translate(40px, -30px) scale(1.08) rotate(5deg); }
-  40% { transform: translate(-25px, 20px) scale(0.92) rotate(-3deg); }
-  60% { transform: translate(20px, 35px) scale(1.05) rotate(8deg); }
-  80% { transform: translate(-35px, -15px) scale(0.95) rotate(-5deg); }
-}
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes blob-float {
+    0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+    20% { transform: translate(40px, -30px) scale(1.08) rotate(5deg); }
+    40% { transform: translate(-25px, 20px) scale(0.92) rotate(-3deg); }
+    60% { transform: translate(20px, 35px) scale(1.05) rotate(8deg); }
+    80% { transform: translate(-35px, -15px) scale(0.95) rotate(-5deg); }
+  }
 
-@keyframes blob-float-alt {
-  0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
-  25% { transform: translate(-30px, 25px) scale(1.1) rotate(-8deg); }
-  50% { transform: translate(35px, -20px) scale(0.9) rotate(5deg); }
-  75% { transform: translate(-20px, -30px) scale(1.06) rotate(-3deg); }
-}
+  @keyframes blob-float-alt {
+    0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+    25% { transform: translate(-30px, 25px) scale(1.1) rotate(-8deg); }
+    50% { transform: translate(35px, -20px) scale(0.9) rotate(5deg); }
+    75% { transform: translate(-20px, -30px) scale(1.06) rotate(-3deg); }
+  }
 
-@keyframes blob-pulse {
-  0%, 100% { transform: scale(1); opacity: 0.12; }
-  50% { transform: scale(1.15); opacity: 0.18; }
-}
+  @keyframes blob-pulse {
+    0%, 100% { transform: scale(1); opacity: 0.12; }
+    50% { transform: scale(1.15); opacity: 0.18; }
+  }
 
-.animate-blob {
-  animation: blob-float 14s ease-in-out infinite;
-}
+  .animate-blob {
+    animation: blob-float 14s ease-in-out infinite;
+  }
 
-.animate-blob-alt {
-  animation: blob-float-alt 18s ease-in-out infinite;
-}
+  .animate-blob-alt {
+    animation: blob-float-alt 18s ease-in-out infinite;
+  }
 
-.animate-blob-pulse {
-  animation: blob-pulse 8s ease-in-out infinite;
+  .animate-blob-pulse {
+    animation: blob-pulse 8s ease-in-out infinite;
+  }
 }
 
 /* Decorative blob shape via pseudo-element */
@@ -113,85 +116,89 @@
 }
 
 /* ============================================
-   SCORE REVEAL
+   SCORE REVEAL (motion-gated; defaults visible)
    ============================================ */
 
-@keyframes score-reveal {
-  from {
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes score-reveal {
+    from {
+      opacity: 0;
+      transform: scale(0.7) translateY(12px);
+      filter: blur(12px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      filter: blur(0);
+    }
+  }
+
+  .animate-score-reveal {
+    animation: score-reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+}
+
+/* ============================================
+   CARD ENTER (motion-gated; opacity:0 base lives inside the block so
+   reduced-motion users see cards immediately rather than permanently invisible)
+   ============================================ */
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes card-enter {
+    from {
+      opacity: 0;
+      transform: translateY(16px) scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .animate-card-enter {
     opacity: 0;
-    transform: scale(0.7) translateY(12px);
-    filter: blur(12px);
+    animation: card-enter 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-    filter: blur(0);
-  }
-}
-
-.animate-score-reveal {
-  animation: score-reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* ============================================
-   CARD ENTER
+   FOCUS GLOW
+   Solid outline fallback (outside motion block) keeps focus visible for
+   every user. When motion is allowed, a one-shot 400ms box-shadow/border
+   transition replaces the previous infinite cycling animation.
    ============================================ */
 
-@keyframes card-enter {
-  from {
-    opacity: 0;
-    transform: translateY(16px) scale(0.97);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+.focus-glow:focus-visible {
+  outline: 2px solid var(--color-brand-pink);
+  outline-offset: 2px;
 }
 
-.animate-card-enter {
-  opacity: 0;
-  animation: card-enter 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+@media (prefers-reduced-motion: no-preference) {
+  .focus-glow {
+    transition: box-shadow 400ms ease-out, border-color 400ms ease-out;
+  }
+
+  .focus-glow:focus,
+  .focus-glow:focus-visible {
+    box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.25), 0 0 24px rgba(236, 72, 153, 0.12);
+    border-color: rgba(236, 72, 153, 0.55);
+    /* outline stays from the rule outside this block — keeps focus visible if box-shadow is suppressed (forced-colors etc.) */
+  }
 }
 
 /* ============================================
-   FOCUS GLOW (cycling candy colors)
+   LOADING BOUNCE DOTS (motion-gated)
    ============================================ */
 
-@keyframes focus-glow {
-  0% {
-    box-shadow: 0 0 0 4px rgba(244, 63, 94, 0.25), 0 0 30px rgba(244, 63, 94, 0.1);
-    border-color: rgba(244, 63, 94, 0.5);
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes bounce-dot {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
   }
-  25% {
-    box-shadow: 0 0 0 4px rgba(251, 146, 60, 0.25), 0 0 30px rgba(251, 146, 60, 0.1);
-    border-color: rgba(251, 146, 60, 0.5);
-  }
-  50% {
-    box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.25), 0 0 30px rgba(45, 212, 191, 0.1);
-    border-color: rgba(45, 212, 191, 0.5);
-  }
-  75% {
-    box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.25), 0 0 30px rgba(167, 139, 250, 0.1);
-    border-color: rgba(167, 139, 250, 0.5);
-  }
-  100% {
-    box-shadow: 0 0 0 4px rgba(244, 63, 94, 0.25), 0 0 30px rgba(244, 63, 94, 0.1);
-    border-color: rgba(244, 63, 94, 0.5);
-  }
-}
 
-.focus-glow:focus {
-  animation: focus-glow 4s ease-in-out infinite;
-  outline: none;
-}
-
-/* ============================================
-   LOADING BOUNCE DOTS
-   ============================================ */
-
-@keyframes bounce-dot {
-  0%, 80%, 100% { transform: scale(0); }
-  40% { transform: scale(1); }
+  .loading-dots span {
+    animation: bounce-dot 1.4s ease-in-out infinite both;
+  }
 }
 
 .loading-dots span {
@@ -199,7 +206,6 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  animation: bounce-dot 1.4s ease-in-out infinite both;
 }
 
 .loading-dots span:nth-child(1) {

@@ -37,7 +37,9 @@ export function TropeCard({ trope, index }: TropeCardProps) {
               {trope.tropeName}
             </h3>
             <span
-              className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold tracking-wider uppercase text-white"
+              className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-bold tracking-wider uppercase ${
+                trope.tier >= 3 ? 'text-zinc-900' : 'text-white'
+              }`}
               style={{
                 backgroundColor: trope.color,
               }}
@@ -46,10 +48,11 @@ export function TropeCard({ trope, index }: TropeCardProps) {
             </span>
           </div>
           <span
-            className="shrink-0 rounded-2xl px-3 py-1.5 font-mono text-base font-bold tabular-nums"
+            className={`shrink-0 rounded-2xl px-3 py-1.5 font-mono text-base font-bold tabular-nums ${
+              trope.tier >= 3 ? 'text-zinc-900' : 'text-white'
+            }`}
             style={{
-              backgroundColor: trope.color + '18',
-              color: trope.color,
+              backgroundColor: trope.color,
             }}
           >
             {trope.count}x
@@ -66,7 +69,7 @@ export function TropeCard({ trope, index }: TropeCardProps) {
         {/* Suggestion */}
         {trope.suggestion && (
           <div className="mt-3 flex gap-2 items-start rounded-lg bg-emerald-50 border border-emerald-200/60 px-4 py-2.5">
-            <span className="text-emerald-600 text-sm font-semibold shrink-0">Try:</span>
+            <span className="text-emerald-700 text-sm font-semibold shrink-0">Try:</span>
             <p className="text-sm text-emerald-700 leading-relaxed">{trope.suggestion}</p>
           </div>
         )}
@@ -83,7 +86,7 @@ export function TropeCard({ trope, index }: TropeCardProps) {
                   borderColor: trope.color + '20',
                 }}
               >
-                <span style={{ color: trope.color }} className="font-medium">
+                <span className="font-medium text-zinc-900">
                   &ldquo;{example}&rdquo;
                 </span>
               </div>

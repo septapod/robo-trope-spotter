@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { TextInput } from "@/components/input/TextInput";
 import { UrlInput } from "@/components/input/UrlInput";
 import { ScreenshotInput } from "@/components/input/ScreenshotInput";
@@ -163,7 +164,7 @@ export default function Home() {
       <div className="relative z-10 w-full max-w-xl space-y-8">
         {/* Header */}
         <header className="text-center space-y-5">
-          <p className="font-mono text-sm tracking-widest uppercase text-candy-pink font-medium">
+          <p className="font-mono text-sm tracking-widest uppercase text-link-pink font-medium">
             AI Writing Trope Detector
           </p>
           <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl text-zinc-900 leading-[0.95]">
@@ -208,6 +209,7 @@ export default function Home() {
         <button
           onClick={handleAnalyze}
           disabled={!canAnalyze}
+          aria-busy={loading}
           className={`group w-full rounded-2xl font-display font-bold py-5 px-8 text-lg transition-all duration-300 ${
             loading
               ? "bg-candy-pink/80 text-white cursor-wait"
@@ -218,12 +220,18 @@ export default function Home() {
         >
           {loading ? (
             <span className="flex items-center justify-center gap-4">
-              <span className="loading-dots flex gap-1.5">
+              <span className="loading-dots flex gap-1.5" aria-hidden="true">
                 <span />
                 <span />
                 <span />
               </span>
-              <span className="font-display text-base font-bold tracking-wide text-white">{loadingMessages[loadingMsgIndex]}</span>
+              <span
+                aria-live="polite"
+                aria-atomic="true"
+                className="font-display text-base font-bold tracking-wide text-white"
+              >
+                {loadingMessages[loadingMsgIndex]}
+              </span>
             </span>
           ) : (
             <span className="flex items-center justify-center gap-3">
@@ -234,6 +242,7 @@ export default function Home() {
                 viewBox="0 0 24 24"
                 strokeWidth={2.5}
                 stroke="currentColor"
+                aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"
@@ -247,21 +256,31 @@ export default function Home() {
 
         {/* Error message */}
         {error && (
-          <div className="rounded-2xl border-2 border-amber-200 bg-amber-50 px-5 py-4">
+          <div role="alert" className="rounded-2xl border-2 border-amber-200 bg-amber-50 px-5 py-4">
             <p className="text-amber-700 text-sm text-center font-medium">{error}</p>
           </div>
         )}
 
         {/* Footer */}
         <footer className="text-center pt-6 space-y-4">
-          <a href="/tropes" className="text-candy-pink text-sm font-mono hover:underline">
-            See all 42 tropes
-          </a>
+          <div>
+            <a
+              href="/tropes"
+              className="text-link-pink text-sm font-mono underline underline-offset-4 hover:no-underline inline-flex items-center min-h-[44px] px-3 py-3"
+            >
+              See all 42 tropes
+            </a>
+          </div>
           <p className="text-zinc-500 text-sm font-mono">
-            Because someone should tell them.
+            Because it's better to know.
           </p>
-          <a href="https://dxn.is" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-600 transition-colors">
-            <img src="/dxn-logomark.png" alt="Dixon Strategic Labs" className="h-5 w-5" />
+          <a
+            href="https://dxn.is"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 min-h-[44px] px-3 py-3 text-zinc-500 hover:text-zinc-600 transition-colors"
+          >
+            <Image src="/dxn-logomark.png" alt="Dixon Strategic Labs" width={20} height={20} />
             <span className="text-xs font-mono">Dixon Strategic Labs</span>
           </a>
         </footer>
