@@ -1,0 +1,75 @@
+[
+  {
+    "id": "mollick-post-2026-04-30",
+    "source": "linkedin-post",
+    "attribution": "Ethan Mollick, LinkedIn, 2026-04-30",
+    "passage": "\"Load bearing,\" \"I keep coming back to,\" \"Not just X, but Y\"\n\nA curse of using AI a lot is that you realize how much of the writing around you is just AI. People who don't use AI have historically been unable to identify AI prose on sight, but those who use it a lot can spot the tells easily.\n\nIn some ways, I wish I couldn't tell, because using LinkedIn increasingly feels like talking to Claude.",
+    "groundTruth": [],
+    "expectedNonTropes": ["not-x-its-y", "vocab-hall-of-shame", "ai-vocab-cluster"],
+    "notes": "Real-world reference text. The phrases Mollick names (load bearing, I keep coming back to, not just X but Y) are DISCUSSED, not USED. A correct model output should NOT flag these as patterns appearing in the text — the prompt's DISCUSSION vs USAGE rule applies. This is an important false-positive test."
+  },
+  {
+    "id": "linkedin-thought-leader-heavy",
+    "source": "linkedin-post",
+    "passage": "In today's rapidly evolving landscape, leaders are no longer just managers — they're architects of transformation. The most successful executives I've worked with all share three traits: clarity, courage, and conviction.\n\nHere's the thing: real leadership isn't about having all the answers. It's about asking the right questions.\n\nMoreover, in this multifaceted environment, leveraging robust frameworks is paramount. The most innovative organizations don't just adapt to change — they architect it. They navigate complexity with grace, foster genuine collaboration, and embark on transformative journeys that reshape entire industries.\n\nIn conclusion, leadership in 2026 demands more than ever before. It demands vision. It demands grit. It demands the courage to embrace the unknown.\n\nAnd that changes everything.",
+    "groundTruth": [
+      { "tropeId": "fast-paced-world", "confidence": "high", "evidence": "In today's rapidly evolving landscape" },
+      { "tropeId": "not-x-its-y", "confidence": "high", "evidence": "leaders are no longer just managers — they're architects" },
+      { "tropeId": "triplet-framing", "confidence": "high", "evidence": "clarity, courage, and conviction" },
+      { "tropeId": "false-suspense", "confidence": "high", "evidence": "Here's the thing:" },
+      { "tropeId": "colon-preface", "confidence": "high", "evidence": "Here's the thing:" },
+      { "tropeId": "formal-transitions", "confidence": "high", "evidence": "Moreover" },
+      { "tropeId": "ai-vocab-cluster", "confidence": "high", "evidence": "multifaceted, robust, paramount" },
+      { "tropeId": "vocab-hall-of-shame", "confidence": "high", "evidence": "leverage, innovative, transformative, foster, embark" },
+      { "tropeId": "ornate-metaphors", "confidence": "medium", "evidence": "landscape, journeys" },
+      { "tropeId": "em-dash-addiction", "confidence": "high", "evidence": "—" },
+      { "tropeId": "formulaic-conclusion", "confidence": "high", "evidence": "In conclusion" },
+      { "tropeId": "anaphora-abuse", "confidence": "high", "evidence": "It demands vision. It demands grit. It demands the courage" },
+      { "tropeId": "verdict-language", "confidence": "high", "evidence": "And that changes everything." },
+      { "tropeId": "breathless-enthusiasm", "confidence": "high", "evidence": "transformative, innovative" }
+    ],
+    "notes": "DRAFT LABELS — Brent should review and correct. Synthesized to be heavy on Tier 1-2 patterns. Aim is high recall test."
+  },
+  {
+    "id": "vendor-white-paper-opener",
+    "source": "vendor-white-paper",
+    "passage": "Executive Summary\n\nThe modern financial services landscape is being fundamentally reshaped by artificial intelligence. Institutions that fail to harness this transformative technology risk being left behind. Our research reveals that organizations leveraging AI-powered solutions see a 47% improvement in operational efficiency.\n\nDespite these challenges, the potential remains significant. Forward-thinking institutions are already deploying robust, scalable platforms that streamline workflows and unlock unprecedented value. The question is no longer whether to adopt AI, but how quickly.\n\nIn this paper, we explore three pillars of successful AI adoption: governance, infrastructure, and culture. Each pillar plays a critical role in ensuring sustainable transformation.",
+    "groundTruth": [
+      { "tropeId": "ornate-metaphors", "confidence": "high", "evidence": "landscape, pillars" },
+      { "tropeId": "ai-vocab-cluster", "confidence": "high", "evidence": "robust, scalable, streamline, unprecedented" },
+      { "tropeId": "vocab-hall-of-shame", "confidence": "high", "evidence": "harness, transformative, leverage, innovative" },
+      { "tropeId": "breathless-enthusiasm", "confidence": "high", "evidence": "transformative, unprecedented" },
+      { "tropeId": "fabricated-citations", "confidence": "high", "evidence": "Our research reveals... 47% improvement" },
+      { "tropeId": "despite-challenges-pivot", "confidence": "high", "evidence": "Despite these challenges, the potential remains significant" },
+      { "tropeId": "stakes-inflation", "confidence": "medium", "evidence": "fundamentally reshaped, risk being left behind" },
+      { "tropeId": "triplet-framing", "confidence": "high", "evidence": "governance, infrastructure, and culture" },
+      { "tropeId": "not-x-its-y", "confidence": "high", "evidence": "no longer whether to adopt AI, but how quickly" }
+    ],
+    "notes": "DRAFT LABELS. Mid-high trope density. Tests vendor-paper register specifically."
+  },
+  {
+    "id": "human-control-blog",
+    "source": "human-blog",
+    "attribution": "Hand-crafted human control",
+    "passage": "I spent twelve hours over the weekend trying to fix the dishwasher. The problem turned out to be a single $4 part: a check valve in the drain line. I'd watched five YouTube videos and called my dad twice before I figured it out.\n\nWhat surprised me wasn't the fix. It was how much the failed attempts taught me about the machine. I now know which screws to remove first, where the spray arm clips back in, and that the float switch is more delicate than it looks.\n\nMy wife says I should have called a repair person. She's probably right. But I think the dishwasher and I understand each other better now. Whether that's worth a Saturday is a separate question.",
+    "groundTruth": [],
+    "expectedNonTropes": ["punchy-fragments", "triplet-framing", "verdict-language", "from-x-to-y"],
+    "notes": "Clean human writing. Should produce few or zero detections. Tests false-positive baseline. Note: 'which screws to remove first, where the spray arm clips back in, and that the float switch is more delicate' is a list of three SPECIFIC concrete things — should NOT trigger triplet-framing per the prompt's guidance."
+  },
+  {
+    "id": "consultant-email-mid",
+    "source": "consultant-email",
+    "passage": "Hi team,\n\nFollowing up on yesterday's strategy session. A few quick thoughts as we head into Q3 planning.\n\nIt's worth noting that our current approach, while comprehensive, may benefit from additional rigor in three key areas: stakeholder alignment, measurement, and execution cadence. Furthermore, the data suggests we should consider how we're framing the value proposition externally.\n\nMoreover, recent industry research indicates that organizations who invest in robust change management see significantly better outcomes. We could potentially leverage this insight to strengthen our narrative.\n\nHappy to discuss further. Let me know what works.",
+    "groundTruth": [
+      { "tropeId": "hollow-signaling", "confidence": "high", "evidence": "It's worth noting" },
+      { "tropeId": "ai-vocab-cluster", "confidence": "high", "evidence": "comprehensive, robust" },
+      { "tropeId": "vocab-hall-of-shame", "confidence": "medium", "evidence": "leverage, robust" },
+      { "tropeId": "formal-transitions", "confidence": "high", "evidence": "Furthermore, Moreover" },
+      { "tropeId": "triplet-framing", "confidence": "medium", "evidence": "stakeholder alignment, measurement, and execution cadence" },
+      { "tropeId": "excessive-hedging", "confidence": "medium", "evidence": "may benefit, could potentially" },
+      { "tropeId": "missing-specifics", "confidence": "medium", "evidence": "the data suggests, recent industry research indicates" },
+      { "tropeId": "fabricated-citations", "confidence": "high", "evidence": "the data suggests... recent industry research indicates" }
+    ],
+    "notes": "DRAFT LABELS. Common consultant-email register. Tests Tier 3 accumulation patterns."
+  }
+]
