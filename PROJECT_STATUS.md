@@ -1,6 +1,6 @@
 # Robo Trope Spotter
 
-**Status:** Live at robotropes.dxn.is. Active plan: Launch Sprint (Phase 1, U1-U4 complete, U5 next) — see `docs/plans/2026-04-30-001-feat-launch-sprint-plan.md`.
+**Status:** Live at robotropes.dxn.is. Active plan: Launch Sprint (Phase 1, U1-U5 complete, U6 launch repost next) — see `docs/plans/2026-04-30-001-feat-launch-sprint-plan.md`.
 
 ## What It Is
 A social diagnostic tool that identifies AI writing tropes in pasted text and produces a shareable, playful report card. Paste text, get a report, send it to someone who needs it.
@@ -65,7 +65,7 @@ Three-phase plan (10 sprints) to ship a public launch with cost/UX safety, accou
   - [x] U2. Energy Meter cascade + daily budget cap + Roll Call activity strip — DONE on `feat/launch-sprint`. Tiers: caffeine/tea/water/napping. Default $5/day cap configurable via `DAILY_BUDGET_USD`. Status at `/api/status`, recent verdicts at `/api/recent-verdicts`.
   - [x] U3. Brand voice audit + OG preview rebuild + arxiv citation footer — DONE. OG card now shows top-3 trope chips. Broken `/og/<slug>` URL fix. Arxiv footer added. Voice audit clean.
   - [x] U4. Account foundation (magic-link auth) + Spotter Credit on shared reports — DONE on `feat/launch-sprint`. Resend integration. Drizzle migration `0001_perfect_outlaw_kid.sql` adds users, magic_links, sessions, byline_opt_outs tables. Pending: `RESEND_API_KEY` + verified sender domain in Vercel env, then run `npm run db:migrate`.
-  - [ ] U5. Polar.sh tip jar + email gate with newsletter unlock
+  - [x] U5. Polar.sh tip jar + email gate with newsletter unlock — DONE on `feat/launch-sprint`. Free quota: 5/day per user/IP. AllowanceExhaustedModal with three paths (newsletter sub → 30 days, Polar tip → today, $0 → today/capped). Migration `0002_ordinary_mole_man.sql` adds unlocks table. Pending: Polar product setup, Beehiiv pub ID, env in Vercel, db:migrate.
   - [ ] U6. Launch repost + day-of monitoring
 - [ ] **Phase 2 (Field Guide, post-launch):**
   - [ ] U7. Field Guide schema + index + first 10 trope pages
