@@ -1,6 +1,6 @@
 # Robo Trope Spotter
 
-**Status:** Live at robotropes.dxn.is, actively iterating
+**Status:** Live at robotropes.dxn.is. Active plan: Launch Sprint (Phase 1, U1 in progress) — see `docs/plans/2026-04-30-001-feat-launch-sprint-plan.md`.
 
 ## What It Is
 A social diagnostic tool that identifies AI writing tropes in pasted text and produces a shareable, playful report card. Paste text, get a report, send it to someone who needs it.
@@ -55,10 +55,28 @@ A social diagnostic tool that identifies AI writing tropes in pasted text and pr
 - [x] Roast line text changed from dynamic labelColor to text-zinc-700 for consistent readability
 
 ## What's Next
+
+**Active: Launch Sprint** — `docs/plans/2026-04-30-001-feat-launch-sprint-plan.md` (origin: `docs/brainstorms/2026-04-30-launch-sprint-requirements.md`)
+
+Three-phase plan (10 sprints) to ship a public launch with cost/UX safety, account foundation, monetization, audience capture, public taxonomy, and a Pokémon-style trope collection mechanic. Each sprint shippable independently. Branch: `feat/launch-sprint`.
+
+- [ ] **Phase 1 (launch-critical):**
+  - [ ] U1. Three-model eval (Opus 4.7 vs Sonnet 4.6 vs Haiku 4.5) on 50-piece labeled test set — IN PROGRESS
+  - [ ] U2. Energy Meter cascade + daily budget cap + Roll Call activity strip
+  - [ ] U3. Brand voice audit + OG preview rebuild + arxiv citation footer
+  - [ ] U4. Account foundation (magic-link auth) + Spotter Credit on shared reports
+  - [ ] U5. Polar.sh tip jar + email gate with newsletter unlock
+  - [ ] U6. Launch repost + day-of monitoring
+- [ ] **Phase 2 (Field Guide, post-launch):**
+  - [ ] U7. Field Guide schema + index + first 10 trope pages
+  - [ ] U8. Remaining 32 trope pages
+- [ ] **Phase 3 (Social and collection, post-launch):**
+  - [ ] U9. Sightings page + submission flow
+  - [ ] U10. Pokémon-style trope collection mechanic + profile pages
+
+**Other backlog (not in current plan):**
 - [ ] Sync GitHub remote with local history (force push has been blocked by hook; use `npx vercel deploy --prod` as workaround for now)
-- [ ] Persona/archetype typing (v2 shareability feature)
-- [ ] Browser extension (v2 distribution)
-- [ ] Scoring calibration against more real-world samples
+- [ ] Scoring calibration against more real-world samples (partially folded into U1 eval)
 
 ## Key Decisions
 - Social diagnostic, not a writing tool (no Grammarly territory)
