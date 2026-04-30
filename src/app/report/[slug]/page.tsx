@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { eq } from 'drizzle-orm';
 import Image from 'next/image';
 import { db } from '@/db';
-import { reports } from '@/db/schema';
+import { reports, users, bylineOptOuts } from '@/db/schema';
 import type { ScoreResult } from '@/lib/analysis/scoring';
 import type { Metadata } from 'next';
 import { ScoreHero } from '@/components/report/ScoreHero';
@@ -10,6 +10,7 @@ import { TopOffenders } from '@/components/report/TopOffenders';
 import { AllDetections } from '@/components/report/AllDetections';
 import { ShareBar } from '@/components/report/ShareBar';
 import { HighlightedText } from '@/components/report/HighlightedText';
+import { SpotterCredit } from '@/components/report/SpotterCredit';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -22,6 +23,33 @@ async function getReport(slug: string) {
     .where(eq(reports.slug, slug))
     .limit(1);
   return result[0] ?? null;
+}
+
+interface BylineData {
+  displayName: string;
+  profileUrl: string | null;
+}
+
+async function getByline(reportId: string, userId: string | null): Promise<BylineData | null> {
+  if (!userId) return null;
+  const optOuts = await db()
+    .select()
+    .from(bylineOptOuts)
+    .where(eq(bylineOptOuts.reportId, reportId))
+    .limit(1);
+  if (optOuts.length > 0) return null;
+
+  const userRows = await db()
+    .select({ displayName: users.displayName, email: users.email, profileUrl: users.profileUrl })
+    .from(users)
+    .where(eq(users.id, userId))
+    .limit(1);
+  const user = userRows[0];
+  if (!user) return null;
+  return {
+    displayName: user.displayName ?? user.email.split('@')[0] ?? 'Spotter',
+    profileUrl: user.profileUrl,
+  };
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -68,6 +96,7 @@ export default async function ReportPage({ params }: PageProps) {
   const resultsData = report.results as { score: ScoreResult };
   const scoreResult = resultsData.score;
   const remaining = scoreResult.tropeResults.slice(5);
+  const byline = await getByline(report.id, report.userId);
 
   return (
     <main className="min-h-screen bg-surface-0 gradient-mesh">
@@ -88,6 +117,7 @@ export default async function ReportPage({ params }: PageProps) {
       </nav>
 
       <div className="relative z-10">
+        {byline && <SpotterCredit displayName={byline.displayName} profileUrl={byline.profileUrl} />}
         <ScoreHero scoreResult={scoreResult} />
 
         <div className="mt-4">

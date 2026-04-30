@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid';
 import { normalizeInput } from '@/lib/input/normalize';
 import { db } from '@/db';
 import { reports } from '@/db/schema';
+import { getCurrentSession } from '@/lib/auth/session';
 
 const VALID_TYPES = new Set(['text', 'url', 'screenshot']);
 
@@ -88,8 +89,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       'processing:', cascadeResult.processingTimeMs, 'ms'
     );
 
-    // 5. Generate a slug and persist
+    // 5. Generate a slug and persist. If the user is signed in, attach the
+    //    userId so Spotter Credit byline can render on the report page.
     const slug = nanoid(10);
+    const session = await getCurrentSession();
 
     const results = {
       score: scoreResult,
@@ -104,6 +107,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       sourceUrl: sourceUrl ?? null,
       inputType,
       results,
+      userId: session?.user.id ?? null,
     });
 
     // 6. Return the results, including the active tier so the frontend can

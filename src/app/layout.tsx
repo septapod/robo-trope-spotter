@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
+import { AuthMenu } from "@/components/auth/AuthMenu";
 import "./globals.css";
 
 const bricolage = Bricolage_Grotesque({
@@ -40,6 +41,7 @@ export default function RootLayout({
       className={`${bricolage.variable} ${hanken.variable} ${jetbrainsMono.variable}`}
     >
       <body className="min-h-screen bg-surface-0 text-zinc-900 antialiased font-sans">
+        <AuthMenu />
         {children}
       </body>
     </html>
