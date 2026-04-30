@@ -61,7 +61,7 @@ A social diagnostic tool that identifies AI writing tropes in pasted text and pr
 Three-phase plan (10 sprints) to ship a public launch with cost/UX safety, account foundation, monetization, audience capture, public taxonomy, and a Pokémon-style trope collection mechanic. Each sprint shippable independently. Branch: `feat/launch-sprint`.
 
 - [ ] **Phase 1 (launch-critical):**
-  - [ ] U1. Three-model eval (Opus 4.7 vs Sonnet 4.6 vs Haiku 4.5) on 50-piece labeled test set — IN PROGRESS
+  - [ ] U1. Three-model eval (Opus 4.7 vs Sonnet 4.6 vs Haiku 4.5) on 50-piece labeled test set — HARNESS READY, awaiting Brent: smoke test, label review, expansion to ~50 entries, full run. See `eval/README.md`.
   - [ ] U2. Energy Meter cascade + daily budget cap + Roll Call activity strip
   - [ ] U3. Brand voice audit + OG preview rebuild + arxiv citation footer
   - [ ] U4. Account foundation (magic-link auth) + Spotter Credit on shared reports
