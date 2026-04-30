@@ -1,6 +1,6 @@
 # Robo Trope Spotter
 
-**Status:** Live at robotropes.dxn.is. Active plan: Launch Sprint (Phase 1, U1+U2 complete, U3 next) — see `docs/plans/2026-04-30-001-feat-launch-sprint-plan.md`.
+**Status:** Live at robotropes.dxn.is. Active plan: Launch Sprint (Phase 1, U1-U3 complete, U4 next) — see `docs/plans/2026-04-30-001-feat-launch-sprint-plan.md`.
 
 ## What It Is
 A social diagnostic tool that identifies AI writing tropes in pasted text and produces a shareable, playful report card. Paste text, get a report, send it to someone who needs it.
@@ -63,7 +63,7 @@ Three-phase plan (10 sprints) to ship a public launch with cost/UX safety, accou
 - [ ] **Phase 1 (launch-critical):**
   - [x] U1. Three-model eval — DONE. 49 labeled passages, 3 models, full run. Headline: Opus 86% / Sonnet 76% / Haiku 62% recall. Recommendation: keep Sonnet+Haiku as production pipeline; cascade is Caffeine=Sonnet+Haiku, Tea=Sonnet-only, Water=regex-only, Napping=locked. See `eval/results-2026-04-30.md`.
   - [x] U2. Energy Meter cascade + daily budget cap + Roll Call activity strip — DONE on `feat/launch-sprint`. Tiers: caffeine/tea/water/napping. Default $5/day cap configurable via `DAILY_BUDGET_USD`. Status at `/api/status`, recent verdicts at `/api/recent-verdicts`.
-  - [ ] U3. Brand voice audit + OG preview rebuild + arxiv citation footer
+  - [x] U3. Brand voice audit + OG preview rebuild + arxiv citation footer — DONE. OG card now shows top-3 trope chips. Broken `/og/<slug>` URL fix. Arxiv footer added. Voice audit clean.
   - [ ] U4. Account foundation (magic-link auth) + Spotter Credit on shared reports
   - [ ] U5. Polar.sh tip jar + email gate with newsletter unlock
   - [ ] U6. Launch repost + day-of monitoring
