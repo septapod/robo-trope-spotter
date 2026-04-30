@@ -1,6 +1,6 @@
 # Robo Trope Spotter
 
-**Status:** Live at robotropes.dxn.is. Active plan: Launch Sprint (Phase 1, U1 in progress) — see `docs/plans/2026-04-30-001-feat-launch-sprint-plan.md`.
+**Status:** Live at robotropes.dxn.is. Active plan: Launch Sprint (Phase 1, U1 complete, U2 next) — see `docs/plans/2026-04-30-001-feat-launch-sprint-plan.md`.
 
 ## What It Is
 A social diagnostic tool that identifies AI writing tropes in pasted text and produces a shareable, playful report card. Paste text, get a report, send it to someone who needs it.
@@ -61,7 +61,7 @@ A social diagnostic tool that identifies AI writing tropes in pasted text and pr
 Three-phase plan (10 sprints) to ship a public launch with cost/UX safety, account foundation, monetization, audience capture, public taxonomy, and a Pokémon-style trope collection mechanic. Each sprint shippable independently. Branch: `feat/launch-sprint`.
 
 - [ ] **Phase 1 (launch-critical):**
-  - [ ] U1. Three-model eval (Opus 4.7 vs Sonnet 4.6 vs Haiku 4.5) on 50-piece labeled test set — HARNESS READY, awaiting Brent: smoke test, label review, expansion to ~50 entries, full run. See `eval/README.md`.
+  - [x] U1. Three-model eval — DONE. 49 labeled passages, 3 models, full run. Headline: Opus 86% / Sonnet 76% / Haiku 62% recall. Recommendation: keep Sonnet+Haiku as production pipeline; cascade is Caffeine=Sonnet+Haiku, Tea=Sonnet-only, Water=regex-only, Napping=locked. See `eval/results-2026-04-30.md`.
   - [ ] U2. Energy Meter cascade + daily budget cap + Roll Call activity strip
   - [ ] U3. Brand voice audit + OG preview rebuild + arxiv citation footer
   - [ ] U4. Account foundation (magic-link auth) + Spotter Credit on shared reports

@@ -6,70 +6,528 @@
     "passage": "\"Load bearing,\" \"I keep coming back to,\" \"Not just X, but Y\"\n\nA curse of using AI a lot is that you realize how much of the writing around you is just AI. People who don't use AI have historically been unable to identify AI prose on sight, but those who use it a lot can spot the tells easily.\n\nIn some ways, I wish I couldn't tell, because using LinkedIn increasingly feels like talking to Claude.",
     "groundTruth": [],
     "expectedNonTropes": ["not-x-its-y", "vocab-hall-of-shame", "ai-vocab-cluster"],
-    "notes": "Real-world reference text. The phrases Mollick names (load bearing, I keep coming back to, not just X but Y) are DISCUSSED, not USED. A correct model output should NOT flag these as patterns appearing in the text — the prompt's DISCUSSION vs USAGE rule applies. This is an important false-positive test."
+    "notes": "DISCUSSION vs USAGE control. The phrases Mollick names are quoted as patterns, not used as constructions."
   },
   {
     "id": "linkedin-thought-leader-heavy",
     "source": "linkedin-post",
     "passage": "In today's rapidly evolving landscape, leaders are no longer just managers — they're architects of transformation. The most successful executives I've worked with all share three traits: clarity, courage, and conviction.\n\nHere's the thing: real leadership isn't about having all the answers. It's about asking the right questions.\n\nMoreover, in this multifaceted environment, leveraging robust frameworks is paramount. The most innovative organizations don't just adapt to change — they architect it. They navigate complexity with grace, foster genuine collaboration, and embark on transformative journeys that reshape entire industries.\n\nIn conclusion, leadership in 2026 demands more than ever before. It demands vision. It demands grit. It demands the courage to embrace the unknown.\n\nAnd that changes everything.",
     "groundTruth": [
-      { "tropeId": "fast-paced-world", "confidence": "high", "evidence": "In today's rapidly evolving landscape" },
-      { "tropeId": "not-x-its-y", "confidence": "high", "evidence": "leaders are no longer just managers — they're architects" },
-      { "tropeId": "triplet-framing", "confidence": "high", "evidence": "clarity, courage, and conviction" },
-      { "tropeId": "false-suspense", "confidence": "high", "evidence": "Here's the thing:" },
-      { "tropeId": "colon-preface", "confidence": "high", "evidence": "Here's the thing:" },
-      { "tropeId": "formal-transitions", "confidence": "high", "evidence": "Moreover" },
-      { "tropeId": "ai-vocab-cluster", "confidence": "high", "evidence": "multifaceted, robust, paramount" },
-      { "tropeId": "vocab-hall-of-shame", "confidence": "high", "evidence": "leverage, innovative, transformative, foster, embark" },
-      { "tropeId": "ornate-metaphors", "confidence": "medium", "evidence": "landscape, journeys" },
-      { "tropeId": "em-dash-addiction", "confidence": "high", "evidence": "—" },
-      { "tropeId": "formulaic-conclusion", "confidence": "high", "evidence": "In conclusion" },
-      { "tropeId": "anaphora-abuse", "confidence": "high", "evidence": "It demands vision. It demands grit. It demands the courage" },
-      { "tropeId": "verdict-language", "confidence": "high", "evidence": "And that changes everything." },
-      { "tropeId": "breathless-enthusiasm", "confidence": "high", "evidence": "transformative, innovative" }
+      { "tropeId": "fast-paced-world", "confidence": "high" },
+      { "tropeId": "not-x-its-y", "confidence": "high" },
+      { "tropeId": "triplet-framing", "confidence": "high" },
+      { "tropeId": "false-suspense", "confidence": "high" },
+      { "tropeId": "colon-preface", "confidence": "high" },
+      { "tropeId": "formal-transitions", "confidence": "high" },
+      { "tropeId": "ai-vocab-cluster", "confidence": "high" },
+      { "tropeId": "vocab-hall-of-shame", "confidence": "high" },
+      { "tropeId": "ornate-metaphors", "confidence": "medium" },
+      { "tropeId": "em-dash-addiction", "confidence": "high" },
+      { "tropeId": "formulaic-conclusion", "confidence": "high" },
+      { "tropeId": "anaphora-abuse", "confidence": "high" },
+      { "tropeId": "verdict-language", "confidence": "high" },
+      { "tropeId": "breathless-enthusiasm", "confidence": "high" }
     ],
-    "notes": "DRAFT LABELS — Brent should review and correct. Synthesized to be heavy on Tier 1-2 patterns. Aim is high recall test."
+    "notes": "Heavy synthetic LinkedIn AI-thought-leader post. Tier 1-2 stress test."
   },
   {
     "id": "vendor-white-paper-opener",
     "source": "vendor-white-paper",
     "passage": "Executive Summary\n\nThe modern financial services landscape is being fundamentally reshaped by artificial intelligence. Institutions that fail to harness this transformative technology risk being left behind. Our research reveals that organizations leveraging AI-powered solutions see a 47% improvement in operational efficiency.\n\nDespite these challenges, the potential remains significant. Forward-thinking institutions are already deploying robust, scalable platforms that streamline workflows and unlock unprecedented value. The question is no longer whether to adopt AI, but how quickly.\n\nIn this paper, we explore three pillars of successful AI adoption: governance, infrastructure, and culture. Each pillar plays a critical role in ensuring sustainable transformation.",
     "groundTruth": [
-      { "tropeId": "ornate-metaphors", "confidence": "high", "evidence": "landscape, pillars" },
-      { "tropeId": "ai-vocab-cluster", "confidence": "high", "evidence": "robust, scalable, streamline, unprecedented" },
-      { "tropeId": "vocab-hall-of-shame", "confidence": "high", "evidence": "harness, transformative, leverage, innovative" },
-      { "tropeId": "breathless-enthusiasm", "confidence": "high", "evidence": "transformative, unprecedented" },
-      { "tropeId": "fabricated-citations", "confidence": "high", "evidence": "Our research reveals... 47% improvement" },
-      { "tropeId": "despite-challenges-pivot", "confidence": "high", "evidence": "Despite these challenges, the potential remains significant" },
-      { "tropeId": "stakes-inflation", "confidence": "medium", "evidence": "fundamentally reshaped, risk being left behind" },
-      { "tropeId": "triplet-framing", "confidence": "high", "evidence": "governance, infrastructure, and culture" },
-      { "tropeId": "not-x-its-y", "confidence": "high", "evidence": "no longer whether to adopt AI, but how quickly" }
+      { "tropeId": "ornate-metaphors", "confidence": "high" },
+      { "tropeId": "ai-vocab-cluster", "confidence": "high" },
+      { "tropeId": "vocab-hall-of-shame", "confidence": "high" },
+      { "tropeId": "breathless-enthusiasm", "confidence": "high" },
+      { "tropeId": "fabricated-citations", "confidence": "high" },
+      { "tropeId": "despite-challenges-pivot", "confidence": "high" },
+      { "tropeId": "stakes-inflation", "confidence": "medium" },
+      { "tropeId": "triplet-framing", "confidence": "high" },
+      { "tropeId": "not-x-its-y", "confidence": "high" }
     ],
-    "notes": "DRAFT LABELS. Mid-high trope density. Tests vendor-paper register specifically."
+    "notes": "Vendor white paper register."
   },
   {
     "id": "human-control-blog",
     "source": "human-blog",
-    "attribution": "Hand-crafted human control",
     "passage": "I spent twelve hours over the weekend trying to fix the dishwasher. The problem turned out to be a single $4 part: a check valve in the drain line. I'd watched five YouTube videos and called my dad twice before I figured it out.\n\nWhat surprised me wasn't the fix. It was how much the failed attempts taught me about the machine. I now know which screws to remove first, where the spray arm clips back in, and that the float switch is more delicate than it looks.\n\nMy wife says I should have called a repair person. She's probably right. But I think the dishwasher and I understand each other better now. Whether that's worth a Saturday is a separate question.",
     "groundTruth": [],
     "expectedNonTropes": ["punchy-fragments", "triplet-framing", "verdict-language", "from-x-to-y"],
-    "notes": "Clean human writing. Should produce few or zero detections. Tests false-positive baseline. Note: 'which screws to remove first, where the spray arm clips back in, and that the float switch is more delicate' is a list of three SPECIFIC concrete things — should NOT trigger triplet-framing per the prompt's guidance."
+    "notes": "Clean human writing. The list of three SPECIFIC concrete things should NOT trigger triplet-framing."
   },
   {
     "id": "consultant-email-mid",
     "source": "consultant-email",
     "passage": "Hi team,\n\nFollowing up on yesterday's strategy session. A few quick thoughts as we head into Q3 planning.\n\nIt's worth noting that our current approach, while comprehensive, may benefit from additional rigor in three key areas: stakeholder alignment, measurement, and execution cadence. Furthermore, the data suggests we should consider how we're framing the value proposition externally.\n\nMoreover, recent industry research indicates that organizations who invest in robust change management see significantly better outcomes. We could potentially leverage this insight to strengthen our narrative.\n\nHappy to discuss further. Let me know what works.",
     "groundTruth": [
-      { "tropeId": "hollow-signaling", "confidence": "high", "evidence": "It's worth noting" },
-      { "tropeId": "ai-vocab-cluster", "confidence": "high", "evidence": "comprehensive, robust" },
-      { "tropeId": "vocab-hall-of-shame", "confidence": "medium", "evidence": "leverage, robust" },
-      { "tropeId": "formal-transitions", "confidence": "high", "evidence": "Furthermore, Moreover" },
-      { "tropeId": "triplet-framing", "confidence": "medium", "evidence": "stakeholder alignment, measurement, and execution cadence" },
-      { "tropeId": "excessive-hedging", "confidence": "medium", "evidence": "may benefit, could potentially" },
-      { "tropeId": "missing-specifics", "confidence": "medium", "evidence": "the data suggests, recent industry research indicates" },
-      { "tropeId": "fabricated-citations", "confidence": "high", "evidence": "the data suggests... recent industry research indicates" }
+      { "tropeId": "hollow-signaling", "confidence": "high" },
+      { "tropeId": "ai-vocab-cluster", "confidence": "high" },
+      { "tropeId": "vocab-hall-of-shame", "confidence": "medium" },
+      { "tropeId": "formal-transitions", "confidence": "high" },
+      { "tropeId": "triplet-framing", "confidence": "medium" },
+      { "tropeId": "excessive-hedging", "confidence": "medium" },
+      { "tropeId": "missing-specifics", "confidence": "medium" },
+      { "tropeId": "fabricated-citations", "confidence": "high" }
     ],
-    "notes": "DRAFT LABELS. Common consultant-email register. Tests Tier 3 accumulation patterns."
+    "notes": "Standard consultant-email register."
+  },
+  {
+    "id": "linkedin-medium-trope",
+    "source": "linkedin-post",
+    "passage": "I had coffee with a CEO last week who said something that stuck with me.\n\n\"Most teams don't lack strategy. They lack the courage to execute it.\"\n\nThat hit hard. Because in my work with leaders across industries, I see the same pattern over and over. Smart people. Good plans. Stuck.\n\nThe difference between teams that ship and teams that stall isn't intelligence. It's not even resources. It's the willingness to make a decision and live with it.\n\nWhat are you waiting for?",
+    "groundTruth": [
+      { "tropeId": "not-x-its-y", "confidence": "high" },
+      { "tropeId": "punchy-fragments", "confidence": "high" },
+      { "tropeId": "rhetorical-self-answer", "confidence": "low" },
+      { "tropeId": "missing-specifics", "confidence": "high" }
+    ],
+    "expectedNonTropes": ["formal-transitions"],
+    "notes": "Mid-density LinkedIn post. Light on AI vocab but heavy on rhetorical patterns."
+  },
+  {
+    "id": "linkedin-clean-personal",
+    "source": "linkedin-post",
+    "passage": "My grandmother turned 92 yesterday.\n\nShe still drives. She still beats me at gin rummy. She still makes the same butter cookies she's made since I was four years old. The recipe is on a yellowed index card in her kitchen drawer, written in her mother's handwriting.\n\nI asked her once what the secret was to a long life. She said \"don't smoke, and never marry someone who chews loudly.\"\n\nHappy birthday, Nana.",
+    "groundTruth": [],
+    "expectedNonTropes": ["anaphora-abuse", "punchy-fragments", "triplet-framing"],
+    "notes": "Clean human personal post. The 'She still... She still... She still...' looks like anaphora but is genuine repetition with concrete content per ear, not mechanical AI repetition. Borderline edge case."
+  },
+  {
+    "id": "vendor-paper-mid",
+    "source": "vendor-white-paper",
+    "passage": "The convergence of cloud computing, machine learning, and edge processing has created unprecedented opportunities for community financial institutions. Our analysis of 200+ deployments reveals five critical success factors.\n\nFirst, executive sponsorship is paramount. Second, data quality determines outcomes. Third, change management cannot be an afterthought. Fourth, vendor selection requires rigor. Fifth, measurement frameworks must be established from day one.\n\nThese factors are interconnected. Neglecting any one of them increases the risk of suboptimal outcomes.",
+    "groundTruth": [
+      { "tropeId": "ai-vocab-cluster", "confidence": "high" },
+      { "tropeId": "fabricated-citations", "confidence": "high" },
+      { "tropeId": "vocab-hall-of-shame", "confidence": "medium" },
+      { "tropeId": "anaphora-abuse", "confidence": "high" },
+      { "tropeId": "missing-specifics", "confidence": "high" },
+      { "tropeId": "stakes-inflation", "confidence": "low" }
+    ],
+    "notes": "Vendor analytical register. The 'First, Second...Fifth' is anaphora."
+  },
+  {
+    "id": "linkedin-employee-anniversary",
+    "source": "linkedin-post",
+    "passage": "Five years ago today, I joined this team. Five years ago today, I had no idea what I was doing. Five years ago today, I was terrified.\n\nWhat a difference half a decade makes.\n\nI've grown more here than I thought possible. From building my first model that didn't work, to leading the launch of three products that did. From struggling to write a coherent stand-up update, to mentoring junior engineers across two continents.\n\nNone of this happens without an incredible team. To everyone who took a chance on me, who answered my dumb questions, who pushed me when I was settling for less — thank you.\n\nHere's to the next five.",
+    "groundTruth": [
+      { "tropeId": "anaphora-abuse", "confidence": "high" },
+      { "tropeId": "from-x-to-y", "confidence": "high" },
+      { "tropeId": "em-dash-addiction", "confidence": "high" },
+      { "tropeId": "verdict-language", "confidence": "low" }
+    ],
+    "expectedNonTropes": ["triplet-framing"],
+    "notes": "Anniversary post. 'From X to Y' is the literal range construction."
+  },
+  {
+    "id": "newsletter-clean-substack",
+    "source": "newsletter",
+    "passage": "Three years into running this newsletter, I've stopped trying to predict which posts will land. The ones I sweat over for two weeks sometimes get five claps. The ones I dash off in twenty minutes occasionally take off.\n\nThe lesson, if there is one, is to keep showing up. Some posts are for you. Some are for the reader. The work of figuring out which is which is half the job.\n\nSee you Friday.",
+    "groundTruth": [],
+    "expectedNonTropes": ["punchy-fragments", "triplet-framing", "anaphora-abuse"],
+    "notes": "Clean newsletter sign-off. Very low trope density."
+  },
+  {
+    "id": "consultant-email-clean",
+    "source": "consultant-email",
+    "passage": "Tom,\n\nQuick update on the rate analysis. I pulled the last 18 months of share certificate balances against the 1-year and 5-year rate spreads. Three things stood out.\n\nFirst, your certificate book grew 11% in months when your 12-month special was within 25 bps of the regional median, and shrank in months when it slipped further than 40 bps below. The threshold is real and it's narrower than I expected.\n\nSecond, the 5-year band hasn't moved meaningfully in either direction since November regardless of pricing. It's behaving like a tenure-loyalty product, not a yield product.\n\nThird, your rate-shop calls in March were almost entirely 12-month inquiries. People don't call about long money.\n\nI think the move is to defend the 12-month aggressively and let the 5-year hold itself. Want to spend Tuesday's session on the case for that?\n\nBrent",
+    "groundTruth": [],
+    "expectedNonTropes": ["triplet-framing", "ai-vocab-cluster", "missing-specifics", "formal-transitions"],
+    "notes": "Clean consultant email with specific data and concrete recommendations. The First/Second/Third structure is anaphora but used for genuine enumeration of distinct points, not rhetorical effect — borderline."
+  },
+  {
+    "id": "edge-academic-abstract",
+    "source": "edge-case",
+    "passage": "Abstract\n\nWe study how well humans can detect text generated by commercial LLMs (GPT-4o, Claude-3.5-Sonnet, o1-Pro). We hire annotators to read 300 non-fiction English articles, label them as either human-written or AI-generated, and provide paragraph-length explanations for their decisions. Our experiments show that annotators who frequently use LLMs for writing tasks excel at detecting AI-generated text, even without any specialized training or feedback. Furthermore, we find that this skill is robust across paraphrasing attacks and humanization attempts. We do not find evidence that exposure alone, in the absence of LLM use for writing, develops the same detection capability.",
+    "groundTruth": [],
+    "expectedNonTropes": ["formal-transitions", "ai-vocab-cluster", "missing-specifics"],
+    "notes": "Real academic abstract. 'Furthermore' in academic register should NOT trigger formal-transitions per the prompt's guard rule. The hedged claims ('we do not find evidence') are correct academic style, not excessive-hedging."
+  },
+  {
+    "id": "linkedin-data-driven",
+    "source": "linkedin-post",
+    "passage": "Three quarters of analyzing fintech failures and the pattern is uncomfortable.\n\nIt's not the engineering. It's not the funding. It's the second product.\n\nA fintech that finds product-market fit on its first product, then ships its second product within 18 months of the first, fails 6x more often than one that waits 36+ months.\n\nThe second product breaks them. Not because it's bad. Because it dilutes everything that made the first product work: focus, brand identity, sales motion, support tooling.\n\nIf you're sitting on a year-old product that's working, congratulations. The hardest decision of the next three years is what NOT to ship.",
+    "groundTruth": [
+      { "tropeId": "not-x-its-y", "confidence": "high" },
+      { "tropeId": "punchy-fragments", "confidence": "medium" },
+      { "tropeId": "anaphora-abuse", "confidence": "medium" }
+    ],
+    "expectedNonTropes": ["missing-specifics", "fabricated-citations"],
+    "notes": "LinkedIn post with specific numbers. The 6x and 18mo and 36mo make it ANTI-missing-specifics. Use of 'It's not X. It's not Y. It's Z' is the construction."
+  },
+  {
+    "id": "vendor-paper-clean",
+    "source": "vendor-white-paper",
+    "passage": "Implementation Notes\n\nThis system is designed to integrate with your existing core via the Symitar host file format described in section 4.2. Average implementation time is 11 weeks for credit unions under 500MM in assets and 16 weeks for those above.\n\nWe require sign-off from your network team before initiating the secondary tunnel. The tunnel is bidirectional but read-only on the inbound side; write operations route through the queue defined in section 6.1.\n\nIf your environment uses a non-standard Symitar build, contact your account manager before scheduling the kickoff call.",
+    "groundTruth": [],
+    "expectedNonTropes": ["ai-vocab-cluster", "vocab-hall-of-shame", "formal-transitions"],
+    "notes": "Clean technical documentation. Should produce few or zero detections. Tests vendor-paper baseline for technical writing."
+  },
+  {
+    "id": "edge-discussed-not-used",
+    "source": "edge-case",
+    "passage": "When I'm editing client copy, the first thing I cut is the construction \"it's not X, it's Y.\" That phrase has become a tell. I also strip out \"delve into\" and \"tapestry\" and any sentence that opens with \"in today's rapidly evolving landscape.\"\n\nThe writers I work with are usually surprised by how much these patterns appear in their drafts. Once you can see them, you can't unsee them.",
+    "groundTruth": [
+      { "tropeId": "fast-paced-world", "confidence": "low" }
+    ],
+    "expectedNonTropes": ["not-x-its-y", "vocab-hall-of-shame"],
+    "notes": "DISCUSSION vs USAGE test. The passage names tropes but uses none of them. The 'in today's rapidly evolving landscape' IS a quoted phrase but the surrounding sentence is also quoting/citing it. Borderline. fast-paced-world is technically present in the quoted form."
+  },
+  {
+    "id": "human-edited-ai-mix",
+    "source": "human-edited-ai",
+    "passage": "I asked Claude to draft an executive summary for our board memo last week. The first version was unusable. \"In today's rapidly evolving landscape, organizations must navigate unprecedented complexity while leveraging transformative technologies to drive sustainable competitive advantage.\"\n\nI rewrote it. \"We need to decide whether to keep building on Symitar or migrate to Corelation by the end of Q3. The cost of waiting another year is roughly $400K in deferred efficiency gains.\"\n\nThe difference is what you're willing to commit to in writing. AI hedges everything because hedging is statistically safe. Boards don't pay you to be statistically safe.",
+    "groundTruth": [
+      { "tropeId": "fast-paced-world", "confidence": "high" },
+      { "tropeId": "ai-vocab-cluster", "confidence": "high" },
+      { "tropeId": "vocab-hall-of-shame", "confidence": "high" }
+    ],
+    "expectedNonTropes": ["excessive-hedging"],
+    "notes": "Mixed human-edited-AI. The AI tells live in the QUOTED first version. The author's own prose is clean. Tests whether models can distinguish quoted-AI from used-AI."
+  },
+  {
+    "id": "linkedin-listicle-thought",
+    "source": "linkedin-post",
+    "passage": "5 things every product leader should know in 2026:\n\n1. **Velocity matters more than vision.** Shipping creates clarity that planning never will.\n\n2. **Measure what you can change.** Vanity metrics are a tax on focus.\n\n3. **Listen to your power users.** They know what you're building before you do.\n\n4. **Fire fast.** Bad hires cost more than missed hires.\n\n5. **Bet on culture.** Process scales. Spirit doesn't.\n\nWhich of these do you wish you'd internalized sooner?",
+    "groundTruth": [
+      { "tropeId": "listicle-bullets", "confidence": "high" },
+      { "tropeId": "punchy-fragments", "confidence": "high" },
+      { "tropeId": "missing-specifics", "confidence": "high" },
+      { "tropeId": "verdict-language", "confidence": "medium" }
+    ],
+    "notes": "Classic LinkedIn listicle with bold-first-phrase formatting."
+  },
+  {
+    "id": "human-control-fiction",
+    "source": "human-blog",
+    "passage": "The dog had been missing for three days when the kid showed up at the door. He was maybe seven. He held the dog's collar in one fist and a torn-up tennis ball in the other. \"Is this your dog?\" he said, like he wasn't sure who he wanted the answer to be.\n\nThe dog was inside. We could hear her snoring on the couch.\n\n\"That's her collar,\" my wife said. \"Where did you find it?\"\n\nHe pointed at the storm drain at the end of our street. The collar had been there, he said, since Tuesday.",
+    "groundTruth": [],
+    "expectedNonTropes": ["punchy-fragments", "triplet-framing", "ai-vocab-cluster"],
+    "notes": "Fiction-style human prose. Concrete details, dialogue, no AI tells."
+  },
+  {
+    "id": "consultant-pitch-heavy",
+    "source": "consultant-email",
+    "passage": "Subject: Following up on our conversation\n\nLeadership,\n\nThank you for taking the time to connect last Thursday. Our discussion underscored the strategic imperative of evolving your member experience to meet the demands of a rapidly changing competitive landscape.\n\nAs we discussed, the challenges facing community financial institutions today are multifaceted and interconnected. Margin compression. Demographic shifts. Technology debt. Regulatory pressure. Each demands a thoughtful, integrated response.\n\nWe believe our team is uniquely positioned to partner with you on this journey. Our methodology, refined across hundreds of engagements, brings together strategic clarity, operational rigor, and a deep commitment to your mission.\n\nMoreover, we understand that every credit union is different. There are no one-size-fits-all solutions. We listen first.\n\nLet me know your availability for a follow-up next week. I'm confident we can identify a path forward that creates lasting value for your members and your institution.",
+    "groundTruth": [
+      { "tropeId": "vocab-hall-of-shame", "confidence": "high" },
+      { "tropeId": "ai-vocab-cluster", "confidence": "high" },
+      { "tropeId": "ornate-metaphors", "confidence": "high" },
+      { "tropeId": "fast-paced-world", "confidence": "high" },
+      { "tropeId": "punchy-fragments", "confidence": "high" },
+      { "tropeId": "formal-transitions", "confidence": "high" },
+      { "tropeId": "missing-specifics", "confidence": "high" },
+      { "tropeId": "breathless-enthusiasm", "confidence": "medium" },
+      { "tropeId": "stakes-inflation", "confidence": "medium" }
+    ],
+    "notes": "Heavy consultant-cosplay pitch email. Multiple Tier 2-3 patterns."
+  },
+  {
+    "id": "human-control-essay",
+    "source": "human-blog",
+    "passage": "I changed my mind about credit cards last year. For most of my twenties, I treated them like a personal moral failing. Then I had a kid and realized that the 2% cash back on groceries was paying for our car insurance.\n\nThe ethics didn't change. My math did. Credit cards still extract a tax from people who carry balances and pay it back to people who don't. The trick is being on the right side of that arrangement, which requires discipline I didn't have at 24 and do have at 38.\n\nWhich is itself an interesting thing to notice. The skills I needed to use these tools well are the ones I built doing other things, in unrelated parts of my life. I didn't develop financial discipline by reading personal finance blogs. I developed it by getting older.",
+    "groundTruth": [],
+    "expectedNonTropes": ["punchy-fragments", "ai-vocab-cluster", "formal-transitions"],
+    "notes": "Reflective essay. Concrete and personal. Should produce zero or near-zero detections."
+  },
+  {
+    "id": "linkedin-job-promotion",
+    "source": "linkedin-post",
+    "passage": "Excited to share that I've been promoted to VP of Engineering!\n\nThis journey has been nothing short of transformative. From my first day as a junior engineer to now leading a team of 40+ talented individuals, every step has shaped who I am today.\n\nI'm grateful to my incredible mentors, my supportive team, and my amazing family. None of this would be possible without you.\n\nMost importantly, I'm energized by what's ahead. We're building something truly special — solutions that will reshape how organizations operate at scale.\n\nMore to come!",
+    "groundTruth": [
+      { "tropeId": "vocab-hall-of-shame", "confidence": "high" },
+      { "tropeId": "from-x-to-y", "confidence": "high" },
+      { "tropeId": "breathless-enthusiasm", "confidence": "high" },
+      { "tropeId": "stakes-inflation", "confidence": "high" },
+      { "tropeId": "missing-specifics", "confidence": "high" },
+      { "tropeId": "em-dash-addiction", "confidence": "medium" }
+    ],
+    "notes": "Standard LinkedIn humblebrag. Heavy on enthusiasm/empty signals."
+  },
+  {
+    "id": "vendor-paper-ai-deployment",
+    "source": "vendor-white-paper",
+    "passage": "AI-powered fraud detection represents a paradigm shift in how community banks protect their members. Unlike rule-based legacy systems, modern machine learning models adapt continuously to emerging threats. They don't just detect known fraud patterns; they anticipate novel ones.\n\nOur platform leverages cutting-edge transformer architectures to deliver:\n\n- Real-time risk scoring at sub-100ms latency\n- Continuous model retraining based on your institution's transaction history\n- Explainable decisions for regulatory compliance\n- Seamless integration with your existing core processor\n\nIn deployments across 40+ credit unions, our customers have seen fraud loss reductions averaging 38% in the first year, with false positive rates dropping by more than half.",
+    "groundTruth": [
+      { "tropeId": "vocab-hall-of-shame", "confidence": "high" },
+      { "tropeId": "ai-vocab-cluster", "confidence": "high" },
+      { "tropeId": "not-x-its-y", "confidence": "high" },
+      { "tropeId": "stakes-inflation", "confidence": "medium" },
+      { "tropeId": "listicle-bullets", "confidence": "high" }
+    ],
+    "expectedNonTropes": ["fabricated-citations"],
+    "notes": "Vendor paper with specific numbers (40+ credit unions, 38%, sub-100ms). Numbers are present so fabricated-citations should NOT fire."
+  },
+  {
+    "id": "consultant-email-medium",
+    "source": "consultant-email",
+    "passage": "Hey Sarah,\n\nThanks for sending over the deck. A few reactions, in no particular order.\n\nThe segmentation feels right but I'd push harder on the tier 3 cohort definition. Right now it's defined by what they DON'T do (not active digital, not auto-pay enrolled, not multi-product) which makes it hard to engage. Can you reframe positively? What DO these members do?\n\nThe NPS deep-dive on slide 12 is the strongest part. The promoter/detractor language gap is the most actionable thing in the deck.\n\nOne nit: \"unprecedented growth opportunity\" on slide 4. Cut it. Every CU presentation says this and it stops carrying meaning around the third slide of every conference keynote.\n\nLet me know when you want to walk through it.\n\nB.",
+    "groundTruth": [
+      { "tropeId": "stakes-inflation", "confidence": "low" }
+    ],
+    "expectedNonTropes": ["punchy-fragments", "triplet-framing", "ai-vocab-cluster"],
+    "notes": "Specific feedback email. Mostly clean. The 'unprecedented growth opportunity' is QUOTED, not used. Stakes-inflation low only because that quoted phrase exists in the passage at all."
+  },
+  {
+    "id": "linkedin-conference-takeaway",
+    "source": "linkedin-post",
+    "passage": "Just back from CUNA GAC. Three things I'm taking home.\n\nOne: every credit union over 1B is now running some version of an AI-assisted underwriting pilot. The variance in maturity is wider than I expected — some are 6 months in, some are 6 weeks. The 6-week shops are about to learn things the 6-month shops already know.\n\nTwo: the regulatory conversation has moved from \"will we get guidance\" to \"the guidance was published in February and you should read it.\" If you haven't, you're behind, not just on AI but on the disclosure requirements that come with it.\n\nThree: the small CU panel was the best one. Always is.\n\nGood week.",
+    "groundTruth": [
+      { "tropeId": "anaphora-abuse", "confidence": "medium" }
+    ],
+    "expectedNonTropes": ["triplet-framing", "ai-vocab-cluster", "missing-specifics"],
+    "notes": "Conference recap with specifics. The three takeaways are SPECIFIC and concrete, not abstract triplet-framing."
+  },
+  {
+    "id": "newsletter-essay-reflection",
+    "source": "newsletter",
+    "passage": "I've been writing this newsletter for 18 months. The hardest part isn't the writing. It's the deciding what to write about.\n\nMost weeks I have three or four ideas competing for attention. The temptation is always to merge them into a single post that has something for everyone. The result, when I give in to that temptation, is a post that does nothing well.\n\nThe better move, almost always, is to pick the one that's making me most uncomfortable to write and write only that. The other ideas can wait.\n\nThat's it. That's the whole insight. I'm sharing it because I've forgotten it more times than I can count.",
+    "groundTruth": [],
+    "expectedNonTropes": ["punchy-fragments", "verdict-language"],
+    "notes": "Clean reflective newsletter. Personal voice. No AI tells."
+  },
+  {
+    "id": "edge-classical-contrast",
+    "source": "edge-case",
+    "passage": "She was angry, but not from temper. The kind of anger she carried wasn't loud. It was patient. It was the anger that had read every relevant book on the subject, taken extensive notes, and now waited for the person who had wronged her to commit one more small infraction so the accumulated case could be presented in full. Not from rage. From rigor.",
+    "groundTruth": [],
+    "expectedNonTropes": ["not-x-its-y", "punchy-fragments", "anaphora-abuse"],
+    "notes": "Classical literary contrast: 'not from rage. from rigor' is direct characterization, not the AI pivot construction. The prompt explicitly says this should NOT trigger not-x-its-y."
+  },
+  {
+    "id": "human-blog-tech",
+    "source": "human-blog",
+    "passage": "After three months I migrated off the Postgres extension and onto a flat file. The flat file is faster, cheaper, and lets me ship without thinking about indexes.\n\nThe Postgres setup was beautiful in theory. I had foreign keys. I had a query planner. I had backup tooling I'd written myself, in pgsql, that I was sort of proud of.\n\nIn practice, the dataset was 80MB and read-mostly. A flat file in S3 with a 200ms cache miss was indistinguishable from a database call to a user. The Postgres bill was $30/mo. The S3 bill is $0.40.\n\nThe lesson is one I keep relearning: simple beats sophisticated, when the dataset is small enough to fit on a thumb drive.",
+    "groundTruth": [],
+    "expectedNonTropes": ["not-x-its-y", "ai-vocab-cluster", "verdict-language"],
+    "notes": "Tech blog post with specifics. The 'simple beats sophisticated' is a real human observation, not verdict-language."
+  },
+  {
+    "id": "linkedin-mid-cu-strategy",
+    "source": "linkedin-post",
+    "passage": "Three years into this work, here's what I'm learning about credit union strategy.\n\nThe institutions doing it well aren't the biggest. They aren't even the most sophisticated. They are the ones whose CEO can tell you, in two sentences, what their CU is for. \n\nNot the mission statement. The actual job-to-be-done that brings members in the door.\n\nWhen the answer is clear, every other decision gets faster. When it isn't, every committee meeting becomes a debate about first principles, and nothing ships.\n\nClarity at the top is the most underrated technology in financial services.",
+    "groundTruth": [
+      { "tropeId": "punchy-fragments", "confidence": "low" }
+    ],
+    "expectedNonTropes": ["triplet-framing", "ai-vocab-cluster", "verdict-language"],
+    "notes": "Brent's voice register, written by hand. The 'aren't the biggest. aren't the most sophisticated.' is genuine punchy fragment but borderline because it carries specific contrast."
+  },
+  {
+    "id": "vendor-paper-low-trope",
+    "source": "vendor-white-paper",
+    "passage": "Section 3.2: API Authentication\n\nAll requests to the Reconciliation API require a bearer token in the Authorization header. Tokens are scoped to a single environment (sandbox or production) and expire 90 days after issuance.\n\nTokens can be rotated via the Console UI under Settings > API Keys, or programmatically via the /v1/keys endpoint. Rotating a token does not invalidate prior tokens immediately; existing tokens remain valid until their original expiration to allow for graceful migration.\n\nFailed authentication returns HTTP 401 with a JSON body indicating which token attribute failed validation (expired, malformed, or revoked).",
+    "groundTruth": [],
+    "expectedNonTropes": ["ai-vocab-cluster", "vocab-hall-of-shame", "formal-transitions"],
+    "notes": "API documentation. Should produce zero or near-zero detections."
+  },
+  {
+    "id": "consultant-engagement-pitch",
+    "source": "consultant-email",
+    "passage": "Hi Marc,\n\nThanks for the call yesterday. Reflecting on what you shared, I think there's a real opportunity to bring some structure to the lending team's transition planning.\n\nIn engagements like yours, we typically see three phases. First, baseline analysis to map the current state. Second, gap identification against where you want to be. Third, an implementation roadmap with quick wins and longer-term plays.\n\nI'd estimate this scope at 6-8 weeks, with deliverables including a board-ready strategy doc, an internal playbook for the lending team, and a 90-day execution plan.\n\nLet me know if you'd like a formal proposal. I can have something to you by Friday.\n\nBrent",
+    "groundTruth": [
+      { "tropeId": "triplet-framing", "confidence": "medium" },
+      { "tropeId": "ai-vocab-cluster", "confidence": "low" },
+      { "tropeId": "missing-specifics", "confidence": "low" }
+    ],
+    "expectedNonTropes": ["fabricated-citations", "punchy-fragments"],
+    "notes": "Real-feeling consultant pitch. Three-phase structure is genuine engagement framework, borderline triplet-framing."
+  },
+  {
+    "id": "linkedin-news-reaction",
+    "source": "linkedin-post",
+    "passage": "The Anthropic announcement today is going to be looked back on as the moment AI infrastructure became a financial asset class.\n\nFor years, GPU capacity was a cost center. Compute was something you bought, like office space. \n\nNow it's a balance sheet item with optionality. Capacity that's locked in becomes a hedge against pricing volatility. Capacity that's flexible becomes a tool for matching demand cycles.\n\nThis isn't the AI moment. It's the AI-enters-the-CFO's-office moment.\n\nFor banks and CUs underwriting AI-adjacent borrowers, this changes how you think about collateral. A reserved-capacity contract is starting to look more like an inventory line than a SaaS subscription.\n\nWatch this space.",
+    "groundTruth": [
+      { "tropeId": "not-x-its-y", "confidence": "medium" },
+      { "tropeId": "verdict-language", "confidence": "low" }
+    ],
+    "expectedNonTropes": ["ai-vocab-cluster", "missing-specifics", "stakes-inflation"],
+    "notes": "Reactive LinkedIn post with specific framing. The 'isn't the AI moment. It's the AI-CFO moment' is mild not-x-its-y."
+  },
+  {
+    "id": "human-edited-strong",
+    "source": "human-edited-ai",
+    "passage": "We launched the new onboarding flow last Tuesday. Conversion is up 8%, support tickets are down 14%, and three things broke that I want to write up before I forget.\n\nFirst, the email verification step had a 30-second timeout that fires before some inboxes deliver. We caught it on day two when a user emailed support saying \"your site says my code expired but I just got the email.\" Now it's 5 minutes.\n\nSecond, the welcome screen renders before the user's avatar finishes uploading. For 5% of users, this looks broken. Fix shipped Friday.\n\nThird, the analytics were wrong for two days. We were tracking an event that didn't fire on mobile Safari. The 8% number above is post-fix.\n\nNothing exciting, but the kind of stuff that compounds if you don't catch it.",
+    "groundTruth": [
+      { "tropeId": "anaphora-abuse", "confidence": "low" }
+    ],
+    "expectedNonTropes": ["triplet-framing", "ai-vocab-cluster", "missing-specifics"],
+    "notes": "Engineer writing about a launch. Concrete, specific. First/Second/Third is genuine enumeration."
+  },
+  {
+    "id": "edge-academic-introduction",
+    "source": "edge-case",
+    "passage": "1. Introduction\n\nLarge language models have demonstrated remarkable performance across a wide range of natural language tasks (Brown et al., 2020; OpenAI, 2024). Despite these advances, recent work has highlighted significant gaps in our understanding of how these models behave under distributional shift (Gururangan et al., 2020). Furthermore, the relationship between training data composition and downstream behavior remains poorly characterized.\n\nIn this work, we present a systematic study of three such gaps. Our contributions are threefold: (1) a new evaluation framework for measuring distributional robustness, (2) empirical results across six model families, and (3) an analysis of the relationship between pretraining data and observed behavior.",
+    "groundTruth": [],
+    "expectedNonTropes": ["formal-transitions", "ai-vocab-cluster", "vocab-hall-of-shame", "stakes-inflation", "triplet-framing"],
+    "notes": "Real academic introduction style. Citations, hedged claims, formal transitions are CORRECT register here. Should NOT fire formal-transitions per the prompt's academic guard."
+  },
+  {
+    "id": "linkedin-personal-loss",
+    "source": "linkedin-post",
+    "passage": "My dad passed away on Sunday.\n\nHe was a quiet man. He made things with his hands. He taught me how to fix a lawnmower carburetor when I was nine, and the lesson I remember most isn't about lawnmowers.\n\nHe said: \"If you don't know which screw to turn, take a picture of where everything is, then start removing pieces. You can always put them back.\"\n\nI'm putting pieces back this week.",
+    "groundTruth": [],
+    "expectedNonTropes": ["punchy-fragments", "verdict-language", "anaphora-abuse"],
+    "notes": "Clean grief post. Borderline punchy at the end but carries specific meaning."
+  },
+  {
+    "id": "vendor-pitch-fluff",
+    "source": "vendor-white-paper",
+    "passage": "The Future of Member Engagement\n\nIn an increasingly digital world, the relationship between credit unions and their members is evolving at an unprecedented pace. Members no longer compare you to other credit unions — they compare you to Amazon, to Apple, to every digital experience they have on their phone every day.\n\nMeeting this new bar requires more than incremental improvement. It requires a fundamental reimagining of how engagement happens.\n\nOur Engagement Cloud was built from the ground up to deliver this transformation. By harnessing the power of AI, predictive analytics, and behavioral data science, we enable credit unions to deliver personalized experiences at scale.\n\nThe result? Members who feel known. Members who feel valued. Members who stay.",
+    "groundTruth": [
+      { "tropeId": "fast-paced-world", "confidence": "high" },
+      { "tropeId": "ai-vocab-cluster", "confidence": "high" },
+      { "tropeId": "vocab-hall-of-shame", "confidence": "high" },
+      { "tropeId": "not-x-its-y", "confidence": "high" },
+      { "tropeId": "rhetorical-self-answer", "confidence": "high" },
+      { "tropeId": "anaphora-abuse", "confidence": "high" },
+      { "tropeId": "stakes-inflation", "confidence": "high" },
+      { "tropeId": "breathless-enthusiasm", "confidence": "high" },
+      { "tropeId": "em-dash-addiction", "confidence": "medium" },
+      { "tropeId": "punchy-fragments", "confidence": "medium" }
+    ],
+    "notes": "Heavy vendor pitch fluff. Many overlapping patterns."
+  },
+  {
+    "id": "human-blog-personal",
+    "source": "human-blog",
+    "passage": "I bought a banjo in October. I've been playing guitar since I was 14, so I figured: same general shape, four extra strings, how hard could it be.\n\nIt's harder than I thought. The right hand technique is completely different. Clawhammer style requires you to hit the strings with the back of your fingernail, which I don't have because I cut them for guitar. So I grew them out. They keep splitting.\n\nMy seven-year-old thinks the banjo sounds funny. He has been correct so far.",
+    "groundTruth": [],
+    "expectedNonTropes": ["punchy-fragments", "ai-vocab-cluster"],
+    "notes": "Clean, specific, personal. Zero detections expected."
+  },
+  {
+    "id": "linkedin-equivocal",
+    "source": "linkedin-post",
+    "passage": "While AI is reshaping our industry in profound ways, it's also true that we must be cautious about overhyping its near-term impact. The technology holds tremendous promise. However, real transformation takes time.\n\nIt could be argued that we're in the middle of a Cambrian explosion of capability. It might also be argued that we're in a hype cycle that hasn't yet hit its trough.\n\nThe truth, as always, lies somewhere in the middle. Leaders who succeed will be those who balance optimism with skepticism, ambition with realism, and pace with patience.",
+    "groundTruth": [
+      { "tropeId": "equivocation-seesaw", "confidence": "high" },
+      { "tropeId": "excessive-hedging", "confidence": "high" },
+      { "tropeId": "vocab-hall-of-shame", "confidence": "medium" },
+      { "tropeId": "consensus-middle", "confidence": "high" },
+      { "tropeId": "triplet-framing", "confidence": "high" },
+      { "tropeId": "ornate-metaphors", "confidence": "low" }
+    ],
+    "notes": "Hedge-heavy LinkedIn post. Tier 4 consensus-middle pattern."
+  },
+  {
+    "id": "consultant-email-clean-2",
+    "source": "consultant-email",
+    "passage": "Katie,\n\nFollowing up on RS dollar volume question. The RS Obstacle data through April shows the same pattern as Q1: deposits up 4%, loan apps flat, NCO ticking up 12bps.\n\nMy read: members are saving and not borrowing. The mismatch with your loan-to-share target is going to widen if you don't price aggressively on autos in the next 60 days.\n\nWilling to walk Marc through the case for a 25bps rate cut on auto refis. Want me to put it in front of him directly or come through you?\n\nB.",
+    "groundTruth": [],
+    "expectedNonTropes": ["triplet-framing", "ai-vocab-cluster", "missing-specifics", "punchy-fragments"],
+    "notes": "Brent's actual register for client emails. Specific data, clear ask. Should be near-zero."
+  },
+  {
+    "id": "linkedin-tech-deep",
+    "source": "linkedin-post",
+    "passage": "If you're underwriting AI-infrastructure loans for fintech borrowers, the GPU residual value question is becoming the central credit question.\n\nA $4M H100 cluster bought in 2024 is selling on secondary markets today for $1.4M. That's a 65% haircut in 24 months. The depreciation curve looks more like CPU than commercial real estate.\n\nThree implications for underwriting: \n\n1. LTV calcs based on book value are wrong. Use 30-month forward residual.\n2. Coverage covenants need a rapid-revaluation trigger.\n3. Default workouts need a faster path to liquidation, because residual is a wasting asset.\n\nIf you're not stress-testing your AI-adjacent book against a 70% residual haircut, you're underwriting on faith.",
+    "groundTruth": [
+      { "tropeId": "listicle-bullets", "confidence": "high" }
+    ],
+    "expectedNonTropes": ["triplet-framing", "missing-specifics", "ai-vocab-cluster", "stakes-inflation"],
+    "notes": "Specific tech-finance post. Numbers everywhere. Listicle is real but justified by content."
+  },
+  {
+    "id": "newsletter-cu-strategy",
+    "source": "newsletter",
+    "passage": "Two of my CU clients just turned down sponsorship pitches from the same fintech vendor. Different reasons. Both right.\n\nClient A turned it down because the vendor's value prop required a member behavior change (digital-only checking) that the CU's actual member base has shown three years of resistance to. The pitch was beautiful. The members weren't interested.\n\nClient B turned it down because the vendor's customer reference list was thin and the implementation timeline was 11 months. The CU has a strategic plan that ends in 9.\n\nIf you're a fintech selling into community FIs, here's the lesson: your pitch is about you. Their decision is about their next 18 months.",
+    "groundTruth": [],
+    "expectedNonTropes": ["triplet-framing", "punchy-fragments", "ai-vocab-cluster"],
+    "notes": "Newsletter excerpt in Brent's register. Specific. Concrete. Clean."
+  },
+  {
+    "id": "vendor-paper-overlap",
+    "source": "vendor-white-paper",
+    "passage": "Conclusion\n\nThe path forward for community financial institutions isn't merely about adopting new technology. It's about rethinking the relationship between member, institution, and data.\n\nIn this paper, we've explored how leading credit unions are leveraging AI to deliver more personalized member experiences, streamline operational workflows, and unlock new revenue opportunities.\n\nThe institutions that act now will define the next decade of community banking. Those that wait will find themselves competing on shrinking margins for an increasingly demanding member base.\n\nThe future is not preordained. It is built, decision by decision, by leaders who choose to lead.",
+    "groundTruth": [
+      { "tropeId": "not-x-its-y", "confidence": "high" },
+      { "tropeId": "ai-vocab-cluster", "confidence": "high" },
+      { "tropeId": "vocab-hall-of-shame", "confidence": "high" },
+      { "tropeId": "triplet-framing", "confidence": "high" },
+      { "tropeId": "stakes-inflation", "confidence": "high" },
+      { "tropeId": "verdict-language", "confidence": "high" },
+      { "tropeId": "formulaic-conclusion", "confidence": "high" },
+      { "tropeId": "consensus-middle", "confidence": "low" }
+    ],
+    "notes": "Vendor paper conclusion. Multi-pattern overlap test."
+  },
+  {
+    "id": "edge-three-specific",
+    "source": "edge-case",
+    "passage": "We are hiring for three roles this quarter: a senior product designer, a backend engineer with database experience, and a full-time office manager. The product designer reports to the VP of Product. The backend engineer reports to me. The office manager will report to our COO once she starts in August.",
+    "groundTruth": [],
+    "expectedNonTropes": ["triplet-framing", "anaphora-abuse"],
+    "notes": "Three SPECIFIC concrete roles. Should NOT trigger triplet-framing per the prompt's guard rule. The 'X reports to Y. Y reports to Z. Z reports to A' is repeated structure but specific content."
+  },
+  {
+    "id": "human-control-recipe",
+    "source": "human-blog",
+    "passage": "Brown butter is not hard to make but it is easy to mess up.\n\nUse a light-colored pan, not a dark one — you need to see the color of the butter as it changes. Set the heat to medium. Cut the butter into roughly equal pieces so it melts evenly. Stir with a wooden spoon or rubber spatula, not a metal whisk.\n\nThe butter goes through stages. First it melts. Then it foams. Then it stops foaming and you can see the milk solids on the bottom of the pan. That's when you watch carefully. The window between \"perfect\" and \"burnt\" is about 60 seconds.\n\nWhen the milk solids are deep amber and smell like toffee, pull it off the heat immediately and pour it into a heat-safe bowl. The pan retains heat and will keep cooking.",
+    "groundTruth": [
+      { "tropeId": "em-dash-addiction", "confidence": "high" }
+    ],
+    "expectedNonTropes": ["triplet-framing", "punchy-fragments", "ai-vocab-cluster"],
+    "notes": "Recipe instructions. Em dash is real. Three-stage description is specific concrete process, not triplet-framing."
+  },
+  {
+    "id": "linkedin-medium-density",
+    "source": "linkedin-post",
+    "passage": "Three observations from working with credit union CMOs in 2026:\n\n1. The brand-marketing/digital-marketing org chart is breaking. Members don't experience the brand and the website as different things, but most CUs still hire for them as different jobs.\n\n2. Sponsored content is replacing direct mail as the dominant member-acquisition channel for under-35s. Spend hasn't moved. Outcomes have.\n\n3. The data team is now a marketing team whether anyone calls them that or not. Member analytics drive 70%+ of campaign decisions at the CUs that are growing.\n\nThe CMO role is becoming a CCO-CIO hybrid. Whoever owns it next probably hasn't been a CMO before.",
+    "groundTruth": [
+      { "tropeId": "listicle-bullets", "confidence": "medium" }
+    ],
+    "expectedNonTropes": ["triplet-framing", "missing-specifics", "ai-vocab-cluster"],
+    "notes": "Brent's register on LinkedIn. Concrete, specific, three-observation listicle is justified by content."
+  },
+  {
+    "id": "vendor-quoting-discussion",
+    "source": "vendor-white-paper",
+    "passage": "Common Pitfalls in AI Adoption\n\nMany financial institution leaders we speak with describe AI vendor pitches in similar terms. \"They all sound the same,\" one CFO told us. \"Everyone says transformative, paradigm-shifting, unprecedented.\"\n\nThis pattern matching is a problem for the industry. When every vendor pitch reads identically, leaders default to brand recognition or existing relationships rather than evaluating fit.\n\nWhat we've learned from 50+ deployments is that the institutions that succeed are the ones who treat AI procurement like any other procurement: with a scoring rubric, named stakeholders, and exit criteria.",
+    "groundTruth": [
+      { "tropeId": "fabricated-citations", "confidence": "low" }
+    ],
+    "expectedNonTropes": ["vocab-hall-of-shame", "ai-vocab-cluster", "breathless-enthusiasm"],
+    "notes": "Critical edge case. The vocab tells (transformative, paradigm-shifting, unprecedented) are QUOTED to MOCK the genre, not used. Should NOT fire vocab patterns."
+  },
+  {
+    "id": "human-control-event",
+    "source": "human-blog",
+    "passage": "The talk went well, I think. The room was about half full when I started, and three quarters by the time I got to the demo, which I'll take as a sign that the line outside the next session was longer than the line outside mine.\n\nThe Q&A was the best part. A woman in the back asked the question I always hope someone asks: \"What does this look like for a credit union under $200M in assets?\" I had a real answer for once.\n\nDriving home now. Slept four hours. Will write up the demo notes Tuesday.",
+    "groundTruth": [],
+    "expectedNonTropes": ["punchy-fragments", "ai-vocab-cluster"],
+    "notes": "Conference recap, casual register. Clean."
+  },
+  {
+    "id": "linkedin-job-search",
+    "source": "linkedin-post",
+    "passage": "After 7 years at the same firm, I'm starting a new chapter.\n\nThis decision didn't come easily. I've grown so much during my time here — both professionally and personally. The relationships I've built, the projects I've led, the impact we've made together has been nothing short of incredible.\n\nBut sometimes growth requires a pivot. I'm excited to share that I'll be joining a fast-growing fintech in May, where I'll be leading their go-to-market function across North America.\n\nI couldn't be more excited about what's ahead. To everyone who's been part of this journey: thank you. Truly.\n\nMore to come.",
+    "groundTruth": [
+      { "tropeId": "vocab-hall-of-shame", "confidence": "high" },
+      { "tropeId": "from-x-to-y", "confidence": "low" },
+      { "tropeId": "breathless-enthusiasm", "confidence": "high" },
+      { "tropeId": "missing-specifics", "confidence": "high" },
+      { "tropeId": "stakes-inflation", "confidence": "medium" },
+      { "tropeId": "em-dash-addiction", "confidence": "medium" },
+      { "tropeId": "triplet-framing", "confidence": "medium" }
+    ],
+    "notes": "Standard 'starting a new chapter' LinkedIn post. Multiple Tier 1-2 patterns."
+  },
+  {
+    "id": "edge-from-x-to-y-real",
+    "source": "edge-case",
+    "passage": "Our membership ranges from age 18 to age 92. We have college students opening their first share account, working professionals managing their core banking, and retirees consolidating accounts across institutions. Every one of them deserves the same level of service.",
+    "groundTruth": [
+      { "tropeId": "from-x-to-y", "confidence": "high" }
+    ],
+    "expectedNonTropes": ["triplet-framing", "vocab-hall-of-shame"],
+    "notes": "The 'from age 18 to age 92' is the literal from-X-to-Y range construction. The list of three member types is specific not abstract."
+  },
+  {
+    "id": "newsletter-clean-strategy",
+    "source": "newsletter",
+    "passage": "I had a long phone call with a CU CEO this week about the M&A pipeline.\n\nHer question, distilled: \"If we don't grow, we lose to bigger CUs. If we acquire, we lose what made us worth acquiring. What's the third path?\"\n\nThere isn't one for everyone. There is one for some.\n\nThe CUs in her asset class (1B-3B) that have grown organically over the last decade share a single trait: they pick a niche and own it. The auto-loan CU. The teacher's CU. The Latino-banking CU. The branch in every Apple Store CU.\n\nGeneralists in this asset tier are slowly losing share to specialists in the same tier and to mass-market players in the larger tier. Generalism, at her size, is the death move.",
+    "groundTruth": [],
+    "expectedNonTropes": ["triplet-framing", "punchy-fragments", "ai-vocab-cluster"],
+    "notes": "Brent newsletter register. Specific examples in the list. The four-niche list is concrete enumeration."
   }
 ]

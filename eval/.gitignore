@@ -1,3 +1,7 @@
 runs/
 results-*.md
 !results-2026-04-30.md
+
+# never commit pulled prod env
+.env.eval-temp
+.env.production*
