@@ -298,6 +298,18 @@ export default function Home() {
             <Image src="/dxn-logomark.png" alt="Dixon Strategic Labs" width={20} height={20} />
             <span className="text-xs font-mono">Dixon Strategic Labs</span>
           </a>
+          <p className="text-zinc-400 text-xs font-mono pt-2 max-w-md mx-auto leading-relaxed">
+            Based on detection patterns documented in{" "}
+            <a
+              href="https://arxiv.org/html/2501.15654v2"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-4 hover:no-underline"
+            >
+              Russell, Karpinska, and Iyyer (2025)
+            </a>
+            .
+          </p>
         </footer>
       </div>
     </main>

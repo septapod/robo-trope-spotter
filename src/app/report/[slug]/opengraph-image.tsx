@@ -102,13 +102,17 @@ export default async function OgImage({
   }
 
   const resultsData = report.results as { score: ScoreResult };
-  const { rawScore, label, labelColor, dnaStrip } = resultsData.score;
+  const { rawScore, label, labelColor, dnaStrip, topOffenders, totalTropesDetected, totalInstancesDetected } = resultsData.score;
 
   const roastLine = ROAST_LINES[label] ?? 'Something went wrong scoring this text.';
 
   // Build DNA strip bands. If empty, show a single muted bar.
   const bands: DnaStripBand[] =
     dnaStrip && dnaStrip.length > 0 ? dnaStrip : [];
+
+  // Pick the top three detected tropes for the OG card. These make the report
+  // legible at a glance: the visitor sees the actual patterns, not just a score.
+  const topThree = (topOffenders ?? []).slice(0, 3);
 
   return new ImageResponse(
     (
@@ -194,10 +198,48 @@ export default async function OgImage({
               color: '#71717a',
               lineHeight: 1.4,
               maxWidth: 800,
+              marginBottom: 24,
             }}
           >
             {roastLine}
           </div>
+
+          {/* Top three detected tropes — concrete signal for OG viewers */}
+          {topThree.length > 0 && (
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                gap: 12,
+              }}
+            >
+              {topThree.map((trope, i) => (
+                <div
+                  key={i}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 10,
+                    padding: '10px 18px',
+                    backgroundColor: trope.color,
+                    borderRadius: 999,
+                    fontSize: 18,
+                    fontWeight: 700,
+                    color: '#FAF9F6',
+                    letterSpacing: '0.02em',
+                  }}
+                >
+                  {trope.tropeName}
+                  {trope.count > 1 && (
+                    <span style={{ display: 'flex', opacity: 0.85, fontSize: 16 }}>
+                      ×{trope.count}
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* DNA strip */}

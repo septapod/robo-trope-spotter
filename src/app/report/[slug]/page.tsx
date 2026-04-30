@@ -37,6 +37,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const title = `Score: ${scoreResult.rawScore} (${scoreResult.label})`;
   const description = `${scoreResult.totalTropesDetected} AI writing tropes detected, ${scoreResult.totalInstancesDetected} total instances.`;
 
+  // Next.js auto-generates the OG image URL from `opengraph-image.tsx` in
+  // this route segment. Do not override `images:` here — the auto path is
+  // `/report/<slug>/opengraph-image` and that's what we want LinkedIn,
+  // Twitter, and iMessage to fetch.
   return {
     title: `${title} | Robo Trope Spotter`,
     description,
@@ -44,13 +48,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title,
       description,
       type: 'article',
-      images: [`/og/${slug}`],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: [`/og/${slug}`],
     },
   };
 }
