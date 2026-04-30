@@ -45,14 +45,7 @@ export function RollCall() {
   }, []);
 
   if (verdicts === null) return null;
-
-  if (verdicts.length === 0) {
-    return (
-      <p className="text-zinc-400 text-xs font-mono">
-        First one of the day. Paste away.
-      </p>
-    );
-  }
+  if (verdicts.length === 0) return null;
 
   return (
     <div className="flex flex-wrap items-center gap-2" aria-label="Recent reports">

@@ -43,3 +43,4 @@ next-env.d.ts
 # drizzle meta/ is tracked so migration bookkeeping (journal + snapshots) is
 # shared across contributors and deploys. The baseline in 0000_*.sql pairs
 # with meta/0000_snapshot.json; both must travel together.
+.context/

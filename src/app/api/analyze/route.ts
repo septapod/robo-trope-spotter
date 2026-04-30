@@ -73,7 +73,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       return NextResponse.json(
         {
           tier: 'napping',
-          message: "Robotropes is napping. Come back tomorrow morning, fresh batch of energy.",
+          message: "Robotropes is out for today. Comes back tomorrow at sunrise.",
         },
         { status: 200 }
       );

@@ -150,7 +150,7 @@ export default function Home() {
       if (data.tier === "napping" || !data.slug) {
         setError(
           data.message ||
-            "Robotropes is napping. Come back tomorrow morning, fresh batch of energy."
+            "Robotropes is out for today. Comes back tomorrow at sunrise."
         );
         return;
       }

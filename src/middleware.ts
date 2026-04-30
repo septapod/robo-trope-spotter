@@ -122,7 +122,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.json(
       {
         tier: 'napping',
-        error: 'Robotropes is napping. Come back tomorrow morning, fresh batch of energy.',
+        error: 'Robotropes is out for today. Comes back tomorrow at sunrise.',
       },
       {
         status: 429,
