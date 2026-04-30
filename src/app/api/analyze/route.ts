@@ -4,6 +4,9 @@ import { normalizeInput } from '@/lib/input/normalize';
 import { db } from '@/db';
 import { reports } from '@/db/schema';
 import { getCurrentSession } from '@/lib/auth/session';
+import { getQuota, consumeQuota } from '@/lib/billing/quota';
+import { findActiveUnlock } from '@/lib/billing/unlocks';
+import { getClientScope } from '@/lib/billing/scope';
 
 const VALID_TYPES = new Set(['text', 'url', 'screenshot']);
 
@@ -62,7 +65,25 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     const { text, sourceUrl } = normalized;
 
-    // 4. Run cascade analysis (Energy Meter tier-aware)
+    // 4a. Quota + unlock check. Logged-in users key by userId; anonymous by IP.
+    const session = await getCurrentSession();
+    const scopeKey = session ? `user:${session.user.id}` : getClientScope(request);
+    const unlock = await findActiveUnlock({
+      userId: session?.user.id ?? null,
+      scopeKey: session ? null : scopeKey,
+    });
+    const quota = getQuota(scopeKey);
+    if (!unlock && quota.exhausted) {
+      return NextResponse.json(
+        {
+          quotaExhausted: true,
+          message: "You've used your free analyses for today.",
+        },
+        { status: 200 }
+      );
+    }
+
+    // 4b. Run cascade analysis (cost cap still applies as a backstop)
     const { runCascade } = await import('@/lib/analysis/cascade');
     const { computeScoreFromLlm } = await import('@/lib/analysis/scoring');
 
@@ -78,6 +99,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
+    // Successful run consumes quota only when no unlock is active.
+    if (!unlock) consumeQuota(scopeKey);
+
     const wordCount = text.split(/\s+/).filter(Boolean).length;
     const scoreResult = computeScoreFromLlm(cascadeResult.detections, wordCount);
 
@@ -90,7 +114,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     // 5. Generate a slug and persist. If the user is signed in, attach the
     //    userId so Spotter Credit byline can render on the report page.
     const slug = nanoid(10);
-    const session = await getCurrentSession();
 
     const results = {
       score: scoreResult,

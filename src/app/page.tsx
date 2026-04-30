@@ -8,6 +8,7 @@ import { UrlInput } from "@/components/input/UrlInput";
 import { ScreenshotInput } from "@/components/input/ScreenshotInput";
 import { EnergyMeter } from "@/components/EnergyMeter";
 import { RollCall } from "@/components/RollCall";
+import { AllowanceExhaustedModal } from "@/components/AllowanceExhaustedModal";
 
 type ActiveMode = "none" | "text" | "url" | "screenshot";
 
@@ -23,6 +24,7 @@ export default function Home() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [exhaustedOpen, setExhaustedOpen] = useState(false);
 
   const loadingMessages = ["Reading the text...", "Scanning for patterns...", "Scoring the results..."];
   const [loadingMsgIndex, setLoadingMsgIndex] = useState(0);
@@ -147,6 +149,10 @@ export default function Home() {
       }
 
       const data = await response.json();
+      if (data.quotaExhausted) {
+        setExhaustedOpen(true);
+        return;
+      }
       if (data.tier === "paused" || !data.slug) {
         setError(
           data.message ||
@@ -273,6 +279,23 @@ export default function Home() {
         {error && (
           <div role="alert" className="rounded-2xl border-2 border-amber-200 bg-amber-50 px-5 py-4">
             <p className="text-amber-700 text-sm text-center font-medium">{error}</p>
+          </div>
+        )}
+
+        <AllowanceExhaustedModal
+          open={exhaustedOpen}
+          onClose={() => setExhaustedOpen(false)}
+          onUnlocked={() => {
+            setExhaustedOpen(false);
+            // Re-trigger the analyze after the unlock grants.
+            handleAnalyze();
+          }}
+        />
+        {typeof window !== "undefined" && new URLSearchParams(window.location.search).has("tip_succeeded") && (
+          <div role="status" className="rounded-2xl border-2 border-emerald-200 bg-emerald-50 px-5 py-4">
+            <p className="text-emerald-700 text-sm text-center font-medium">
+              Thanks for the coffee. Today's quota is unlocked.
+            </p>
           </div>
         )}
 

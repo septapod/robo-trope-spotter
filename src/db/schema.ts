@@ -90,6 +90,29 @@ export const bylineOptOuts = pgTable(
   }
 );
 
+// Active unlocks bypass the daily free quota. Three sources:
+//   newsletter_30d  AI for FIs subscription, 30 days unlimited
+//   tip_today       Polar tip succeeded, today's quota lifted
+//   gift_today      User picked $0 / "no thanks", today's quota lifted (capped)
+// Scope is either userId (for logged-in users) or scopeKey (e.g. an IP for
+// anonymous unlocks). Exactly one of those columns is set per row.
+export const unlocks = pgTable(
+  "unlocks",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id"),
+    scopeKey: text("scope_key"),
+    unlockType: text("unlock_type").notNull(),
+    polarCheckoutId: text("polar_checkout_id"),
+    expiresAt: timestamp("expires_at").notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("unlocks_user_expires_idx").on(table.userId, table.expiresAt),
+    index("unlocks_scope_expires_idx").on(table.scopeKey, table.expiresAt),
+  ]
+);
+
 export type Report = typeof reports.$inferSelect;
 export type NewReport = typeof reports.$inferInsert;
 export type ShareEvent = typeof shareEvents.$inferSelect;
@@ -100,3 +123,5 @@ export type MagicLink = typeof magicLinks.$inferSelect;
 export type NewMagicLink = typeof magicLinks.$inferInsert;
 export type Session = typeof sessions.$inferSelect;
 export type NewSession = typeof sessions.$inferInsert;
+export type Unlock = typeof unlocks.$inferSelect;
+export type NewUnlock = typeof unlocks.$inferInsert;
