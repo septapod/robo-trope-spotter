@@ -246,3 +246,73 @@ export async function analyzeWithLlm(text: string): Promise<LlmResult> {
 }
 
 export const analyzeSemantic = analyzeWithLlm;
+
+/**
+ * Sonnet-only detection (Tea tier in the Energy Meter cascade).
+ *
+ * Skips the Haiku validation pass entirely. Em-dash regex correction still
+ * runs (it's authoritative regardless of LLM behavior). Confidence threshold
+ * still applies. Used when the daily budget is partly depleted but we still
+ * want LLM-quality detection.
+ */
+export async function analyzeWithSonnetOnly(text: string): Promise<LlmResult> {
+  const start = performance.now();
+
+  if (!text || text.trim().length < 30) {
+    return { detections: [], processingTimeMs: 0 };
+  }
+
+  try {
+    const client = createClient();
+
+    const response = await Promise.race([
+      client.messages.create({
+        model: DETECTION_MODEL,
+        max_tokens: 4096,
+        system: ANALYSIS_SYSTEM_PROMPT,
+        messages: [{ role: 'user', content: buildUserPrompt(text) }],
+      }),
+      new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error('Analysis took too long. Try shorter text or try again.')), TIMEOUT_MS)
+      ),
+    ]);
+
+    const content = response.content[0];
+    if (content.type !== 'text') {
+      return { detections: [], processingTimeMs: performance.now() - start };
+    }
+
+    let detections = parseResponse(content.text);
+
+    // Em-dash regex correction always runs.
+    const emDashCount = (text.match(/—/g) || []).length;
+    if (emDashCount > 0) {
+      const confidence = emDashCount === 1 ? 0.5 : emDashCount <= 3 ? 0.65 : emDashCount <= 6 ? 0.85 : 1.0;
+      const exampleSentence = text.split(/[.!?]/).find(s => s.includes('—'))?.trim() ?? text.slice(0, 80);
+      const existingIdx = detections.findIndex(d => d.tropeId === 'em-dash-addiction');
+      const emDashDetection: LlmDetection = {
+        tropeId: 'em-dash-addiction',
+        tier: emDashCount <= 2 ? 2 : 1,
+        confidence,
+        count: emDashCount,
+        matchedExcerpts: [exampleSentence.slice(0, 120)],
+        explanation: `Found ${emDashCount} em dash${emDashCount === 1 ? '' : 'es'}. ${emDashCount === 1 ? 'Even one is worth noting.' : emDashCount <= 3 ? 'A noticeable pattern.' : 'Heavy usage.'}`,
+        suggestion: 'Try a period or comma instead. The sentence usually works without the aside.',
+      };
+      if (existingIdx >= 0) detections[existingIdx] = emDashDetection;
+      else detections.push(emDashDetection);
+    } else {
+      detections = detections.filter(d => d.tropeId !== 'em-dash-addiction');
+    }
+
+    detections = detections.filter(d => d.confidence >= DISPLAY_CONFIDENCE_THRESHOLD);
+
+    return {
+      detections,
+      processingTimeMs: Math.round(performance.now() - start),
+    };
+  } catch (error) {
+    const msg = error instanceof Error ? error.message : String(error);
+    throw new Error(`LLM analysis failed: ${msg}`);
+  }
+}

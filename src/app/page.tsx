@@ -6,6 +6,8 @@ import Image from "next/image";
 import { TextInput } from "@/components/input/TextInput";
 import { UrlInput } from "@/components/input/UrlInput";
 import { ScreenshotInput } from "@/components/input/ScreenshotInput";
+import { EnergyMeter } from "@/components/EnergyMeter";
+import { RollCall } from "@/components/RollCall";
 
 type ActiveMode = "none" | "text" | "url" | "screenshot";
 
@@ -145,6 +147,13 @@ export default function Home() {
       }
 
       const data = await response.json();
+      if (data.tier === "napping" || !data.slug) {
+        setError(
+          data.message ||
+            "Robotropes is napping. Come back tomorrow morning, fresh batch of energy."
+        );
+        return;
+      }
       router.push(`/report/${data.slug}`);
     } catch {
       setError("Failed to connect. Check your connection and try again.");
@@ -175,6 +184,12 @@ export default function Home() {
             Send it to someone who needs it.
           </p>
         </header>
+
+        {/* Status: Energy Meter + Roll Call */}
+        <div className="flex flex-col items-center gap-3">
+          <EnergyMeter />
+          <RollCall />
+        </div>
 
         {/* Input area */}
         <div className="space-y-4">

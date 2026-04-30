@@ -61,24 +61,41 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     const { text, sourceUrl } = normalized;
 
-    // 4. Run LLM analysis (the primary and only analysis engine)
-    const { analyzeWithLlm } = await import('@/lib/analysis/llm-engine');
+    // 4. Run cascade analysis (Energy Meter tier-aware)
+    const { runCascade } = await import('@/lib/analysis/cascade');
     const { computeScoreFromLlm } = await import('@/lib/analysis/scoring');
 
-    const llmResult = await analyzeWithLlm(text);
-    const wordCount = text.split(/\s+/).filter(Boolean).length;
-    const scoreResult = computeScoreFromLlm(llmResult.detections, wordCount);
+    const cascadeResult = await runCascade(text);
 
-    // Debug: log what the LLM returned
-    console.log('[analyze] LLM detections count:', llmResult.detections.length, 'processing:', llmResult.processingTimeMs, 'ms');
+    if (cascadeResult.napping) {
+      // Daily budget exhausted. Return a friendly state instead of 429 — the
+      // frontend renders the Energy Meter "napping" copy from this signal.
+      return NextResponse.json(
+        {
+          tier: 'napping',
+          message: "Robotropes is napping. Come back tomorrow morning, fresh batch of energy.",
+        },
+        { status: 200 }
+      );
+    }
+
+    const wordCount = text.split(/\s+/).filter(Boolean).length;
+    const scoreResult = computeScoreFromLlm(cascadeResult.detections, wordCount);
+
+    console.log(
+      '[analyze] tier:', cascadeResult.tier,
+      'detections:', cascadeResult.detections.length,
+      'processing:', cascadeResult.processingTimeMs, 'ms'
+    );
 
     // 5. Generate a slug and persist
     const slug = nanoid(10);
 
     const results = {
       score: scoreResult,
-      llmDetections: llmResult.detections,
-      processingTimeMs: llmResult.processingTimeMs,
+      llmDetections: cascadeResult.detections,
+      processingTimeMs: cascadeResult.processingTimeMs,
+      tier: cascadeResult.tier,
     };
 
     await db().insert(reports).values({
@@ -89,8 +106,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       results,
     });
 
-    // 6. Return the results
-    return NextResponse.json({ slug, score: scoreResult });
+    // 6. Return the results, including the active tier so the frontend can
+    //    show the Energy Meter context with the report.
+    return NextResponse.json({ slug, score: scoreResult, tier: cascadeResult.tier });
   } catch (error) {
     console.error(
       '[analyze] Unexpected error:',

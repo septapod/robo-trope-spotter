@@ -121,7 +121,8 @@ export function middleware(request: NextRequest) {
   if (globalCount >= GLOBAL_DAILY_CAP) {
     return NextResponse.json(
       {
-        error: 'The trope spotter has hit its daily limit. Try again tomorrow.',
+        tier: 'napping',
+        error: 'Robotropes is napping. Come back tomorrow morning, fresh batch of energy.',
       },
       {
         status: 429,
