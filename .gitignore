@@ -44,3 +44,4 @@ next-env.d.ts
 # shared across contributors and deploys. The baseline in 0000_*.sql pairs
 # with meta/0000_snapshot.json; both must travel together.
 .context/
+.env.prod-temp
