@@ -2,32 +2,13 @@
 
 import { useEffect, useState } from "react";
 
-type Tier = "caffeine" | "tea" | "water" | "napping";
+type Tier = "on" | "paused";
 
 /**
- * Status indicator that ONLY appears in degraded modes. The user does not
- * need to know which model is running or that there's a cascade. They need
- * to know when the experience is materially different from normal (regex
- * fallback) or when the tool is paused (cap exhausted).
- *
- * caffeine and tea = silent (LLM-grade detection either way; users don't
- *   benefit from knowing the validation pass was skipped).
- * water = visible amber pill, "Lighter analysis today" copy.
- * napping = visible amber pill, "Out for today" copy.
+ * Two-state status indicator. Silent when on. Surfaces a friendly note when
+ * paused for the day. Analysis quality stays consistent — there is no
+ * "lighter" middle state.
  */
-const VISIBLE_COPY: Partial<Record<Tier, { headline: string; sub: string; emoji: string }>> = {
-  water: {
-    headline: "Lighter analysis today",
-    sub: "We got popular. Comes back stronger tomorrow.",
-    emoji: "🌤️",
-  },
-  napping: {
-    headline: "Out for today",
-    sub: "Comes back tomorrow at sunrise.",
-    emoji: "🌙",
-  },
-};
-
 export function EnergyMeter() {
   const [tier, setTier] = useState<Tier | null>(null);
 
@@ -38,9 +19,7 @@ export function EnergyMeter() {
         const res = await fetch("/api/status", { cache: "no-store" });
         if (!res.ok) return;
         const data = (await res.json()) as { tier?: Tier };
-        if (!cancelled && data.tier) {
-          setTier(data.tier);
-        }
+        if (!cancelled && data.tier) setTier(data.tier);
       } catch {
         // silent
       }
@@ -53,9 +32,7 @@ export function EnergyMeter() {
     };
   }, []);
 
-  if (!tier) return null;
-  const copy = VISIBLE_COPY[tier];
-  if (!copy) return null;
+  if (tier !== "paused") return null;
 
   return (
     <div
@@ -64,11 +41,11 @@ export function EnergyMeter() {
       aria-live="polite"
     >
       <span aria-hidden="true" className="text-base leading-none">
-        {copy.emoji}
+        🌙
       </span>
       <span>
-        <span className="font-medium">{copy.headline}.</span>{" "}
-        <span className="text-amber-700">{copy.sub}</span>
+        <span className="font-medium">Taking a breather.</span>{" "}
+        <span className="text-amber-700">Robotropes had a busy day. Back tomorrow.</span>
       </span>
     </div>
   );

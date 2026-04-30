@@ -68,13 +68,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     const cascadeResult = await runCascade(text);
 
-    if (cascadeResult.napping) {
-      // Daily budget exhausted. Return a friendly state instead of 429 — the
-      // frontend renders the Energy Meter "napping" copy from this signal.
+    if (cascadeResult.paused) {
       return NextResponse.json(
         {
-          tier: 'napping',
-          message: "Robotropes is out for today. Comes back tomorrow at sunrise.",
+          tier: 'paused',
+          message: "Robotropes is taking a breather. So many people gave it a workout today that we're letting it rest. Come back tomorrow.",
         },
         { status: 200 }
       );

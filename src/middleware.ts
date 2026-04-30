@@ -121,8 +121,8 @@ export function middleware(request: NextRequest) {
   if (globalCount >= GLOBAL_DAILY_CAP) {
     return NextResponse.json(
       {
-        tier: 'napping',
-        error: 'Robotropes is out for today. Comes back tomorrow at sunrise.',
+        tier: 'paused',
+        error: "Robotropes is taking a breather. So many people gave it a workout today that we're letting it rest. Come back tomorrow.",
       },
       {
         status: 429,

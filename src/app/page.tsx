@@ -147,10 +147,10 @@ export default function Home() {
       }
 
       const data = await response.json();
-      if (data.tier === "napping" || !data.slug) {
+      if (data.tier === "paused" || !data.slug) {
         setError(
           data.message ||
-            "Robotropes is out for today. Comes back tomorrow at sunrise."
+            "Robotropes is taking a breather. So many people gave it a workout today that we're letting it rest. Come back tomorrow."
         );
         return;
       }
