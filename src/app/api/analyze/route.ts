@@ -65,22 +65,31 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     const { text, sourceUrl } = normalized;
 
-    // 4a. Quota + unlock check. Logged-in users key by userId; anonymous by IP.
+    // 4a. Quota + unlock check (gated by ALLOWANCE_MODAL_ENABLED).
+    //     Off by default. To enable: run the U5 migration, set Polar +
+    //     Beehiiv env vars, then set ALLOWANCE_MODAL_ENABLED=true. The
+    //     middleware 500/day cap and the $5/day cost cap remain active
+    //     regardless. See RUN_NEXT.md for the reactivation steps.
     const session = await getCurrentSession();
-    const scopeKey = session ? `user:${session.user.id}` : getClientScope(request);
-    const unlock = await findActiveUnlock({
-      userId: session?.user.id ?? null,
-      scopeKey: session ? null : scopeKey,
-    });
-    const quota = getQuota(scopeKey);
-    if (!unlock && quota.exhausted) {
-      return NextResponse.json(
-        {
-          quotaExhausted: true,
-          message: "You've used your free analyses for today.",
-        },
-        { status: 200 }
-      );
+    const allowanceModalEnabled = process.env.ALLOWANCE_MODAL_ENABLED === 'true';
+    let unlock: Awaited<ReturnType<typeof findActiveUnlock>> = null;
+
+    if (allowanceModalEnabled) {
+      const scopeKey = session ? `user:${session.user.id}` : getClientScope(request);
+      unlock = await findActiveUnlock({
+        userId: session?.user.id ?? null,
+        scopeKey: session ? null : scopeKey,
+      });
+      const quota = getQuota(scopeKey);
+      if (!unlock && quota.exhausted) {
+        return NextResponse.json(
+          {
+            quotaExhausted: true,
+            message: "You've used your free analyses for today.",
+          },
+          { status: 200 }
+        );
+      }
     }
 
     // 4b. Run cascade analysis (cost cap still applies as a backstop)
@@ -99,8 +108,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    // Successful run consumes quota only when no unlock is active.
-    if (!unlock) consumeQuota(scopeKey);
+    // Successful run consumes quota only when the modal is enabled and the
+    // user is not on an active unlock.
+    if (allowanceModalEnabled && !unlock) {
+      const scopeKey = session ? `user:${session.user.id}` : getClientScope(request);
+      consumeQuota(scopeKey);
+    }
 
     const wordCount = text.split(/\s+/).filter(Boolean).length;
     const scoreResult = computeScoreFromLlm(cascadeResult.detections, wordCount);

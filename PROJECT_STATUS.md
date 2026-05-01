@@ -1,6 +1,6 @@
 # Robo Trope Spotter
 
-**Status:** Live at robotropes.dxn.is, U1-U5 deployed but U5 idle pending external setup. Safe to pause; see `RUN_NEXT.md` for the three resume steps. Active plan: Launch Sprint (Phase 1, U1-U5 in code, U6 launch repost next) — see `docs/plans/2026-04-30-001-feat-launch-sprint-plan.md`.
+**Status:** Live at robotropes.dxn.is. U1-U4 active in production. U5 (modal/quota/tip jar/newsletter) shipped behind feature flag `ALLOWANCE_MODAL_ENABLED` (off). Site is "free for everyone, capped by middleware 500/day + $5/day cost cap." Ready to launch on LinkedIn. To turn the modal on later, see `RUN_NEXT.md`.
 
 ## What It Is
 A social diagnostic tool that identifies AI writing tropes in pasted text and produces a shareable, playful report card. Paste text, get a report, send it to someone who needs it.
@@ -60,15 +60,15 @@ A social diagnostic tool that identifies AI writing tropes in pasted text and pr
 
 Three-phase plan (10 sprints) to ship a public launch with cost/UX safety, account foundation, monetization, audience capture, public taxonomy, and a Pokémon-style trope collection mechanic. Each sprint shippable independently. Branch: `feat/launch-sprint`.
 
-**Resume checklist:** open `RUN_NEXT.md`. Run the prod migration (single line in step 2), set Polar env (`POLAR_ACCESS_TOKEN`, `POLAR_WEBHOOK_SECRET`, `POLAR_PRODUCT_ID`, optional `POLAR_ENV=sandbox`), set Beehiiv env (`BEEHIIV_API_KEY`, `BEEHIIV_PUBLICATION_ID`). Caveat: Beehiiv newsletter subscribe requires Scale tier or higher; verify before relying on it.
+**Resume to activate U5 (later, optional):** open `RUN_NEXT.md`. Run prod migration, set up Polar product + Beehiiv pub ID, set env vars in Vercel, flip `ALLOWANCE_MODAL_ENABLED=true`, redeploy. Site behavior reverts cleanly by flipping the flag back to false.
 
 - [ ] **Phase 1 (launch-critical):**
   - [x] U1. Three-model eval — DONE. 49 labeled passages, 3 models, full run. Headline: Opus 86% / Sonnet 76% / Haiku 62% recall. Recommendation: keep Sonnet+Haiku as production pipeline; cascade is Caffeine=Sonnet+Haiku, Tea=Sonnet-only, Water=regex-only, Napping=locked. See `eval/results-2026-04-30.md`.
   - [x] U2. Energy Meter cascade + daily budget cap + Roll Call activity strip — DONE on `feat/launch-sprint`. Tiers: caffeine/tea/water/napping. Default $5/day cap configurable via `DAILY_BUDGET_USD`. Status at `/api/status`, recent verdicts at `/api/recent-verdicts`.
   - [x] U3. Brand voice audit + OG preview rebuild + arxiv citation footer — DONE. OG card now shows top-3 trope chips. Broken `/og/<slug>` URL fix. Arxiv footer added. Voice audit clean.
   - [x] U4. Account foundation (magic-link auth) + Spotter Credit on shared reports — DONE on `feat/launch-sprint`. Resend integration. Drizzle migration `0001_perfect_outlaw_kid.sql` adds users, magic_links, sessions, byline_opt_outs tables. Pending: `RESEND_API_KEY` + verified sender domain in Vercel env, then run `npm run db:migrate`.
-  - [x] U5. Polar.sh tip jar + email gate with newsletter unlock — code deployed to prod 2026-04-30. Free quota: 5/day per user/IP. AllowanceExhaustedModal with three paths (newsletter sub → 30 days, Polar tip → today, $0 → today/capped). Migration `0002_ordinary_mole_man.sql` written but NOT YET APPLIED to prod. Polar + Beehiiv env vars NOT YET SET. Modal won't fire until both are done. Steps in `RUN_NEXT.md`.
-  - [ ] U6. Launch repost on LinkedIn — pending U5 external setup
+  - [x] U5. Polar.sh tip jar + newsletter unlock + free quota — code shipped behind `ALLOWANCE_MODAL_ENABLED` flag, off by default. All routes/components deployed but inert. Migration `0002_ordinary_mole_man.sql` ready, not yet applied. Reactivation in `RUN_NEXT.md`.
+  - [ ] U6. Launch repost on LinkedIn — ready when you are. Site is "free for everyone."
   - [ ] U6. Launch repost + day-of monitoring
 - [ ] **Phase 2 (Field Guide, post-launch):**
   - [ ] U7. Field Guide schema + index + first 10 trope pages
