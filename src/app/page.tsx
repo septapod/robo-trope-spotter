@@ -148,7 +148,21 @@ export default function Home() {
         return;
       }
 
-      const data = await response.json();
+      let data: {
+        quotaExhausted?: boolean;
+        tier?: string;
+        message?: string;
+        slug?: string;
+      };
+      try {
+        data = await response.json();
+      } catch (parseErr) {
+        console.error("[analyze] Response JSON parse failed:", parseErr);
+        setError(
+          "Got a response from the server but couldn't read it. The connection may have dropped mid-reply. Try again."
+        );
+        return;
+      }
       if (data.quotaExhausted) {
         setExhaustedOpen(true);
         return;
@@ -161,8 +175,15 @@ export default function Home() {
         return;
       }
       router.push(`/report/${data.slug}`);
-    } catch {
-      setError("Failed to connect. Check your connection and try again.");
+    } catch (err) {
+      console.error("[analyze] Fetch failed:", err);
+      const isAbort =
+        err instanceof DOMException && err.name === "AbortError";
+      setError(
+        isAbort
+          ? "Request was canceled. Try again."
+          : "Couldn't reach the server. Check your connection and try again."
+      );
     } finally {
       setLoading(false);
     }

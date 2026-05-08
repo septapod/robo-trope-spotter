@@ -135,27 +135,57 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       tier: cascadeResult.tier,
     };
 
-    await db().insert(reports).values({
-      slug,
-      sourceText: text,
-      sourceUrl: sourceUrl ?? null,
-      inputType,
-      results,
-      userId: session?.user.id ?? null,
-    });
+    try {
+      await db().insert(reports).values({
+        slug,
+        sourceText: text,
+        sourceUrl: sourceUrl ?? null,
+        inputType,
+        results,
+        userId: session?.user.id ?? null,
+      });
+    } catch (dbError) {
+      const e = dbError instanceof Error ? dbError : new Error(String(dbError));
+      const cause = e.cause;
+      console.error('[analyze] DB insert failed', {
+        name: e.name,
+        message: e.message,
+        stack: e.stack,
+        causeName: cause instanceof Error ? cause.name : undefined,
+        causeMessage: cause instanceof Error ? cause.message : (cause === undefined ? undefined : String(cause)),
+        causeStack: cause instanceof Error ? cause.stack : undefined,
+        slug,
+        inputType,
+        textLength: text.length,
+        sourceUrl: sourceUrl ?? null,
+      });
+      return NextResponse.json(
+        {
+          error: 'Analysis succeeded but saving the report failed. The database had a momentary hiccup. Try again.',
+          phase: 'db_insert',
+        },
+        { status: 500 }
+      );
+    }
 
     // 6. Return the results, including the active tier so the frontend can
     //    show the Energy Meter context with the report.
     return NextResponse.json({ slug, score: scoreResult, tier: cascadeResult.tier });
   } catch (error) {
-    console.error(
-      '[analyze] Unexpected error:',
-      error instanceof Error ? error.message : error
-    );
-    const rawMsg = error instanceof Error ? error.message : 'Unknown error';
+    const e = error instanceof Error ? error : new Error(String(error));
+    const cause = e.cause;
+    console.error('[analyze] Unexpected error', {
+      name: e.name,
+      message: e.message,
+      stack: e.stack,
+      causeName: cause instanceof Error ? cause.name : undefined,
+      causeMessage: cause instanceof Error ? cause.message : (cause === undefined ? undefined : String(cause)),
+      causeStack: cause instanceof Error ? cause.stack : undefined,
+    });
+    const rawMsg = e.message;
     const msg = rawMsg.length > 120 ? rawMsg.slice(0, 120) + '...' : rawMsg;
     return NextResponse.json(
-      { error: `Analysis failed: ${msg}` },
+      { error: `Analysis failed: ${msg}`, phase: 'unknown' },
       { status: 500 }
     );
   }
