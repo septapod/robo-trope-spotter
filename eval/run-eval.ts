@@ -1,7 +1,7 @@
 /**
  * Three-model eval harness.
  *
- * Runs Opus 4.7, Sonnet 4.6, and Haiku 4.5 against a hand-labeled test set
+ * Runs Opus 4.8, Sonnet 4.6, and Haiku 4.5 against a hand-labeled test set
  * in single-pass detection mode (no Haiku validation, no em-dash regex
  * injection). Captures raw outputs, computes scores, writes a markdown
  * comparison writeup.
@@ -54,7 +54,7 @@ interface ModelConfig {
 }
 
 const MODELS: ModelConfig[] = [
-  { key: 'opus', id: 'claude-opus-4-7', inputPrice: 5, outputPrice: 25 },
+  { key: 'opus', id: 'claude-opus-4-8', inputPrice: 5, outputPrice: 25 },
   { key: 'sonnet', id: 'claude-sonnet-4-6', inputPrice: 3, outputPrice: 15 },
   { key: 'haiku', id: 'claude-haiku-4-5-20251001', inputPrice: 1, outputPrice: 5 },
 ];
@@ -247,7 +247,7 @@ function renderWriteup(
   );
 
   const lines: string[] = [];
-  lines.push('# Three-model eval: Opus 4.7 vs Sonnet 4.6 vs Haiku 4.5');
+  lines.push('# Three-model eval: Opus 4.8 vs Sonnet 4.6 vs Haiku 4.5');
   lines.push('');
   lines.push(`Run on ${new Date().toISOString().split('T')[0]} against ${testEntries.length} hand-labeled passages.`);
   lines.push('');
