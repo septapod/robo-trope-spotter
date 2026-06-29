@@ -1,10 +1,10 @@
 # Three-model eval
 
-Compares Claude Opus 4.7, Sonnet 4.6, and Haiku 4.5 on the Robotropes 42-trope detection task. Output drives the model decision for the production cascade (U1 of the launch sprint).
+Compares Claude Opus 4.8, Sonnet 4.6, and Haiku 4.5 on the Robotropes 64-tell detection task. Sonnet 4.6 is the production detector; the Opus and Haiku columns exist to answer whether the recall gap is a prompt problem or a model ceiling (as of the 2026-06-28 run, it is near the ceiling: Opus only reaches 64% family-aware recall).
 
 ## Prerequisites
 
-- `ANTHROPIC_API_KEY` in your environment (a `.env` file at repo root works if loaded; the script reads the env var directly).
+- `ANTHROPIC_API_KEY` available to the run. `run-eval.ts` auto-loads `.env` and `.env.local` from the repo root, so a key in either file is enough; a real env var also works and wins.
 - `tsx` installed (added as a dev dep). Run `npm install` if you have not already.
 
 ## Quick smoke test
@@ -25,7 +25,7 @@ npm run eval
 
 Runs all 3 models against every entry in `test-set.json`. Saves raw runs to `eval/runs/<timestamp>/<model>/<test-id>.json` and writes the comparison to `eval/results-YYYY-MM-DD.md`.
 
-Estimated cost on 50 passages × 3 models: ~$15 worst case (Opus is the expensive one).
+Actual cost on the 55-passage set × 3 models (2026-06-28 run): about $3.10 total (Opus $2.00, Sonnet $0.82, Haiku $0.29). Opus is the expensive one; add `--models sonnet` to run only the production model for ~$0.80.
 
 ## Curating the test set
 
@@ -47,7 +47,7 @@ Estimated cost on 50 passages × 3 models: ~$15 worst case (Opus is the expensiv
 
 `groundTruth` is the set of tropes a correct model should detect. `expectedNonTropes` is the set of tropes that should NOT fire — useful for testing false-positive behavior on edge cases (e.g., a passage that DISCUSSES "load-bearing" without USING the trope; the prompt's DISCUSSION vs USAGE rule should prevent a false positive).
 
-The starter set has 5 entries. Brent expands to ~50 covering all five severity tiers and every source category. Suggested distribution:
+The set has 55 entries covering all five severity tiers and every source category, including 6 adversarial false-positive cases (non-native English, the US Constitution, a neurodivergent-structured passage, a formal academic abstract, legitimate human use of flagged constructs, and clean short text) that must stay clean. Suggested distribution for the trope-bearing entries:
 
 | Source | Target count |
 | --- | --- |
@@ -68,9 +68,15 @@ Edge cases worth including:
 
 ## Scoring
 
-Detections are scored by `tropeId` match against ground truth. Severity tier comes from the canonical registry, not the model output. Recall and precision are computed across all detections; per-tier metrics group by trope tier.
+The built-in harness scores detections by exact `tropeId` match against ground truth. Severity tier comes from the canonical registry, not the model output. Recall and precision are computed across all detections; per-tier metrics group by trope tier.
 
-The eval intentionally bypasses the production pipeline's Haiku validation pass and em-dash regex injection. The eval measures **raw model behavior**, not the production cascade. The cascade comparison is a separate question handled in U2.
+**Exact-id understates recall, on purpose know this.** The ground-truth labels predate the 2026 taxonomy rebuild, which split several broad ids into precise ones and added 20 new tropes. The model now tags a tell with a newer, more specific id than the label carries, so exact-id matching scores a correct catch as a miss. Two companion scripts correct for this:
+
+- `eval/fair-score.ts <run-dir> [label]` reports exact-id **and** family-aware numbers side by side, where a hit anywhere in an interchangeable family (e.g. any buzzword-cluster id) covers the label, and the deterministic-engine-owned ids are excluded from the LLM's recall. This is the honest yardstick. On the 2026-06-28 Sonnet run: exact-id F1 50.3%, family-aware F1 68.4%.
+- `eval/cat-recall.ts <run-dir>` breaks recall down by category to show which families the model systematically misses.
+- `eval/validate-rebuild.ts` is a deterministic, no-API check of the scoring engine (length gating, reliability weighting, density normalization). Run it after any `scoring.ts` change before spending tokens on a live eval.
+
+The eval intentionally bypasses the production pipeline's Haiku validation pass and em-dash regex injection. The eval measures **raw model behavior**, not the production cascade.
 
 ## Re-scoring without re-running
 
@@ -88,8 +94,11 @@ This loads the most recent runs from `eval/runs/<timestamp>/` and recomputes the
 eval/
 ├── README.md
 ├── types.ts
-├── scoring.ts
-├── run-eval.ts
+├── scoring.ts                 # built-in exact-id scorer (run during eval)
+├── run-eval.ts                # auto-loads .env/.env.local
+├── fair-score.ts              # exact-id + family-aware, the honest yardstick
+├── cat-recall.ts              # recall broken down by category
+├── validate-rebuild.ts        # deterministic scoring-engine check, no API
 ├── test-set.json              # the labeled ground truth (Brent maintains)
 ├── results-YYYY-MM-DD.md      # writeup, regenerated each run
 └── runs/                      # raw model responses, gitignored
@@ -105,8 +114,6 @@ The writeup includes recall, precision, F1, and per-tier breakdown for each mode
 
 Key questions the eval answers:
 
-1. **Is Sonnet 4.6 dropping enough recall vs Opus 4.7 to justify upgrading the primary detector to Opus?** If the gap is small (under 5%) on Tier 1-3 tropes, stay on Sonnet. Opus is 1.7x the input cost.
-2. **Is Haiku 4.5 viable as a fallback tier in the cascade?** If Haiku catches 85%+ of what Sonnet catches on Tier 1-2 tropes, it's a viable degraded-mode model. Tier 4-5 tropes likely fall off; the cascade documentation should be honest about that.
-3. **Are there specific tropes any model systematically misses?** Top-misses tables surface this. May inform prompt tweaks.
-
-Once the eval result is in, U1 closes and U2 (Energy Meter cascade) can begin with concrete tier definitions.
+1. **Is Sonnet 4.6 dropping enough recall vs Opus to justify upgrading the primary detector?** Settled as of 2026-06-28: stay on Sonnet. Family-aware, Sonnet reaches 56.5% recall vs Opus 64.3%, an 8-point gap for roughly 2.5x the per-analysis cost. Not worth it before launch traffic says recall is the complaint. Re-open this only with real usage data.
+2. **Is Haiku 4.5 viable as a fallback?** It lags: 41.7% family-aware recall and 4 never-flag violations on the 2026-06-28 run vs Sonnet's 0. Fine as the cheap validation pass it already plays in production, not as a primary detector.
+3. **Are there specific tropes any model systematically misses?** `cat-recall.ts` surfaces this by family. The 2026-06-28 misses clustered in syntactic/rhetorical tells (not-x-its-y, anaphora, rhetorical-self-answer), which drove the v3 prompt pass that recovered them.

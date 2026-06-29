@@ -1,91 +1,51 @@
 # Robo Trope Spotter. Session Handoff
 
-**Timestamp:** 2026-04-17 ~10:30 AM PDT
-**Session length:** ~46 messages (rotation threshold hit)
-**Reason for rotation:** Session discipline per global CLAUDE.md (15-20 msg target, rotate at 30). Starting `/ce:work` on 7 implementation units needs fresh context.
+**Timestamp:** 2026-06-29
+**Reason for handoff:** Detection-rebuild thread closing out. Work is done, live, and documented.
 
-## What happened this session
+## What this session did
 
-Started with a simple slogan change on `/`, `/tropes`, and `/report/[slug]` pages: "because someone should tell them" → "because it's better to know." Also updated `PROJECT_STATUS.md` tagline note. Three site pages + one status doc touched.
+Improved the detection engine and shipped it to production (robotropes.dxn.is auto-deploys on push to main).
 
-Then Brent ran `/impeccable:audit` on the redesigned slogan pages, which surfaced an 8/20 audit score. From there:
+1. **Precision-first rebuild** (committed earlier, `9d04ba9`). Fixed the inverted scoring weights (lexical "delve"/em-dash had outranked structural burstiness, backwards from every detection study), added a deterministic statistical engine (burstiness, leaked chat-window markup, em-dash density), added length gating under 100 words, density normalization per 100 words, confidence bands, a per-family report card, and advisory framing. Taxonomy grew 44 to 64 tells, each with a false-positive guard.
 
-1. **Audit** (complete). scored dimensions: Accessibility 1, Performance 2, Theming 2, Responsive 2, Anti-Patterns 1. Two BAN 1 side-stripe violations (TropeCard, tropes/page), Outfit body font on reflex-reject list, candy-palette + blobs + gradient-mesh as stacked AI tells, form inputs without labels, drop zone unreachable by keyboard, tooltips hover-only, WCAG AA contrast fails on pink links and candy-yellow badge, etc.
+2. **v3 recall recovery** (this session, `e98dd42`, live). The rebuild over-corrected recall. v3 names the eight tells the model was going quiet on (not-x-its-y, rhetorical-self-answer, anaphora-abuse, punchy-fragments, stakes-inflation, verdict-language, from-x-to-y, listicle-bullets) and tells it not to skip a clear instance, every guard left intact, plus a relaxed under-100-words rule. An earlier global-loosening pass (v2) added false positives with no recall gain and was reverted.
 
-2. **`/ce:brainstorm`** (complete, 2 refinement passes). produced `docs/brainstorms/2026-04-17-editorial-redesign-requirements.md`. Decisions locked:
-   - Full impeccable verdict, not refinement-only
-   - Tone: editorial deadpan (FT/Bloomberg register, not candy SaaS)
-   - Tier colors: keep 5 hues, mute hard (OKLCH chroma 0.08-0.12)
-   - Fonts: Bricolage Grotesque (display, kept) + Hanken Grotesk (body, replacing Outfit) + JetBrains Mono (data, kept)
-   - Decoration: editorial rule lines + marginalia, "cool not corny" (Brent's note), not zero-decoration
-   - Brand accent: keep candy-pink vivid as single punch color
-   - **Structure: two-PR split**. PR 1 is objective audit-repair + share instrumentation (candy palette preserved), PR 2 is the editorial deadpan visual reset (gated on PR 1 baseline data)
-   - Acceptance gate for PR 2: 14 days of share_events baseline, counted mockup comparison (8/20 threshold), cool-not-corny review, 30-day post-merge monitoring with 20% regression = revert
-   - 60-day termination clause on PR 2 (kill zombie-PR risk)
+3. **Report copy cleanup** (`1fe4752`). The user-facing advisory and confidence strings carried em dashes and used "signal" as a noun, breaking Brent's writing rules. Rewritten plainly. Detection regexes that scan input for em dashes were left untouched.
 
-3. **`/ce:plan`** (complete, 1 review pass with auto-fixes applied). produced `docs/plans/2026-04-17-001-feat-pr1-audit-repair-share-instrumentation-plan.md`. 7 implementation units for PR 1:
-   - Unit 1: next/font + `@theme` bridge, Outfit → Hanken Grotesk, OG image font check
-   - Unit 2: pink token split (`--color-brand-pink` vivid + `--color-link-pink` darkened) + Tier 3 badge contrast fix
-   - Unit 3: `share_events` schema + `POST /api/track-share` + rate-limit branch + Drizzle baseline introspect + global daily cap + slug validation
-   - Unit 4a: ShareBar integration (sendBeacon with fetch fallback, slug prop thread)
-   - Unit 4b: Admin shares API + SharesPanel with score-band breakdown (matches existing admin visual pattern)
-   - Unit 5: Form labels, role=alert, aria-live, aria-busy, prefers-reduced-motion guards (with animate-card-enter fallback, focus-glow coordination)
-   - Unit 6: Drop zone keyboard + tooltip click-to-pin with roving tabindex + focus-glow rework. Owner of `src/components/report/HighlightedText.tsx` (absorbed buildHighlights useMemo to avoid file conflict with Unit 7)
-   - Unit 7: next/image logomark, 44px touch targets, fluid score sizing
+4. **Docs brought current** (this session). README (font fix, Haiku validation pass), eval/README (64 tells, Opus 4.8, 55-entry set, real $3.10 cost, fair-score tooling, settled model decision), PROJECT_STATUS rebuild entry, this handoff.
 
-## Key decisions resolved (don't re-litigate)
+## Measured result (Sonnet 4.6, production model)
 
-- **Roving tabindex** for highlighted-text region (Brent picked; alternatives: sequential, skip-link)
-- **No consent mechanism / privacy policy** for share logging (Brent: anonymous enough, low risk)
-- **sendBeacon + fetch keepalive fallback** for share tracking (survives tab unload)
-- **Slug validation before insert** (read-before-write to prevent pollution DoS)
-- **Drizzle `introspect` FIRST** to baseline existing schema, then `generate` for share_events delta only
-- **Separate `shareIpStore` Map** (not reusing `ipStore`) so share traffic doesn't consume analyze budget
-- **`TRACK_SHARE_IP_LIMIT` / `TRACK_SHARE_GLOBAL_CAP` env vars** (defaults 60/hour, 5000/day)
-- **rose-500 vs candy-pink**: `rgba(244, 63, 94, ...)` in globals.css is rose, not candy-pink. LEAVE THEM ALONE in PR 1. PR 2 addresses
-- **`--color-link-pink` starting value**: `oklch(55% 0.18 0)`. verify 4.5:1, iterate if needed, optionally add underline-by-default fallback
+| | old tool (exact-id) | v3 live (exact-id) | v3 live (family-aware) |
+|---|---|---|---|
+| Precision | 46.7% | 74.2% | 86.7% |
+| Recall | 76.0% | 38.0% | 56.5% |
+| False positives | 105 | 16 | 10 |
+| Never-flag violations | 18 | 0 | 0 |
 
-## Files touched this session
+The win is trust, not raw catch rate. The old tool's 76% recall came bundled with 105 false positives and 18 cases it should never have flagged (the US Constitution, non-native English). v3 cuts false positives 6.5x and takes catastrophic misfires to zero. Recall dropped because precision came first; about half the drop is a stale-label artifact (the 20 new tropes mean exact-id scores correct catches as misses), which is why family-aware recall is 56.5%, not 38%.
 
-**Modified:**
-- `src/app/page.tsx` (slogan change)
-- `src/app/tropes/page.tsx` (slogan change)
-- `src/app/report/[slug]/page.tsx` (slogan change)
-- `PROJECT_STATUS.md` (tagline note)
+## Current production state
 
-**Created:**
-- `docs/brainstorms/2026-04-17-editorial-redesign-requirements.md` (requirements, fully refined)
-- `docs/plans/2026-04-17-001-feat-pr1-audit-repair-share-instrumentation-plan.md` (PR 1 implementation plan)
-- `.claude/handoff-robo-trope-spotter.md` (this file)
+- **Pipeline:** Sonnet 4.6 detection + Haiku 4.5 validation + deterministic statistical engine, fused in `src/lib/analysis/cascade.ts`. v3 prompt live.
+- **Scoring:** `src/lib/analysis/scoring.ts`, reliability-weighted, density-normalized, length-gated, advisory.
+- **Taxonomy:** 64 tells across `src/lib/tropes/{tier1,tier2,tier3,extended}.ts`, with `meta.ts` holding the category + reliability map.
+- Git clean on main. Typecheck and `next build` green. Smoke-tested live: slop passage caught the recovered tells, plain human passage stayed clean.
 
-## Current state
+## One open action (Brent only)
 
-- Git: no commits yet for any of this session's work. Slogan edits + brainstorm + plan are uncommitted.
-- Git branch: check `git branch --show-current`. likely main.
-- Plan is ready for `/ce:work` execution.
-- No implementation code has been written for PR 1.
+**Rotate the Anthropic API key** that was pasted into the chat during the eval. It only ever lived in the gitignored `.env.local` and was never committed, but the paste is the exposure.
 
-## Next session: start /ce:work
+## Recommended next steps (none required)
 
+- **Stop at v3.** It is the trustworthy version and it is live. Do not chase the recall gap with prompt tuning; it is near the model ceiling (Opus only reaches 64% family-aware recall).
+- **Re-open the model decision only with launch traffic.** If users say detection feels too soft, the lever is an Opus-tier production detector (about 2.5x per-analysis cost for ~8 more recall points), or relabeling the ground truth for the new taxonomy. Not before.
+- **Unrelated dormant work:** `RUN_NEXT.md` holds the runbook to activate the tip-jar / newsletter / quota modal (U5), gated behind `ALLOWANCE_MODAL_ENABLED`. Independent of detection.
+
+## How to re-measure
+
+```bash
+npm run eval -- --models sonnet          # production model only, ~$0.80
+npx tsx eval/fair-score.ts eval/runs/<latest>/sonnet "label"   # honest yardstick
 ```
-/ce:work docs/plans/2026-04-17-001-feat-pr1-audit-repair-share-instrumentation-plan.md
-```
-
-The plan's Implementation Units are the source of truth. It has:
-- Unit goals, files, approach, test scenarios, verification for each of the 7 units
-- Deferred implementation questions (font weight subsets, CLS-tuning strategy) intentionally left for execution
-- Risks table + operational notes
-- PR 1 Success Criteria (all WCAG AA, keyboard-operable, reduced-motion honored, share events live)
-
-**First step in new session:** set up a feature branch off main (e.g., `feat/pr1-audit-repair-share-instrumentation`), then execute Unit 1 (no dependencies, foundational).
-
-**Recommended execution strategy:** serial subagents. 7 units, several have dependencies (Unit 4a/4b depend on Unit 3; Unit 6 absorbed former Unit 7 dependency so they're now parallel-safe). Parallel safety check: after moving memoization into Unit 6, no two units share files. But keep it serial for context-window hygiene given the plan density.
-
-**Slogan commit**: the uncommitted slogan changes from this session fit PR 1 philosophically (audit-repair era). commit them as part of PR 1's first or last commit, or their own commit labeled `chore(copy): update footer tagline`.
-
-## Session stats
-
-- Audit: 1 complete
-- Brainstorm: 1 complete (2 refinement passes via /document-review)
-- Plan: 1 complete (1 review pass with auto-fixes applied + 2 judgment decisions resolved)
-- Implementation: 0 units executed (deferred to next session)

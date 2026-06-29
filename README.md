@@ -60,7 +60,7 @@ npm run dev       # start the app
 
 ## Stack
 
-Next.js 16 on Vercel. Claude Sonnet 4.6 for analysis and screenshot OCR. Neon Postgres for report persistence. Bricolage Grotesque, Outfit, and JetBrains Mono for typography. @vercel/og for social preview images. @mozilla/readability for URL extraction.
+Next.js 16 on Vercel. Claude Sonnet 4.6 for detection and screenshot OCR, with a Claude Haiku 4.5 second pass that rejects false positives before they reach the report. Neon Postgres for report persistence. Bricolage Grotesque, Hanken Grotesk, and JetBrains Mono for typography. @vercel/og for social preview images. @mozilla/readability for URL extraction.
 
 ## Rate limits
 
