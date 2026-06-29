@@ -21,7 +21,7 @@
 
 import Anthropic from '@anthropic-ai/sdk';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ANALYSIS_SYSTEM_PROMPT, buildUserPrompt } from '../src/lib/analysis/prompts';
@@ -43,6 +43,28 @@ import type {
 import type { Tier } from '../src/lib/tropes/types';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+/**
+ * Load .env / .env.local from the repo root into process.env (without
+ * overwriting anything already set). The README always claimed a repo-root
+ * .env "works if loaded" — but nothing actually loaded it, so the eval failed
+ * with "Missing ANTHROPIC_API_KEY" even when the key was sitting in .env.
+ */
+function loadEnvFiles(): void {
+  const root = join(__dirname, '..');
+  for (const name of ['.env', '.env.local']) {
+    const p = join(root, name);
+    if (!existsSync(p)) continue;
+    for (const raw of readFileSync(p, 'utf8').split(/\r?\n/)) {
+      const m = raw.match(/^\s*(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)\s*$/);
+      if (!m) continue;
+      const key = m[1];
+      let val = m[2].trim().replace(/^["']|["']$/g, '');
+      if (process.env[key] === undefined) process.env[key] = val;
+    }
+  }
+}
+loadEnvFiles();
 
 interface ModelConfig {
   key: string;
