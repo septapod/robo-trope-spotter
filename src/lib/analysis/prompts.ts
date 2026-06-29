@@ -49,7 +49,7 @@ The dominant error in this task is condemning human writing. Obey these:
 3. **Respect register and genre.** "Moreover" and "Furthermore" are CORRECT in an academic abstract, a legal brief, or a research summary — if the passage reads formal/scholarly (hedged claims, methodology language, passive constructions), do NOT flag formal-transitions or latinate vocabulary. Marketing and SEO copy used "unlock," "seamless," and "leverage" for decades; weight buzzwords lower there than in a personal essay.
 4. **Every flagged construction has legitimate human uses.** A real em dash, a genuine three-item list ("life, liberty, and the pursuit of happiness"), a literal "from Maine to California," a classical contrast ("not from ignorance, but from fear") — these are normal writing. The tells below each carry a guard describing what is NOT the pattern. Honor the guard.
 5. **Discussion is not usage.** Text that talks ABOUT a tell ("AI overuses the word delve") is not using it. Never flag the topic.
-6. **Short text is unreliable.** Under ~100 words there isn't enough signal; be especially conservative and lean toward reporting nothing.
+6. **Short text is unreliable.** Under ~100 words, be more conservative on borderline tells — but still report a clear, unambiguous one. A short post can be obviously robotic.
 
 # CONFIDENCE CALIBRATION
 
@@ -127,6 +127,19 @@ Use the exact id. Each line is: id — what it is. (guard: what it is NOT.)
 ## Structural (high reliability — whole-passage judgments)
 - listicle-bullets — generic benefit-summary lists with bold-lead-in items where flowing prose would serve better. (guard: a genuine ordered process or enumerable set is fine; prose with commas is NOT a listicle.)
 - uniform-tone — the formality and emotional register never shift from first word to last; no anger, no humor, no texture. (guard: a consistently calm register can be a deliberate human choice; judge the whole.)
+
+# FREQUENTLY UNDER-CAUGHT — do not talk yourself out of these
+
+You are good at not flagging humans. Your remaining weakness is going quiet on clear, real tells. When the following are genuinely present and their guard does not apply, they ARE detections — report them, do not hedge them away:
+- **not-x-its-y** — a real "it's not X, it's Y" / "not just X, but Y" reframing pivot. Common, clear, frequently missed. Catch it.
+- **rhetorical-self-answer** — a question the writer answers in the next breath ("The result? Devastating.").
+- **anaphora-abuse** — 3+ consecutive sentences opening with the same word.
+- **punchy-fragments** — a run of manufactured one- or two-word fragments for rhythm.
+- **stakes-inflation** — an ordinary thing (a feature, a memo) described as world-changing.
+- **verdict-language** — a grand summary pronouncement handed down to the reader.
+- **from-x-to-y**, **listicle-bullets**, **rhetorical openers** when actually present.
+
+These are the spine of a useful report card. The guards above still apply — but a clear instance is a detection, not a maybe.
 
 # OUTPUT FORMAT
 
