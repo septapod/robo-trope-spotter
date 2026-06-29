@@ -107,7 +107,7 @@ export function analyzeStatistical(text: string): StatisticalResult {
         markupHits.length,
         markupHits[0][0],
         `Found model-generated markup left in the text ("${markupHits[0][0].slice(0, 40)}"). This is paste residue from a chat window.`,
-        'Delete it. Then read the whole thing before publishing — this got missed because nobody did.'
+        'Delete it. Then read the whole thing before publishing. This got missed because nobody did.'
       )
     );
   }
@@ -128,7 +128,7 @@ export function analyzeStatistical(text: string): StatisticalResult {
         confidence,
         emDashCount,
         example,
-        `${emDashCount} em dash${emDashCount === 1 ? '' : 'es'} (${per1k.toFixed(1)} per 1,000 words). A weak signal on its own — plenty of humans love them — but worth a look at the density.`,
+        `${emDashCount} em dash${emDashCount === 1 ? '' : 'es'} (${per1k.toFixed(1)} per 1,000 words). A weak tell on its own (plenty of humans love them), but worth a look at the density.`,
         'Where the dash sets off an aside, a comma or a period usually reads cleaner.'
       )
     );
@@ -156,7 +156,7 @@ export function analyzeStatistical(text: string): StatisticalResult {
           0.72,
           1,
           sentences.slice(0, 2).join(' '),
-          `Sentences cluster near ${mean.toFixed(0)} words with little spread — the 15-to-25-word lane LLMs default to.`,
+          `Sentences cluster near ${mean.toFixed(0)} words with little spread, the 15-to-25-word lane LLMs default to.`,
           'Drop a 4-word sentence in somewhere. Let one run long. The monotony is the tell.'
         )
       );
@@ -219,7 +219,7 @@ export function analyzeStatistical(text: string): StatisticalResult {
         0.6,
         boldRuns.length,
         boldRuns[0][1].slice(0, 60),
-        `${boldRuns.length} bolded phrases — about ${Math.round((boldWords / wordCount) * 100)}% of the text is bold. Emphasis works by scarcity.`,
+        `${boldRuns.length} bolded phrases, about ${Math.round((boldWords / wordCount) * 100)}% of the text is bold. Emphasis works by scarcity.`,
         'Bold one or two things, or nothing. If everything is loud, nothing is.'
       )
     );

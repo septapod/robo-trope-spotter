@@ -73,9 +73,9 @@ const DISPLAY_SCALE = 10;
 const PER_TROPE_COUNT_CAP = 6;
 
 const ADVISORY_STRONG =
-  'This is a signal, not a verdict. Polished humans and careless machines write the same sentences. Treat it as a prompt to read again, never as proof of who wrote it.';
+  'Treat this as a prompt to read the text again, not a verdict. Polished humans and careless machines write the same sentences. It points at patterns worth a closer look, never proof of who wrote it.';
 const ADVISORY_LIGHT =
-  'A few characteristics worth a glance, nothing conclusive. This is advisory signal, not a judgment of authorship.';
+  'A few characteristics worth a glance, nothing conclusive. Read it as advisory, not a judgment of authorship.';
 
 function diversityFactor(distinctCategories: number): number {
   // 1 family → 0.55 (likely a false-positive cluster); 3 → ~1.0; 5+ → 1.25.
@@ -162,16 +162,16 @@ export function computeScoreFromLlm(
   let confidenceNote: string;
   if (gated) {
     confidence = 'none';
-    confidenceNote = `Only ${actualWordCount} words. Under ${MIN_WORDS_FOR_SCORE}, there isn't enough text to score reliably — short passages trip up every detector. Read this as a glance, not a grade.`;
+    confidenceNote = `Only ${actualWordCount} words. Under ${MIN_WORDS_FOR_SCORE}, there isn't enough text to score reliably. Short passages trip up every detector. Read this as a glance, not a grade.`;
   } else if (actualWordCount < LOW_CONFIDENCE_CEILING || distinctCategories <= 1) {
     confidence = 'low';
     confidenceNote =
       actualWordCount < LOW_CONFIDENCE_CEILING
-        ? `Around ${actualWordCount} words — enough for a read, but the score carries a wide margin. More text would sharpen it.`
-        : `The signal here is concentrated in one family of tells, which is the zone where false positives live. Lower confidence on purpose.`;
+        ? `Around ${actualWordCount} words, enough for a read, but the score carries a wide margin. More text would sharpen it.`
+        : `The tells here are concentrated in one family, which is the zone where false positives live. Lower confidence on purpose.`;
   } else {
     confidence = 'standard';
-    confidenceNote = `${actualWordCount} words across ${distinctCategories} families of tells — enough breadth for a confident read.`;
+    confidenceNote = `${actualWordCount} words across ${distinctCategories} families of tells, enough breadth for a confident read.`;
   }
 
   const categoryScores: CategoryScore[] = [...categoryWeighted.entries()]
