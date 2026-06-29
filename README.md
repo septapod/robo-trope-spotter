@@ -8,16 +8,19 @@ You want to say something. But what do you say? "Hey, your writing sounds like a
 
 ## How it works
 
-Paste text. (Or a URL. Or a screenshot.) The app sends it to Claude Sonnet 4.6 with a 42-pattern trope taxonomy covering five severity tiers. You get back a shareable report card at a unique URL with:
+Paste text. (Or a URL. Or a screenshot.) Two engines run. A **statistical engine** measures the things that are arithmetic — sentence-length variance (burstiness), em-dash density, and leaked model markup — exactly, because a language model cannot eyeball its own variance. **Claude Sonnet 4.6** handles the things that need judgment — the rhetoric, the empty vocabulary, the structural tells — against a 64-tell taxonomy. You get back a shareable report card at a unique URL with:
 
-- The original text with color-coded inline highlights on every detected pattern
-- A density-normalized trope score (shorter texts packed with tropes score higher)
-- Individual cards for each pattern found, with severity labels, explanations, and quoted excerpts
+- The original text with color-coded inline highlights on every detected tell
+- A score that is **density-normalized per 100 words, weighted by reliability** (structural and substance tells count more than lexical and formatting ones, because they are harder to fake), **co-occurrence-gated** (one lonely "delve" doesn't move it), and shipped with a **confidence band** — anything under ~100 words is too short to score and says so
+- A per-family report card (lexical / syntactic / rhetorical / structural / formatting / substance)
+- Individual cards for each tell, with explanations, quoted excerpts, and one line of editing advice
 - An OG preview image that renders when you drop the link in Slack, iMessage, or a group chat
+
+It is built to be **fair**: it shows characteristics consistent with robotic writing, never a verdict on who wrote the text. The whole detection literature agrees the dominant failure mode is condemning real humans (61% of non-native-English essays get falsely flagged by typical detectors; GPTZero flags the US Constitution), so precision comes first.
 
 ## The tropes
 
-42 patterns, five tiers of severity:
+64 tells across six research families (lexical, syntactic, rhetorical, structural, formatting, substance), each carrying a reliability weight and a false-positive guard. Severity tiers still drive the playful labels; reliability drives the score. A sampling:
 
 **Dead Giveaway.** "It's not X, it's Y." Em dash addiction. The vocabulary hall of shame: delve, tapestry, landscape, leverage, innovative, transformative. Leftover AI artifacts. Fabricated citations ("studies show" with no study named).
 

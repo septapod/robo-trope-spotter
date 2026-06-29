@@ -4,6 +4,7 @@ import { tier2 } from './tier2';
 import { tier3 } from './tier3';
 import { tier4 } from './tier4';
 import { tier5 } from './tier5';
+import { extendedTropes } from './extended';
 
 export const allTropes: TropeDefinition[] = [
   ...tier1,
@@ -11,7 +12,12 @@ export const allTropes: TropeDefinition[] = [
   ...tier3,
   ...tier4,
   ...tier5,
+  ...extendedTropes,
 ];
+
+export const statisticalTropes: TropeDefinition[] = allTropes.filter(
+  (t) => t.detectionType === 'statistical'
+);
 
 export const tropeById = (id: string): TropeDefinition | undefined =>
   allTropes.find((t) => t.id === id);

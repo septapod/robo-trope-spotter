@@ -116,7 +116,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
 
     const wordCount = text.split(/\s+/).filter(Boolean).length;
-    const scoreResult = computeScoreFromLlm(cascadeResult.detections, wordCount);
+    const scoreResult = computeScoreFromLlm(cascadeResult.detections, wordCount, cascadeResult.stats);
 
     console.log(
       '[analyze] tier:', cascadeResult.tier,
